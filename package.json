@@ -1,0 +1,15 @@
+{
+  "name": "whodunnit",
+  "version": "0.0.1",
+  "description": "A simple to use progress tracker.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brennie/whodunnit.git"
+  },
+  "author": "Barret Rennie <barret@brennie.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brennie/whodunnit/issues"
+  },
+  "homepage": "https://github.com/brennie/whodunnit#readme"
+}
