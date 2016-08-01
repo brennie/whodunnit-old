@@ -4,9 +4,11 @@ const gulp = require('gulp');
 
 
 gulp.task('lint:css', () => {
+  const colorguard = require('gulp-colorguard');
   const stylelint = require('gulp-stylelint');
 
   return gulp.src(['src/**.css'])
+    .pipe(colorguard())
     .pipe(stylelint({
       reporters: [
         {formatter: 'string', console: true},
