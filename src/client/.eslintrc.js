@@ -4,13 +4,7 @@ module.exports = {
     "node": true
   },
   "extends": "eslint:recommended",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true,
-    },
-    "sourceType": "module",
-  },
+  "parser": "babel",
   "plugins": [
     "react",
   ],

@@ -4,12 +4,7 @@ module.exports = {
     "node": true
   },
   "extends": "eslint:recommended",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    },
-    "sourceType": "module",
-  },
+  "parser": "babel-eslint",
   "rules": {
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
