@@ -12,6 +12,19 @@ npm install
 ```
 
 
+## Configuring
+
+`whodunnit` requires a configuration file (`config.js`). An example
+configuration file is provided in `contrib/`. The configuration options are as
+follows:
+
+```javascript
+{
+  port: 9999,  // The port to run the server on.
+}
+```
+
+
 ## Building & Running
 
 To build `whodunnit`, run:
