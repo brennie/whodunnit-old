@@ -61,6 +61,10 @@ gulp.task('default', ['serve']);
 
       webpack(webpackConfig, (err, stats) => {
         if (err) {
+          if (serverProc) {
+            serverProc.kill();
+          }
+
           throw new gutil.PluginError('serve', err);
         }
 
@@ -202,7 +206,7 @@ gulp.task('lint:css', ['lint:css:colorguard', 'lint:css:stylelint']);
  *
  * This requires running the CSS through our full postcss suite so that
  * colorguard can parse it.
- */ 
+ */
 gulp.task('lint:css:colorguard', () => {
   const colorguard = require('gulp-colorguard');
   const postcss = require('gulp-postcss');
