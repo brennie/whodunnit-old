@@ -1,17 +1,36 @@
 'use strict';
 
+const browserSync = require('browser-sync').create();
+const del = require('del');
 const fork = require('child_process').fork;
-
 const gulp = require('gulp');
 const gutil = require('gulp-util');
+const webpack = require('webpack');
 const yargs = require('yargs');
+
 
 const production = yargs
   .boolean('production')
   .argv
   .production;
 
-const serverEnv = production ? 'production' : 'development';
+const nodeEnv = production ? 'production' : 'development';
+
+const webpackConfig = require('./webpack.config');
+
+webpackConfig.plugins.push(new webpack.DefinePlugin({
+  'process.env': {
+    'NODE_ENV': JSON.stringify(nodeEnv),
+  }
+}));
+
+
+if (production) {
+  webpackConfig.plugins.push(new webpack.optimize.DedupePlugin());
+  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
+const appConfig = require('./config');
 
 
 gulp.task('default', ['serve']);
@@ -24,28 +43,58 @@ gulp.task('default', ['serve']);
 /* Run the server.
  *
  * The server will restart whenever source files are modified.
+ *
+ * This does not depend on `build:client` because that would end building the
+ * client JavaScript twice.
  */
 {
   let serverProc = null;
+  let firstRun = true;
 
-  gulp.task('serve', ['build:server', 'build:client'], () => {
+  gulp.task('serve', ['build:server', 'build:client:html'], () => {
     const startServer = () => {
-      const env = Object.assign(process.env, {
-        NODE_ENV: serverEnv,
+      const env = Object.assign({}, process.env, {
+        NODE_ENV: nodeEnv,
       });
 
-      gutil.log('[serve]', `Starting ${serverEnv} server...`);
+      webpack(webpackConfig, (err, stats) => {
+        if (err) {
+          throw new gutil.PluginError('serve', err);
+        }
+
+        gutil.log('[serve]', stats.toString({
+          colors: true,
+          chunks: false,
+        }));
+
+        if (!production) {
+          if (firstRun) {
+            gutil.log('[serve]', 'Starting Browsersync');
+            browserSync.init({proxy: `localhost:${appConfig.port}`});
+            firstRun = false;
+          } else {
+            browserSync.reload();
+          }
+        }
+      });
+
+      gutil.log('[serve]', `Starting ${nodeEnv} server...`);
       serverProc = fork('dist/server/index.js', [], {env});
 
       /* Live-reload the server whenever the source changes. */
-      if (development){
+      if (!production){
         gulp.watch('./src/server/**/*.js', ['serve']);
+        gulp.watch('./src/client/**/*.html', ['build:client:html']);
       }
+    }
+
+    if (!production) {
+      webpackConfig.watch = true;
     }
 
     /* If the server is already running, kill it and restart it.*/
     if (serverProc) {
-      gutil.log('[serve]', `Stopping ${serverEnv} server...`);
+      gutil.log('[serve]', `Stopping ${nodeEnv} server...`);
       serverProc.on('exit', startServer);
       serverProc.kill();
       serverProc = null;
@@ -60,36 +109,57 @@ gulp.task('default', ['serve']);
  * Compilation tasks.
  */
 
+/* Clean the build directory. */
+gulp.task('clean', done => {
+  del(['dist/**/*'], done);
+});
+
 /* Build everything. */
 gulp.task('build', ['build:server', 'build:client']);
 
 /* Build the server-side JS. */
 gulp.task('build:server', () => {
   const babel = require('gulp-babel');
+  const babelConfig = require('./.babelrc.js');
 
   return gulp.src('src/server/**.js')
-    .pipe(babel({
-      presets: ['es2015'],
-      plugins: [
-        'transform-async-to-generator',
-        'syntax-async-functions',
-      ]
-    }))
+    .pipe(babel(babelConfig))
     .pipe(gulp.dest('dist/server'));
 });
 
-
 /* Build the client. */
-gulp.task('build:client', ['build:client:html']);
+gulp.task('build:client', ['build:client:html', 'build:client:js']);
 
 /* Build the client-side HTML
  *
  * This just copies all HTML to the dist/ directory.
  */
 gulp.task('build:client:html', () => {
-  return gulp.src('./src/client/**/*.html')
+  const pipeline = gulp
+    .src('./src/client/**/*.html')
     .pipe(gulp.dest('./dist/client/'));
+
+  if (browserSync.active) {
+    browserSync.reload();
+  }
+
+  return pipeline;
 });
+
+gulp.task('build:client:js', done => {
+  webpack(webpackConfig, (err, stats) => {
+    if (err) {
+      throw new gutil.PluginError('build:client:js', err);
+    }
+
+    gutil.log('[build:client:js]', stats.toString({
+      colors: true,
+      chunks: false,
+    }));
+    done();
+  });
+})
+
 
 /*
  * Linting tasks.

@@ -45,4 +45,9 @@ gulp serve [--production]
 ```
 
 Again, this will run in development mode by default and will serve static files.
-When run with `--production`, it will *not* serve static files.
+When run with `--production`, it will *not* serve static files. When running in
+development mode, a [Browsersync][browsersync] session will be launched, 
+proxying the backend and providing a live-reloading front-end.
+
+
+[browsersync]: https://www.browsersync.io/
