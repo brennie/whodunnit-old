@@ -1,20 +1,25 @@
- @import "../../defs.css";
+@import "../../defs.css";
 
 .login-form {
   align-self: center;
   font-size: 13pt;
 
   h2 {
-   text-align: center;
+    text-align: center;
   }
 
   input {
     display: block;
+    outline: 0;
 
     &:focus {
       border-color: $button-primary-bg-color;
       box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px color( rgb($button-primary-bg-color, 10) );
-      outline: 0;
+
+    }
+
+    &:invalid:not(:focus){
+      box-shadow: unset;
     }
 
     &[type="email"] {
@@ -29,7 +34,9 @@
 
     &[type="email"],
     &[type="password"] {
+      color: $primary-color;
       position: relative;
+      width: 20em;
 
       &:focus {
         z-index: 2;

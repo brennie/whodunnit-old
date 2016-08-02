@@ -1,0 +1,58 @@
+@import "../defs.css";
+
+body {
+  background-color: $bg-color;
+}
+
+footer {
+  color: #AAA;
+  font-size: 10pt;
+  width: 100%;
+  text-align: center;
+
+  a {
+    color: #AAA;
+  }
+}
+
+input {
+  border: 1px solid rgb(204, 204, 204);
+  padding: 0.5em;
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+  border-radius: $input-border-radius;
+  cursor: pointer;
+
+  &.button--primary {
+    background-color: $button-primary-bg-color;
+    color: #FFF;
+
+    &:hover {
+      background-color: $button-primary-bg-color-hover;
+    }
+  }
+
+}
+
+#container,
+#app-container {
+  height: 100%;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.content {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+

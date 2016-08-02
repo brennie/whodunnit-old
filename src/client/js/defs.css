@@ -1,5 +1,8 @@
-$background-color: #eee;
+$bg-color: #EEE;
+
 $input-border-radius: 5px;
 
-$button-primary-bg-color: #654a8d;
+$primary-color: #654A8D;
+
+$button-primary-bg-color: $primary-color;
 $button-primary-bg-color-hover: color( darken($button-primary-bg-color, 25%) );

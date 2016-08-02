@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
-import Login from './components/login';
-
+import App from './app';
 import './reset.css';
-import './style.css';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<Login />, document.getElementById('content'));
+  ReactDOM.render(<App />, document.getElementById('container'));
 });
