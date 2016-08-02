@@ -1,0 +1,7 @@
+machine:
+  node:
+    version: 6
+
+test:
+  pre:
+    - cp ./contrib/config.example.js ./config.js
