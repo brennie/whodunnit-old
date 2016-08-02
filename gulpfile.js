@@ -26,7 +26,6 @@ webpackConfig.plugins.unshift(
   })
 );
 
-
 if (production) {
   webpackConfig.plugins.push(new webpack.optimize.DedupePlugin());
   webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
@@ -61,6 +60,10 @@ gulp.task('default', ['serve']);
 
       webpack(webpackConfig, (err, stats) => {
         if (err) {
+          /* If we don't kill the server here, it will keep running in the
+           * background and we will have to kill it manually to run `gulp serve`
+           * again.
+           */
           if (serverProc) {
             serverProc.kill();
           }
@@ -73,9 +76,10 @@ gulp.task('default', ['serve']);
           chunks: false,
         }));
 
+        /* Only use Browsersync when we are running the development server. */
         if (!production) {
           if (firstRun) {
-            gutil.log('[serve]', 'Starting Browsersync');
+            gutil.log('[serve]', 'Starting Browsersync...');
             browserSync.init({proxy: `localhost:${appConfig.port}`});
             firstRun = false;
           } else {
@@ -92,9 +96,9 @@ gulp.task('default', ['serve']);
         gulp.watch('./src/server/**/*.js', ['serve']);
         gulp.watch('./src/client/**/*.html', ['build:client:html']);
       }
-    }
+    };
 
-    if (!production) {
+    if (!production && firstRun) {
       webpackConfig.watch = true;
     }
 
@@ -164,7 +168,7 @@ gulp.task('build:client:js', done => {
     }));
     done();
   });
-})
+});
 
 
 /*
@@ -175,7 +179,7 @@ gulp.task('build:client:js', done => {
 gulp.task('lint', ['lint:js', 'lint:css']);
 
 /* Lint all JS. */
-gulp.task('lint:js', ['lint:js:client', 'lint:js:server']);
+gulp.task('lint:js', ['lint:js:client', 'lint:js:server', 'lint:js:config']);
 
 /* Lint the server-side JS */
 gulp.task('lint:js:server', () => {
@@ -197,7 +201,18 @@ gulp.task('lint:js:client', () => {
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
-})
+});
+
+/* Lint the config JS. */
+gulp.task('lint:js:config', () => {
+  const eslint = require('gulp-eslint');
+  const eslintConfig = require('./src/server/.eslintrc.js');
+
+  return gulp.src(['*.js', '.*.js'])
+    .pipe(eslint(eslintConfig))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
 
 /* Lint CSS */
 gulp.task('lint:css', ['lint:css:colorguard', 'lint:css:stylelint']);
