@@ -18,11 +18,13 @@ const nodeEnv = production ? 'production' : 'development';
 
 const webpackConfig = require('./webpack.config');
 
-webpackConfig.plugins.push(new webpack.DefinePlugin({
-  'process.env': {
-    'NODE_ENV': JSON.stringify(nodeEnv),
-  }
-}));
+webpackConfig.plugins.unshift(
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(nodeEnv),
+    }
+  })
+);
 
 
 if (production) {

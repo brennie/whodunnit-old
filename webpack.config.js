@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const babelConfig = require('./.babelrc');
 
@@ -23,7 +24,9 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader',
+        loader: ExtractTextPlugin.extract(
+          'style-loader', '!css-loader?sourceMap&importLoaders=1!postcss-loader'
+        ),
       },
       {
         test: /\.jsx$/,
@@ -46,9 +49,9 @@ module.exports = {
   },
 
   output: {
-    path: path.join(__dirname, 'dist', 'client', 'js'),
-    publicPath: 'dist/client/',
-    filename: 'whodunnit.min.js',
+    path: path.join(__dirname, 'dist', 'client', 'static'),
+    publicPath: 'static/',
+    filename: path.join('js', 'whodunnit.min.js'),
     chunkFilename: '[chunkHash].js',
     sourceMapFileName: '[name].map',
   },
@@ -65,12 +68,15 @@ module.exports = {
         require('postcss-nested'),
         require('postcss-sass-colors'),
         autoprefixer,
+        require('cssnano'),
       ],
       cleaner: [autoprefixer({browsers: 'last 2 versions'})],
     };
   },
 
-  plugins: [],
+  plugins: [
+    new ExtractTextPlugin(path.join('css', 'style.css')),
+  ],
 
   resolve: {
     extensions: ['', '.js', '.jsx'],
