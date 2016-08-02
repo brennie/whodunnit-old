@@ -42,6 +42,7 @@
     "gulp-eslint": "^3.0.1",
     "gulp-postcss": "^6.1.1",
     "gulp-stylelint": "^3.0.0",
+    "gulp-util": "^3.0.7",
     "log-util": "^1.1.2",
     "normalize.css": "^4.2.0",
     "postcss": "^5.1.1",
