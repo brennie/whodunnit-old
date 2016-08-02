@@ -187,7 +187,7 @@ gulp.task('lint:js:client', () => {
   const eslint = require('gulp-eslint');
   const eslintConfig = require('./src/client/.eslintrc.js');
 
-  return gulp.src(['src/client/**.js', 'src/client/**.jsx'])
+  return gulp.src(['src/client/**/*.js', 'src/client/**/*.jsx'])
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
