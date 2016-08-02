@@ -38,6 +38,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-colorguard": "^1.1.0",
     "gulp-eslint": "^3.0.1",
+    "gulp-postcss": "^6.1.1",
     "gulp-stylelint": "^3.0.0",
     "log-util": "^1.1.2",
     "normalize.css": "^4.2.0",

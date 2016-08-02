@@ -194,12 +194,34 @@ gulp.task('lint:js:client', () => {
 })
 
 /* Lint CSS */
-gulp.task('lint:css', () => {
+gulp.task('lint:css', ['lint:css:colorguard', 'lint:css:stylelint']);
+
+/* Lint CSS with colorguard.
+ *
+ * This requires running the CSS through our full postcss suite so that
+ * colorguard can parse it.
+ */ 
+gulp.task('lint:css:colorguard', () => {
   const colorguard = require('gulp-colorguard');
+  const postcss = require('gulp-postcss');
+
+  return gulp.src('src/client/**/*.css')
+    .pipe(postcss([
+      require('postcss-import'),
+      require('postcss-simple-vars'),
+      require('postcss-nested'),
+      require('postcss-sass-colors'),
+      require('autoprefixer')({browsers: 'last 2 versions'}),
+    ]))
+    .pipe(colorguard());
+});
+
+/* Lint CSS with stylelint. */
+gulp.task('lint:css:stylelint', () => {
+  const postCSS = require('gulp-postcss');
   const stylelint = require('gulp-stylelint');
 
-  return gulp.src('src/**.css')
-    .pipe(colorguard())
+  return gulp.src('src/**/*.css')
     .pipe(stylelint({
       reporters: [
         {formatter: 'string', console: true},
