@@ -13,6 +13,5 @@ module.exports = {
       "avoidEscape": true,
     }],
     "semi": ["error", "always"],
-    "no-console": ["off"],
   }
 };
