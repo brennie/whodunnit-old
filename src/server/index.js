@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 
-import {join as joinPath} from 'path';
+import path from 'path';
 
 import Koa from 'koa';
 import convert from 'koa-convert';
@@ -17,7 +17,7 @@ const app = new Koa()
   });
 
 if (process.env.NODE_ENV === 'development') {
-  const clientRoot = joinPath(__dirname, '..', 'client');
+  const clientRoot = path.join(__dirname, '..', 'client');
 
   app.use(convert(serve(clientRoot)));
 }
