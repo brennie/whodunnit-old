@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './app';
+import Router from './components/router';
 import './css/reset.css';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<App />, document.getElementById('container'));
+  ReactDOM.render(<Router />, document.getElementById('container'));
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import './style.css';
 
@@ -10,8 +11,8 @@ export default class NavBar extends React.Component {
         <span className="brand">whodunnit&#8253;</span>
         <nav>
           <ul>
-           <li><a href="#!/login">Log In</a></li>
-           <li><a href="#!/register">Register</a></li>
+           <li><Link to="/login">Log In</Link></li>
+           <li><Link to="/register">Register</Link></li>
           </ul>
         </nav>
       </header>

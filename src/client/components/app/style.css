@@ -1,5 +1,5 @@
-@import "../css/defs.css";
-@import "../css/forms.css";
+@import "../../css/defs.css";
+@import "../../css/forms.css";
 
 body {
   background-color: $bg-color;
