@@ -11,15 +11,15 @@ module.exports = {
   bail: true,
 
   cache: true,
-  
+
   devtool: 'source-map',
-  
+
   entry: [
     'babel-polyfill',
     'normalize.css',
-    path.join(__dirname, 'src', 'client', 'js', 'index.jsx'),
+    path.join(__dirname, 'src', 'client', 'index.jsx'),
   ],
-  
+
   module: {
     loaders: [
       {
