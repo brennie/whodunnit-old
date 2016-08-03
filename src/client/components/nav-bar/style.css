@@ -1,4 +1,4 @@
-@import '../../defs.css';
+@import '../../css/defs.css';
 
 header {
   color: #FFF;
@@ -29,7 +29,7 @@ header {
 
         &:last-child {
           padding-right: 0;
-          
+
           &::after {
             content: none;
           }

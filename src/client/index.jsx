@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './app';
-import './reset.css';
+import './css/reset.css';
 
 
 document.addEventListener('DOMContentLoaded', () => {

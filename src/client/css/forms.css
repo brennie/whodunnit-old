@@ -1,0 +1,57 @@
+@import './defs.css';
+
+input {
+  color: $primary-color;
+  outline: 0;
+
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px color( rgb($primary-color, 10) );
+  }
+
+  &:invalid:not(:focus) {
+    box-shadow: unset;
+  }
+}
+
+label {
+  display: block;
+
+  input {
+    display: inline-block;
+    margin-right: 0.5em;
+
+    &[type="checkbox"] {
+      position: relative;
+      bottom: 1px;
+    }
+  }
+}
+
+fieldset.joined-fields {
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+
+  input {
+    display: block;
+    outline: 0;
+    position: relative;
+
+    &:first-child {
+      border-radius: $input-border-radius $input-border-radius 0 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: -1px;
+    }
+
+    &:last-child {
+      border-radius: 0 0 $input-border-radius $input-border-radius;
+    }
+
+    &:focus {
+      z-index: $z-index-focus-input;
+    }
+  }
+}

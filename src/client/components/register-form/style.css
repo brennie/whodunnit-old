@@ -1,0 +1,20 @@
+.register-form {
+  align-self: center;
+  font-size: 13pt;
+
+  h2 {
+    text-align: center;
+  }
+
+  input {
+    &[type="email"],
+    &[type="password"],
+    &[type="text"] {
+      width: 20em;
+    }
+
+    &[type="submit"] {
+      width: 100%;
+    }
+  }
+}
