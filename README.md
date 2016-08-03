@@ -1,4 +1,4 @@
-![CircleCI Status][cibadge]
+[![CircleCI Status][cibadge]][ci]
 
 ---
 # whodunnit
@@ -53,5 +53,6 @@ development mode, a [Browsersync][browsersync] session will be launched,
 proxying the backend and providing a live-reloading front-end.
 
 
+[ci]: https://circleci.com/gh/brennie/whodunnit
 [cibadge]: https://circleci.com/gh/brennie/whodunnit.svg?circle-token=79d3093a43479aedda674bd51377c3ea32e0a90d
 [browsersync]: https://www.browsersync.io/
