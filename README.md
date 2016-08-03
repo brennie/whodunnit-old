@@ -1,3 +1,6 @@
+![CircleCI Status][cibadge]
+
+---
 # whodunnit
 
 `whodunnit` is a simple to use progress tracker for teams.
@@ -46,8 +49,9 @@ gulp serve [--production]
 
 Again, this will run in development mode by default and will serve static files.
 When run with `--production`, it will *not* serve static files. When running in
-development mode, a [Browsersync][browsersync] session will be launched, 
+development mode, a [Browsersync][browsersync] session will be launched,
 proxying the backend and providing a live-reloading front-end.
 
 
+[cibadge]: https://circleci.com/gh/brennie/whodunnit.svg?circle-token=79d3093a43479aedda674bd51377c3ea32e0a90d
 [browsersync]: https://www.browsersync.io/
