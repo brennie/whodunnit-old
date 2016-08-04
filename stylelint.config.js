@@ -12,5 +12,6 @@ module.exports = {
     'max-line-length': 120,
     'number-leading-zero': 'always',
     'number-no-trailing-zeros': true,
+    'unit-blacklist': ['pt'],
   }
 };

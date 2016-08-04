@@ -1,6 +1,6 @@
 .register-form {
   align-self: center;
-  font-size: 13pt;
+  font-size: 1.1rem;
 
   h2 {
     text-align: center;
@@ -17,6 +17,4 @@
       width: 100%;
     }
   }
-
-
 }

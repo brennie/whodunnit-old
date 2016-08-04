@@ -2,7 +2,7 @@
 
 .login-form {
   align-self: center;
-  font-size: 13pt;
+  font-size: 1.1rem;
 
   h2 {
     text-align: center;
@@ -14,16 +14,16 @@
     }
 
     &[type="password"] {
-      margin-bottom: 0.5em;
+      margin-bottom: 0.5rem;
     }
 
     &[type="email"],
     &[type="password"] {
-      width: 20em;
+      width: 20rem;
     }
 
     &[type="submit"] {
-      margin-top: 0.5em;
+      margin-top: 0.5rem;
       width: 100%;
     }
   }
@@ -33,7 +33,7 @@
 
     input {
       display: inline-block;
-      margin-right: 0.5em;
+      margin-right: 0.5rem;
       position: relative;
       bottom: 1px;
     }
