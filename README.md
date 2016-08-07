@@ -14,10 +14,11 @@ Dependencies are managed through `npm`. You can install them with:
 npm install
 ```
 
-Builds are managed via gulp v4. You can install the gulp CLI with:
+Builds are managed via gulp v4. You will also require Knex for doing database
+migration. You can install them with:
 
 ```sh
-npm install -g gulp-cli
+npm install -g gulp-cli knex
 ```
 
 
