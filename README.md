@@ -14,6 +14,12 @@ Dependencies are managed through `npm`. You can install them with:
 npm install
 ```
 
+Builds are managed via gulp v4. You can install the gulp CLI with:
+
+```sh
+npm install -g gulp-cli
+```
+
 
 ## Configuring
 
@@ -44,13 +50,14 @@ must be served by your webserver.
 `whodunnit` also provides a server, which can be run via:
 
 ```sh
-gulp serve [--production]
+gulp serve [--production] [--disable-browsersync]
 ```
 
 Again, this will run in development mode by default and will serve static files.
 When run with `--production`, it will *not* serve static files. When running in
-development mode, a [Browsersync][browsersync] session will be launched,
-proxying the backend and providing a live-reloading front-end.
+development mode, a [Browsersync][browsersync] session will be launched if
+`--disable-browsersync` is not provided, proxying the backend and providing a
+live-reloading front-end.
 
 
 [ci]: https://circleci.com/gh/brennie/whodunnit

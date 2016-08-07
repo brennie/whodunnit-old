@@ -7,7 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const babelConfig = require('./.babelrc');
 
 
-module.exports = {
+const config = {
   bail: true,
 
   cache: true,
@@ -75,6 +75,11 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }
+    }),
     new ExtractTextPlugin(path.join('css', 'style.css')),
   ],
 
@@ -82,3 +87,10 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
   },
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new webpack.optimize.DedupePlugin());
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
+module.exports = config;
