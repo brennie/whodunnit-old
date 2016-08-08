@@ -3,7 +3,6 @@
 const child_process = require('child_process');
 const fs = require('fs');
 
-const browserSync = require('browser-sync').create();
 const del = require('del');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
@@ -18,16 +17,15 @@ const CLIENT_SRC = './src/client';
 const PID_FILE = './.server.pid';
 
 const argParser = yargs
-  .boolean('production')
   .boolean('disable-browsersync');
 
 const args = argParser.argv;
-const production = args.production;
-const useBrowserSync = !args.productiona && !args.disableBrowsersync;
-
+const useBrowserSync = !args.disableBrowsersync;
+const browserSync = useBrowserSync ? require('browser-sync').create() : null;
 const webpackConfig = require('./webpack.config');
-process.env.NODE_ENV = production ? 'production' : 'development';
 
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 /*
  * Building tasks.
@@ -76,7 +74,12 @@ gulp.task('build:server', () => {
 });
 
 /* Build the server and client. */
-gulp.task('build', gulp.parallel('build:server', 'build:client'));
+gulp.task('build',
+  gulp.series(done => {
+    process.env.NODE_ENV = 'production';
+    done();
+  },
+  gulp.parallel('build:server', 'build:client')));
 
 /*
  * Server tasks
@@ -92,7 +95,8 @@ gulp.task('build', gulp.parallel('build:server', 'build:client'));
  * We intentionally do not depend on build:client ebcause that would result in
  * building the client JavaScript twice.
  */
-gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'), done => {
+
+gulp.task('serve', gulp.series('build:client:html', done => {
   let firstRun = true;
   let serverProc;
 
@@ -105,7 +109,6 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
       process.kill(pid);
       del.sync([PID_FILE]);
     } catch (e) {}
-
 
     gutil.log('[serve]', `Starting ${process.env.NODE_ENV} server on port: ${appConfig.port}...`);
     serverProc = child_process
@@ -143,7 +146,6 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     done();
   });
 
-  webpackConfig.watch = true;
   webpack(webpackConfig, (err, stats) => {
     if (err) {
       stopServer();
@@ -172,19 +174,17 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     firstRun = false;
   });
 
-  if (!production) {
-    gulp
-      .watch(`${SERVER_SRC}/**/*.js`)
-      .on('change', gulp.series('build:server', () => stopServer(startServer)));
+  gulp
+    .watch(`${SERVER_SRC}/**/*.js`)
+    .on('change', gulp.series('build:server', () => stopServer(startServer)));
 
-    gulp
-      .watch(`${CLIENT_SRC}/**/*.js`)
-      .on('change', gulp.series('build:client:html', () => {
-        if (useBrowserSync) {
-          browserSync.reload();
-        }
-      }));
-  }
+  gulp
+    .watch(`${CLIENT_SRC}/**/*.js`)
+    .on('change', gulp.series('build:client:html', () => {
+      if (useBrowserSync) {
+        browserSync.reload();
+      }
+    }));
 }));
 
 

@@ -37,10 +37,11 @@ follows:
 
 ## Building & Running
 
-To build `whodunnit`, run:
+To build and run `whodunnit`, run:
 
 ```sh
-gulp build [--production]
+gulp build
+node start
 ```
 
 This will build both the client and the server. By default, `whodunnit` runs in
@@ -48,17 +49,11 @@ development mode, which will generate a server that serves static files. If
 built with `--production`, the server will *not* serve static files and they
 must be served by your webserver.
 
-`whodunnit` also provides a server, which can be run via:
+`whodunnit` also provides a development server, which can be run via:
 
 ```sh
-gulp serve [--production] [--disable-browsersync]
+gulp serve [--disable-browsersync]
 ```
-
-Again, this will run in development mode by default and will serve static files.
-When run with `--production`, it will *not* serve static files. When running in
-development mode, a [Browsersync][browsersync] session will be launched if
-`--disable-browsersync` is not provided, proxying the backend and providing a
-live-reloading front-end.
 
 
 [ci]: https://circleci.com/gh/brennie/whodunnit
