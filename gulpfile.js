@@ -22,7 +22,6 @@ const argParser = yargs
 const args = argParser.argv;
 const useBrowserSync = !args.disableBrowsersync;
 const browserSync = useBrowserSync ? require('browser-sync').create() : null;
-const webpackConfig = require('./webpack.config');
 
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -45,6 +44,8 @@ gulp.task('build:client:html', () => {
 
 /* Build the client JS. */
 gulp.task('build:client:js', done => {
+  const webpackConfig = require('./webpack.config');
+
   webpack(webpackConfig, (err, stats) => {
     if (err) {
       throw new gutil.PluginError('build:client:js', err);
@@ -146,6 +147,8 @@ gulp.task('serve', gulp.series('build:client:html', done => {
     done();
   });
 
+  const webpackConfig = require('./webpack.config');
+  webpackConfig.watch = true;
   webpack(webpackConfig, (err, stats) => {
     if (err) {
       stopServer();
