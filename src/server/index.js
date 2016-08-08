@@ -47,5 +47,8 @@ if (process.env.NODE_ENV === 'development') {
 app.listen(config.port, () => {
   log.info(`Server started on port ${config.port}.`);
   fs.writeFile(PID_FILE, `${process.pid}`);
-  process.on('SIGINT', () => del.sync([PID_FILE]));
+  process.on('SIGINT', () => {
+    del.sync([PID_FILE]);
+    process.exit(0);
+  });
 });
