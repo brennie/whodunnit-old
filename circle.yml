@@ -2,6 +2,12 @@ machine:
   node:
     version: 6
 
+deployment:
+  production:
+    branch: master
+    commands:
+      - git push whodunnit@brennie.ca:src/whodunnit.git
+
 test:
   pre:
     - cp ./contrib/config.example.js ./config.js
