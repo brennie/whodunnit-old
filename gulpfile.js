@@ -249,7 +249,7 @@ gulp.task('lint:css:colorguard', () => {
       require('postcss-import'),
       require('postcss-simple-vars'),
       require('postcss-nested'),
-      require('postcss-sass-colors'),
+      require('postcss-color-function'),
       require('autoprefixer')({browsers: 'last 2 versions'}),
     ]))
     .pipe(colorguard());

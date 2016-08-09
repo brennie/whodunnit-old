@@ -4,6 +4,6 @@ $primary-color: #654A8D;
 $input-border-radius: 5px;
 
 $button-primary-bg-color: $primary-color;
-$button-primary-bg-color-hover: color( darken($button-primary-bg-color, 25%) );
+$button-primary-bg-color-hover: color($button-primary-bg-color lightness(-25%) );
 
 $z-index-focus-input: 2;

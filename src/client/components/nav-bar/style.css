@@ -3,7 +3,7 @@
 header {
   color: #FFF;
   background-color: $primary-color;
-  border-bottom: 1px solid color( darken($primary-color, 20% ) );
+  border-bottom: 1px solid color($primary-color lightness(-20%));
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 0.75rem 0.5rem;

@@ -66,7 +66,7 @@ const config = {
         }),
         require('postcss-simple-vars'),
         require('postcss-nested'),
-        require('postcss-sass-colors'),
+        require('postcss-color-function'),
         autoprefixer,
         require('cssnano'),
       ],
