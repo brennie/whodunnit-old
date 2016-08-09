@@ -97,7 +97,7 @@ gulp.task('build',
  * building the client JavaScript twice.
  */
 
-gulp.task('serve', gulp.series('build:client:html', done => {
+gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'), done => {
   let firstRun = true;
   let serverProc;
 
