@@ -56,6 +56,7 @@ export const createUser = async (ctx) => {
   const errors = userSchema.validate(fields);
 
   if (errors.length) {
+    ctx.status = 400;
     ctx.body = {
       error: {
         message: 'One or more fields contained errors.',
@@ -85,6 +86,7 @@ export const createUser = async (ctx) => {
     })
     .into('users')
     .then(([id]) => {
+      ctx.status = 201;
       ctx.body = {
         user: {
           id,
@@ -95,6 +97,7 @@ export const createUser = async (ctx) => {
     })
     .catch(err => {
       if (err.code === 'SQLITE_CONSTRAINT') {
+        ctx.status = 400;
         ctx.body = {
           error: {
             message: 'One or more fields contained errors.',
