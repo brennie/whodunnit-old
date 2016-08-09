@@ -6,7 +6,7 @@ deployment:
   production:
     branch: master
     commands:
-      - git push whodunnit@brennie.ca:src/whodunnit.git
+      - git push whodunnit@brennie.ca:src/whodunnit.git master:master
 
 test:
   pre:
