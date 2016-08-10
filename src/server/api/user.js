@@ -24,6 +24,12 @@ export const getUser = async (ctx) => {
 
   if (!results.length) {
     ctx.status = 404;
+    ctx.body = {
+      error: {
+        message: `No user with ID ${ctx.params.id}.`,
+      },
+    };
+
     return;
   }
 

@@ -103,6 +103,20 @@ test('/api/user', t => {
     t.end();
   });
 
+  t.test('GET /api/user/:id with invalid ID', async t => {
+    const rsp = await request(app.callback())
+      .get('/api/user/1');
+
+    t.is(rsp.status, 404);
+    t.deepEqual(rsp.body, {
+      error: {
+        message: 'No user with ID 1.',
+      }
+    });
+
+    t.end();
+  });
+
   t.test('POST /api/user with valid data', async t => {
     const rsp = await request(app.callback())
       .post('/api/user')
