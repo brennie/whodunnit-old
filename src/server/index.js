@@ -4,6 +4,7 @@ import del from 'del';
 import fs from 'fs';
 import path from 'path';
 
+import knex from 'knex';
 import convert from 'koa-convert';
 import serve from 'koa-static';
 
@@ -12,7 +13,14 @@ import log from './log';
 import config from '../../config';
 
 
-const app = App();
+
+const db = knex(config.db);
+const app = App(
+  (ctx, next) => {
+    ctx.db = db;
+    return next();
+  }
+);
 
 if (process.env.NODE_ENV === 'development') {
   const clientRoot = path.join(__dirname, '..', 'client');

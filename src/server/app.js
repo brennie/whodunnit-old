@@ -6,17 +6,18 @@ import log from './log';
 import api from './api/';
 
 
-/**
- * Create a new app.
- *
- * @return {Koa} The new Koa app instance.
- */
-const App = () => (
-  new Koa()
+const App = (...middleware) => {
+  const app = new Koa()
     .use(async ({request}, next) => {
       log.info(`${request.method} "${request.url}" from ${request.ip}`);
       await next();
-    })
+    });
+
+  for (const m of middleware) {
+    app.use(m);
+  }
+
+  return app
     .use(async (ctx, next) => {
       try {
         await next();
@@ -30,7 +31,7 @@ const App = () => (
       enableTypes: ['json'],
     }))
     .use(api.routes())
-    .use(api.allowedMethods())
-);
+    .use(api.allowedMethods());
+};
 
 export default App;

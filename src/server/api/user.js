@@ -3,8 +3,6 @@ import crypto from 'crypto';
 import {zipObj} from 'ramda';
 import schema from 'validate';
 
-import db from '../db';
-
 
 const userSchema = schema({
   email: {
@@ -28,7 +26,7 @@ const userSchema = schema({
 });
 
 export const getUsers = async (ctx) => {
-  const results = await db
+  const results = await ctx.db
     .select('id', 'name')
     .from('users');
 
@@ -40,7 +38,7 @@ export const getUsers = async (ctx) => {
 
 
 export const getUser = async (ctx) => {
-  const results = await db
+  const results = await ctx.db
     .select('id', 'name')
     .from('users')
     .where('id', ctx.params.id);
@@ -77,7 +75,7 @@ export const createUser = async (ctx) => {
     .update(fields.password)
     .digest();
 
-  await db
+  await ctx.db
     .insert({
       email: fields.email,
       name: fields.name,
