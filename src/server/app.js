@@ -1,6 +1,5 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
-import convert from 'koa-convert';
 
 import api from './api/';
 
