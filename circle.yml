@@ -11,3 +11,4 @@ deployment:
 test:
   pre:
     - cp ./contrib/config.example.js ./config.js
+    - npm install sqlite3
