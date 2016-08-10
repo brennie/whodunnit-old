@@ -281,5 +281,19 @@ gulp.task('lint:css', gulp.parallel('lint:css:colorguard', 'lint:css:stylelint')
 /* Lint all the things. */
 gulp.task('lint', gulp.parallel('lint:js', 'lint:css'));
 
+/* Run server unit tests. */
+gulp.task('test:server', gulp.series('build:server', () => {
+  const mocha = require('gulp-mocha');
+
+  return gulp
+    .src('dist/server/**/test/*.js')
+    .pipe(mocha({
+      reporter: 'list',
+    }));
+}));
+
+/* Run all unit tests. */
+gulp.task('test', gulp.series('test:server'));
+
 /* Run the server as the default task. */
 gulp.task('default', gulp.series('serve'));
