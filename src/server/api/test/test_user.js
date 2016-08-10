@@ -1,20 +1,30 @@
-/* eslint-env node, mocha */
-
 import 'babel-polyfill';
 
-import {expect} from 'chai';
 import knex from 'knex';
 import request from 'supertest-as-promised';
+import tape from 'tape-async';
+import tapes from 'tapes';
+import addAssertions from 'extend-tape';
 
 import App from '../../app';
 import User from '../../models/user';
 
 
-describe('api/users', () => {
-  let db;
-  let app;
+const test = tapes(addAssertions(tape, {
+  isSetEqual(xs, ys) {
+    this.is(xs.size, ys.size);
+    for (const x of xs) {
+      this.ok(ys.has(x));
+    }
+  }
+}));
 
-  beforeEach(async () => {
+
+test('/api/user', t => {
+  let app;
+  let db;
+
+  t.beforeEach(async t => {
     db = knex({
       client: 'sqlite3',
       connection: ':memory:',
@@ -29,108 +39,119 @@ describe('api/users', () => {
     await db
       .migrate
       .latest({table: 'migrations'});
+
+    t.end();
   });
 
-  afterEach(() => {
+  t.afterEach(t => {
     db.destroy();
+    t.end();
   });
 
-  describe('GET list', () => {
-    it('with no results', async () => {
-      const rsp = await request(app.callback())
-        .get('/api/user');
+  t.test('GET /api/user with no results', async t => {
+    const rsp = await request(app.callback())
+      .get('/api/user');
 
-      expect(rsp.status).to.equal(200);
-      expect(rsp.body).to.deep.equal({
-        count: 0,
-        users: [],
-      });
+    t.is(rsp.status, 200);
+    t.deepEqual(rsp.body, {
+      count: 0,
+      users: [],
     });
 
-    it('with one result', async () => {
-      const id = await User.create(db, {
+    t.end();
+  });
+
+  t.test('GET /api/user with one result', async t => {
+    const id = await User.create(db, {
+      name: 'Example user',
+      email: 'email@example.com',
+      password: 'password',
+    });
+
+    const rsp = await request(app.callback())
+      .get('/api/user');
+
+    t.is(rsp.status, 200);
+    t.deepEqual(rsp.body, {
+      count: 1,
+      users: [{
+        id,
         name: 'Example user',
-        email: 'email@example.com',
+      }],
+    });
+
+    t.end();
+  });
+
+  t.test('GET /api/user/:id', async t => {
+    const id = await User.create(db, {
+      name: 'Example user',
+      email: 'email@example.com',
+      password: 'password'
+    });
+
+    const rsp = await request(app.callback())
+      .get(`/api/user/${id}`);
+
+    t.is(rsp.status, 200);
+    t.deepEqual(rsp.body, {
+      user: {
+        id,
+        name: 'Example user',
+      },
+    });
+    t.end();
+  });
+
+  t.test('POST /api/user with valid data', async t => {
+    const rsp = await request(app.callback())
+      .post('/api/user')
+      .send({
         password: 'password',
-      });
-
-      const rsp = await request(app.callback())
-        .get('/api/user');
-
-      expect(rsp.status).to.equal(200);
-      expect(rsp.body).to.deep.equal({
-        count: 1,
-        users: [{
-          id,
-          name: 'Example user',
-        }],
-      });
-    });
-  });
-
-  describe('GET', () => {
-    it('with one result', async () => {
-      const id = await User.create(db, {
         name: 'Example user',
         email: 'email@example.com',
-        password: 'password'
       });
 
-      const rsp = await request(app.callback())
-        .get(`/api/user/${id}`);
-
-      expect(rsp.status).to.equal(200);
-      expect(rsp.body).to.deep.equal({
-        user: {
-          id,
-          name: 'Example user',
-        },
-      });
+    t.is(rsp.status, 201);
+    t.deepEqual(rsp.body, {
+      user: {
+        id: 1,
+        name: 'Example user',
+        email: 'email@example.com',
+      },
     });
+    t.end();
   });
 
-  describe('POST', () => {
-    it('with valid data', async () => {
-      const rsp = await request(app.callback())
-        .post('/api/user')
-        .send({
-          password: 'password',
-          name: 'Example user',
-          email: 'email@example.com',
-        });
-
-      expect(rsp.status).to.equal(201);
-      expect(rsp.body).to.deep.equal({
-        user: {
-          id: 1,
-          name: 'Example user',
-          email: 'email@example.com',
-        },
+  t.test('POST /api/user with invalid password', async t => {
+    const rsp = await request(app.callback())
+      .post('/api/user')
+      .send({
+        password: 'foo',
+        name: 'Example user',
+        email: 'email@example.com',
       });
-    });
 
-    it('with invalid password', async () => {
-      const rsp = await request(app.callback())
-        .post('/api/user')
-        .send({
-          password: 'foo',
-          name: 'Example user',
-          email: 'email@example.com',
-        });
-
-      expect(rsp.status).to.equal(400);
-      expect(rsp.body.error.message).to.equal('One or more fields contained errors.');
-      expect(rsp.body.error.fields).to.include.keys('password');
-    });
-
-    it('with missing fields', async () => {
-      const rsp = await request(app.callback())
-        .post('/api/user')
-        .send({});
-
-      expect(rsp.status).to.equal(400);
-      expect(rsp.body.error.message).to.equal('One or more fields contained errors.');
-      expect(rsp.body.error.fields).to.include.keys('password', 'email', 'name');
-    });
+    t.is(rsp.status, 400);
+    t.is(rsp.body.error.message, 'One or more fields contained errors.');
+    t.looseEqual(Object.keys(rsp.body.error.fields), ['password']);
+    t.end();
   });
+
+  t.test('POST /api/user with missing fields', async t => {
+    const rsp = await request(app.callback())
+      .post('/api/user')
+      .send({});
+
+    t.is(rsp.status, 400);
+    t.is(rsp.body.error.message, 'One or more fields contained errors.');
+    t.isSetEqual(
+      new Set(Object.keys(rsp.body.error.fields)),
+      new Set(['email', 'name', 'password'])
+    );
+    //t.is(), new Set(['password', 'email', 'name']));
+    t.end();
+  });
+
+  t.end();
 });

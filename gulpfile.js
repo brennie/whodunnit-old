@@ -283,12 +283,12 @@ gulp.task('lint', gulp.parallel('lint:js', 'lint:css'));
 
 /* Run server unit tests. */
 gulp.task('test:server', gulp.series('build:server', () => {
-  const mocha = require('gulp-mocha');
+  const tape = require('gulp-tape');
 
   return gulp
     .src('dist/server/**/test/*.js')
-    .pipe(mocha({
-      reporter: 'list',
+    .pipe(tape({
+      reporter: require('faucet')(),
     }));
 }));
 
