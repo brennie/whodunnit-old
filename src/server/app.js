@@ -2,18 +2,13 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import convert from 'koa-convert';
 
-import log from './log';
 import api from './api/';
 
 
 const App = (...middleware) => {
-  const app = new Koa()
-    .use(async ({request}, next) => {
-      log.info(`${request.method} "${request.url}" from ${request.ip}`);
-      await next();
-    });
+  const app = new Koa();
 
-  for (const m of middleware) {
+  for (let m of middleware) {
     app.use(m);
   }
 

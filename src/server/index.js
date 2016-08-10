@@ -13,9 +13,12 @@ import log from './log';
 import config from '../../config';
 
 
-
 const db = knex(config.db);
 const app = App(
+  async ({request}, next) => {
+    log.info(`${request.method} "${request.url}" from ${request.ip}`);
+    await next();
+  },
   (ctx, next) => {
     ctx.db = db;
     return next();
