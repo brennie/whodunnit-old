@@ -6,6 +6,7 @@ const path = require('path');
 
 const del = require('del');
 const gulp = require('gulp');
+const changed = require('gulp-changed');
 const gutil = require('gulp-util');
 const webpack = require('webpack');
 const yargs = require('yargs');
@@ -38,9 +39,12 @@ gulp.task('clean', done => {
 
 /* Build client HTML. */
 gulp.task('build:client:html', () => {
+  const dest = path.join(__dirname, 'dist', 'client');
+
   return gulp
     .src(`${CLIENT_SRC}/**/*.html`)
-    .pipe(gulp.dest(path.join(__dirname, 'dist', 'client')));
+    .pipe(changed(dest))
+    .pipe(gulp.dest(dest));
 });
 
 /* Build the client JS. */
@@ -68,11 +72,13 @@ gulp.task('build:client', gulp.parallel('build:client:html', 'build:client:js'))
 gulp.task('build:server', () => {
   const babel = require('gulp-babel');
   const babelConfig = require('./.babelrc');
+  const dest = path.join(__dirname, 'dist', 'server');
 
   return gulp
     .src(`${SERVER_SRC}/**/*.js`)
+    .pipe(changed(dest))
     .pipe(babel(babelConfig))
-    .pipe(gulp.dest(path.join(__dirname, 'dist', 'server')));
+    .pipe(gulp.dest(dest));
 });
 
 /* Build the server and client. */
