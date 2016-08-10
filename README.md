@@ -30,7 +30,16 @@ follows:
 
 ```javascript
 {
-  port: 9999,  // The port to run the server on.
+  port: '9999',              // The port to run the server on.
+  db: {
+    client: "pg",            // The SQL client.
+    connection: {
+      user: "user",          // Database user.
+      password: "password",  // Database password.
+      database: "whodunnit", // Database name.
+      port: 5432,            // Database port.
+    },
+  },
 }
 ```
 
