@@ -2,6 +2,7 @@
 
 const child_process = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const del = require('del');
 const gulp = require('gulp');
@@ -12,9 +13,9 @@ const yargs = require('yargs');
 const appConfig = require('./config');
 
 
-const SERVER_SRC = './src/server';
-const CLIENT_SRC = './src/client';
-const PID_FILE = './.server.pid';
+const SERVER_SRC = path.join(__dirname, 'src', 'server');
+const CLIENT_SRC = path.join(__dirname, 'src', 'client');
+const PID_FILE = path.join('.', '.server.pid');
 
 const argParser = yargs
   .boolean('disable-browsersync');
@@ -39,7 +40,7 @@ gulp.task('clean', done => {
 gulp.task('build:client:html', () => {
   return gulp
     .src(`${CLIENT_SRC}/**/*.html`)
-    .pipe(gulp.dest('./dist/client/'));
+    .pipe(gulp.dest(path.join(__dirname, 'dist', 'client')));
 });
 
 /* Build the client JS. */
@@ -71,7 +72,7 @@ gulp.task('build:server', () => {
   return gulp
     .src(`${SERVER_SRC}/**/*.js`)
     .pipe(babel(babelConfig))
-    .pipe(gulp.dest('dist/server'));
+    .pipe(gulp.dest(path.join(__dirname, 'dist', 'server')));
 });
 
 /* Build the server and client. */
