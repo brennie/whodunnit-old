@@ -284,12 +284,15 @@ gulp.task('lint', gulp.parallel('lint:js', 'lint:css'));
 /* Run server unit tests. */
 gulp.task('test:server', gulp.series('build:server', () => {
   const tape = require('gulp-tape');
+  const tapeConfig = {};
+
+  if (!process.env.hasOwnProperty('CIRCLE_BUILD_NUM')) {
+    tapeConfig.reporter = require('faucet')();
+  }
 
   return gulp
     .src('dist/server/**/test/*.js')
-    .pipe(tape({
-      reporter: require('faucet')(),
-    }));
+    .pipe(tape(tapeConfig));
 }));
 
 /* Run all unit tests. */
