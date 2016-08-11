@@ -1,0 +1,10 @@
+@import './css/defs.css';
+
+
+body {
+  background-color: $bg-color;
+}
+
+#container {
+  height: 100%;
+}

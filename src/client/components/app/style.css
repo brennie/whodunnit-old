@@ -1,9 +1,6 @@
 @import "../../css/defs.css";
 @import "../../css/forms.css";
 
-body {
-  background-color: $bg-color;
-}
 
 footer {
   color: #AAA;
@@ -16,29 +13,6 @@ footer {
   }
 }
 
-input {
-  border: 1px solid rgb(204, 204, 204);
-  padding: 0.5rem;
-}
-
-input[type="submit"],
-input[type="button"],
-button {
-  border-radius: $input-border-radius;
-  cursor: pointer;
-
-  &.button--primary {
-    background-color: $button-primary-bg-color;
-    color: #FFF;
-
-    &:hover {
-      background-color: $button-primary-bg-color-hover;
-    }
-  }
-
-}
-
-#container,
 #app-container {
   height: 100%;
 }

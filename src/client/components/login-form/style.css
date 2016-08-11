@@ -1,5 +1,6 @@
 @import "../../css/defs.css";
 
+
 .login-form {
   align-self: center;
   font-size: 1.1rem;
@@ -9,14 +10,6 @@
   }
 
   input {
-    &[type="email"] {
-      margin-bottom: -1px;
-    }
-
-    &[type="password"] {
-      margin-bottom: 0.5rem;
-    }
-
     &[type="email"],
     &[type="password"] {
       width: 20rem;
@@ -28,8 +21,14 @@
     }
   }
 
+  fieldset {
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+
   label {
     display: block;
+    margin-left: 3px;
 
     input {
       display: inline-block;

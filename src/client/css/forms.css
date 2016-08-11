@@ -1,32 +1,8 @@
 @import './defs.css';
 
-input {
-  color: $primary-color;
-  outline: 0;
 
-  &:focus {
-    border-color: $primary-color;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px color($primary-color a(90%));
-  }
-
-  &:invalid:not(:focus) {
-    box-shadow: unset;
-  }
-}
-
-label {
-  display: block;
-
-  input {
-    display: inline-block;
-    margin-right: 0.5em;
-
-    &[type="checkbox"] {
-      position: relative;
-      bottom: 1px;
-    }
-  }
-}
+$input-border-radius: 7px;
+$z-index-focus-input: 2;
 
 fieldset.joined-fields {
   border: none;
@@ -52,6 +28,52 @@ fieldset.joined-fields {
 
     &:focus {
       z-index: $z-index-focus-input;
+    }
+  }
+}
+
+input {
+  border: 1px solid #CCC;
+  color: $primary-color;
+  outline: 0;
+  padding: 0.5rem;
+
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px color($primary-color a(90%));
+  }
+
+  &:invalid:not(:focus) {
+    box-shadow: unset;
+  }
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+  border-radius: $input-border-radius;
+  cursor: pointer;
+
+  &.button--primary {
+    background-color: $primary-color;
+    color: #FFF;
+
+    &:hover {
+      background-color: color($primary-color lightness(-10%));
+    }
+  }
+}
+
+label {
+  display: block;
+
+  input {
+    display: inline-block;
+    margin-right: 0.5em;
+
+    &[type="checkbox"] {
+      position: relative;
+      bottom: 1px;
     }
   }
 }
