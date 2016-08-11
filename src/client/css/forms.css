@@ -2,7 +2,10 @@
 
 
 $input-border-radius: 7px;
+$input-error-color: #F00;
 $z-index-focus-input: 2;
+$z-index-error-bg: 3;
+$z-index-error-fg: 4;
 
 fieldset.joined-fields {
   border: none;
@@ -14,20 +17,76 @@ fieldset.joined-fields {
     outline: 0;
     position: relative;
 
-    &:first-child {
+    &:focus {
+      z-index: $z-index-focus-input;
+    }
+
+    &.error:focus + .joined-fields__row__errors {
+      display: block;
+    }
+  }
+
+  .joined-fields__row {
+    position: relative;
+
+    &:first-child input {
       border-radius: $input-border-radius $input-border-radius 0 0;
+    }
+
+    &:last-child input {
+      border-radius: 0 0 $input-border-radius $input-border-radius;
     }
 
     &:not(:last-child) {
       margin-bottom: -1px;
     }
+  }
 
-    &:last-child {
-      border-radius: 0 0 $input-border-radius $input-border-radius;
+  .joined-fields__row__errors {
+    background: #333;
+    border: 1px solid $input-error-color;
+    color: #FFF;
+    display: none;
+    filter: drop-shadow(0 0 0.25rem $input-error-color);
+    left: 100%;
+    margin: 0;
+    min-height: 2rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 17.5rem;
+    z-index: $z-index-error-bg;
+
+    &::before, &::after {
+      border-style: solid;
+      border-color: transparent;
+      content: "";
+      height: 0;
+      position: absolute;
+      pointer-events: none;
+      width: 0;
+      right: 100%;
     }
 
-    &:focus {
-      z-index: $z-index-focus-input;
+    &::before {
+      border-width: 12px;
+      border-right-color: $input-error-color;
+      top: 50%;
+      z-index: 10;
+      margin-top: -12px;
+    }
+
+    &::after {
+      border-width: 10px;
+      border-right-color: #333;
+      top: 50%;
+      margin-top: -10px;
+      z-index: 11;
+    }
+
+    li {
+      list-style: none;
     }
   }
 }
@@ -45,6 +104,10 @@ input {
 
   &:invalid:not(:focus) {
     box-shadow: unset;
+  }
+
+  &.error {
+    color: $input-error-color;
   }
 }
 
