@@ -62,6 +62,11 @@ button {
       background-color: color($primary-color lightness(-10%));
     }
   }
+
+  &.button--disabled {
+    background-color: #DDD;
+    color: #CCC;
+  }
 }
 
 label {
