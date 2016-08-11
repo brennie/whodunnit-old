@@ -64,7 +64,7 @@ export default class RegisterForm extends React.Component {
       }
     }
 
-    const errorText = formHasErrors ? <p>Please correct the errors below:</p> : null;
+    const errorText = formHasErrors ? <p className="errors">Please correct the errors below:</p> : null;
 
     return (
       <div className="register-form">

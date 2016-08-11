@@ -91,6 +91,10 @@ fieldset.joined-fields {
   }
 }
 
+form p.errors {
+  text-align: center;
+}
+
 input {
   border: 1px solid #CCC;
   color: $primary-color;
