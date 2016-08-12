@@ -10,6 +10,8 @@ const emailRegex = /^.+@.+\..+$/;
 export default class RegisterForm extends React.Component {
   constructor() {
     super();
+
+    this._fields = new Map();
   }
 
   validate(name, email, password, confirmPassword) {
@@ -29,10 +31,10 @@ export default class RegisterForm extends React.Component {
       return;
     }
 
-    const name = this._name.value;
-    const email = this._email.value;
-    const password = this._password.value;
-    const confirmPassword = this._confirmPassword.value;
+    const name = this._fields.get('name').value;
+    const email = this._fields.get('email').value;
+    const password = this._fields.get('password').value;
+    const confirmPassword = this._fields.get('confirmPassword').value;
 
     const errors = this.validate(name, email, password, confirmPassword);
 
@@ -72,7 +74,9 @@ export default class RegisterForm extends React.Component {
             <div className="joined-fields__row">
               <input type="text"
                      placeholder="Name"
-                     ref={c => this._name = c}
+                     value={this.props.formValues.get('name')}
+                     ref={c => this._fields.set('name', c)}
+                     onChange={() => this.handleFieldValueChanged('name')}
                      className={fieldErrors.name ? 'error': ''} />
               {fieldErrors.name}
             </div>
@@ -80,21 +84,27 @@ export default class RegisterForm extends React.Component {
               <input type="text"
                      inputMode="email"
                      placeholder="E-mail Address"
-                     ref={c => this._email = c}
+                     value={this.props.formValues.get('email')}
+                     ref={c => this._fields.set('email', c)}
+                     onChange={() => this.handleFieldValueChanged('email')}
                      className={fieldErrors.email ? 'error' : ''} />
               {fieldErrors.email}
             </div>
             <div className="joined-fields__row">
               <input type="password"
                      placeholder="Password"
-                     ref={c => this._password = c}
+                     value={this.props.formValues.get('password')}
+                     ref={c => this._fields.set('password', c)}
+                     onChange={() => this.handleFieldValueChanged('password')}
                      className={fieldErrors.password ? 'error' : ''} />
               {fieldErrors.password}
             </div>
             <div className="joined-fields__row">
               <input type="password"
                      placeholder="Confirm Password"
-                     ref={c => this._confirmPassword = c}
+                     value={this.props.formValues.get('confirmPassword')}
+                     ref={c => this._fields.set('confirmPassword', c)}
+                     onChange={() => this.handleFieldValueChanged('confirmPassword')}
                      className={fieldErrors.confirmPassword ? 'error' : ''}/>
               {fieldErrors.confirmPassword}
             </div>
@@ -106,9 +116,19 @@ export default class RegisterForm extends React.Component {
       </div>
     );
   }
+
+  handleFieldValueChanged(fieldName) {
+    this.props.onFieldValueChanged(fieldName, this._fields.get(fieldName).value);
+  }
 };
 
 RegisterForm.defaultProps = {
   disabled: false,
   errors: new Map(),
+  formValues: new Map([
+    ['name', ''],
+    ['email', ''],
+    ['password', ''],
+    ['confirmPassword', ''],
+  ]),
 };

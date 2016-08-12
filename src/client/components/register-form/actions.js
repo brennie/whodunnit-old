@@ -6,7 +6,7 @@ import {addMessage} from '../message-list/actions';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const REGISTER_SUBMITTED = 'REGISTER_SUBMITTED';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const SET_REGISTER_FORM_VALUES = 'SET_REGISTER_FORM_VALUES'
+export const SET_REGISTER_FORM_VALUES = 'SET_REGISTER_FORM_VALUES';
 
 export const registerError = errors => ({
   type: REGISTER_ERROR,
@@ -22,6 +22,11 @@ export const registerSubmitted = (name, email, password) => ({
 
 export const registerSuccess = () => ({
   type: REGISTER_SUCCESS,
+});
+
+export const setRegisterFormValues = (values) => ({
+  type: SET_REGISTER_FORM_VALUES,
+  values,
 });
 
 export const registerSubmit = (name, email, password) => async (dispatch) => {
