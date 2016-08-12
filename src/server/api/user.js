@@ -1,6 +1,5 @@
 import {zipObj} from 'ramda';
 
-import log from '../log';
 import User from '../models/user';
 
 
@@ -46,7 +45,6 @@ export const getUser = async (ctx) => {
 
 export const createUser = async (ctx) => {
   const fields = Object.assign({}, ctx.request.body);
-  log.info(ctx.request.body);
   const errors = User.validate(fields);
 
   if (errors.length) {
