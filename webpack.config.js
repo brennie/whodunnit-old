@@ -16,6 +16,7 @@ const config = {
 
   entry: [
     'babel-polyfill',
+    'whatwg-fetch',
     'normalize.css',
     path.join(__dirname, 'src', 'client', 'index.jsx'),
   ],

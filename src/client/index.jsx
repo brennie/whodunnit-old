@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {combineReducers, createStore} from 'redux';
-
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 import registerForm from './components/register-form/reducers';
 import Router from './components/router';
@@ -14,7 +14,13 @@ const reducers = combineReducers({
   registerForm
 });
 
-const state = createStore(reducers,  window.devToolsExtension && window.devToolsExtension());
+const state = createStore(
+  reducers,
+  window.devToolsExtension && window.devToolsExtension(),
+  applyMiddleware(
+    thunkMiddleware
+  )
+);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
