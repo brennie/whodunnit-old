@@ -13,9 +13,10 @@ const yargs = require('yargs');
 
 const appConfig = require('./config');
 
-
-const SERVER_SRC = path.join(__dirname, 'src', 'server');
 const CLIENT_SRC = path.join(__dirname, 'src', 'client');
+const LIB_SRC = path.join(__dirname, 'src', 'lib');
+const SERVER_SRC = path.join(__dirname, 'src', 'server');
+
 const PID_FILE = path.join('.', '.server.pid');
 
 const argParser = yargs
@@ -68,8 +69,21 @@ gulp.task('build:client:js', done => {
 /* Build the client. */
 gulp.task('build:client', gulp.parallel('build:client:html', 'build:client:js'));
 
+/* Build the lib (for the server). */
+gulp.task('build:lib', () => {
+  const babel = require('gulp-babel');
+  const babelConfig = require('./.babelrc');
+  const dest = path.join(__dirname, 'dist', 'lib');
+
+  return gulp
+    .src(`${LIB_SRC}/**/*.js`)
+    .pipe(changed(dest))
+    .pipe(babel(babelConfig))
+    .pipe(gulp.dest(dest));
+});
+
 /* Build the server. */
-gulp.task('build:server', () => {
+gulp.task('build:server', gulp.parallel('build:lib', () => {
   const babel = require('gulp-babel');
   const babelConfig = require('./.babelrc');
   const dest = path.join(__dirname, 'dist', 'server');
@@ -79,7 +93,7 @@ gulp.task('build:server', () => {
     .pipe(changed(dest))
     .pipe(babel(babelConfig))
     .pipe(gulp.dest(dest));
-});
+}));
 
 /* Build the server and client. */
 gulp.task('build',

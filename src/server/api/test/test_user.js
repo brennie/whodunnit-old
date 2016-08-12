@@ -163,7 +163,9 @@ test('/api/user', t => {
       new Set(Object.keys(rsp.body.error.fields)),
       new Set(['email', 'name', 'password'])
     );
-    //t.is(), new Set(['password', 'email', 'name']));
+    t.is(2, rsp.body.error.fields.email.length);
+    t.is(2, rsp.body.error.fields.name.length);
+    t.is(2, rsp.body.error.fields.password.length);
     t.end();
   });
 

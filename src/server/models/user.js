@@ -1,32 +1,7 @@
 import crypto from 'crypto';
 
-import schema from 'validate';
+import {validateUser} from 'lib/models/user';
 
-
-const userSchema = schema({
-  email: {
-    type: 'string',
-    required: true,
-    match: /^.+\@.+\..+$/,
-    message: 'A valid e-mail address is required.',
-  },
-  password: {
-    type: 'string',
-    required: true,
-    match: /^.{8,}$/,
-    message: 'Password must be at least 8 characters.',
-  },
-  name: {
-    type: 'string',
-    required: true,
-    match: /^.{6,}$/,
-    message: 'Name must be at least 6 characters.',
-  },
-});
-
-const validate = (fields={}) => {
-  return userSchema.validate(fields);
-};
 
 const create = (db, fields={}) => {
   const salt = crypto.randomBytes(8);
@@ -52,7 +27,7 @@ const get = (db) => (
 );
 
 export default {
-  validate,
   create,
-  get
+  get,
+  validate: validateUser,
 };

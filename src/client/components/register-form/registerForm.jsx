@@ -1,6 +1,8 @@
 import React from 'react';
 
+import {validateUser} from 'lib/models/user';
 import './style.css';
+
 
 const emailRegex = /^.+@.+\..+$/;
 
@@ -8,6 +10,16 @@ const emailRegex = /^.+@.+\..+$/;
 export default class RegisterForm extends React.Component {
   constructor() {
     super();
+  }
+
+  validate(name, email, password, confirmPassword) {
+    const errors = new validateUser({name, email, password});
+
+    if (password !== confirmPassword) {
+      errors.set('confirmPassword', ['The passwords do not match.']);
+    }
+
+    return errors;
   }
 
   onSubmit(e) {
@@ -21,23 +33,8 @@ export default class RegisterForm extends React.Component {
     const email = this._email.value;
     const password = this._password.value;
     const confirmPassword = this._confirmPassword.value;
-    const errors = new Map();
 
-    if (!name.length) {
-      errors.set('name', ['Name must be at least 6 characters.']);
-    }
-
-    if (password.length < 8) {
-      errors.set('password', ['Password must be at least 8 characters.']);
-    }
-
-    if (confirmPassword !== password) {
-      errors.set('confirmPassword', ['The passwords do not match.']);
-    }
-
-    if (!emailRegex.test(email)) {
-      errors.set('email', ['Please enter a valid e-mail address.']);
-    }
+    const errors = this.validate(name, email, password, confirmPassword);
 
     if (errors.size) {
       this.props.onValidateError(errors);

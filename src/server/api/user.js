@@ -1,5 +1,3 @@
-import {zipObj} from 'ramda';
-
 import User from '../models/user';
 
 
@@ -47,15 +45,18 @@ export const createUser = async (ctx) => {
   const fields = Object.assign({}, ctx.request.body);
   const errors = User.validate(fields);
 
-  if (errors.length) {
+  if (errors.size) {
     ctx.status = 400;
+    const fields = {};
+
+    for (const [field, messages] of errors.entries()) {
+      fields[field] = messages;
+    }
+
     ctx.body = {
       error: {
         message: 'One or more fields contained errors.',
-        fields: zipObj(
-          errors.map(err => err.path),
-          errors.map(err => [err.message])
-        ),
+        fields: fields,
       },
     };
 
