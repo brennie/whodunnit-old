@@ -82,7 +82,7 @@ const config = {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       }
     }),
-    new ExtractTextPlugin(path.join('css', 'style.css')),
+    new ExtractTextPlugin(path.join('css', 'style.min.css')),
   ],
 
   resolve: {
