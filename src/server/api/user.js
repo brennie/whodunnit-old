@@ -1,5 +1,6 @@
 import {zipObj} from 'ramda';
 
+import log from '../log';
 import User from '../models/user';
 
 
@@ -45,6 +46,7 @@ export const getUser = async (ctx) => {
 
 export const createUser = async (ctx) => {
   const fields = Object.assign({}, ctx.request.body);
+  log.info(ctx.request.body);
   const errors = User.validate(fields);
 
   if (errors.length) {
@@ -81,7 +83,7 @@ export const createUser = async (ctx) => {
           error: {
             message: 'One or more fields contained errors.',
             fields: {
-              email: [`A user with the e-mail address ${fields.email} already exists.`],
+              email: ['A user with this e-mail address already exists.'],
             },
           },
         };
