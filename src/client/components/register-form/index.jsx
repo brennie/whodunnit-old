@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 
+import {addMessage, dismissMessageByUniqueID} from '../message-list/actions';
 import {registerError, registerSubmit, setRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 
@@ -13,11 +14,22 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onRegister: (name, email, password, confirmPassword) => dispatch(registerSubmit(name, email, password)),
-  onValidateError: (errors) => dispatch(registerError(errors)),
   onFieldValueChanged: (fieldName, fieldValue) => dispatch(setRegisterFormValues({
     [fieldName]: fieldValue,
   })),
+  onRegister: (name, email, password, confirmPassword) => {
+    dispatch(dismissMessageByUniqueID('form-error'));
+    dispatch(registerSubmit(name, email, password));
+  },
+  onValidateError: (errors) => {
+    dispatch(registerError(errors));
+    dispatch(addMessage({
+      text: 'Please correct the errors below:',
+      type: 'error',
+      uniqueID: 'form-error',
+      userDismissable: false,
+    }));
+  },
 });
 
 const RegisterFormContainer = connect(

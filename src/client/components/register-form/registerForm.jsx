@@ -49,27 +49,22 @@ export default class RegisterForm extends React.Component {
     const submitClassName = this.props.disabled ? 'button--disabled' : 'button--primary';
 
     const fieldErrors = {};
-    let formHasErrors = false;
 
     for (const field of ['name', 'email', 'password', 'confirmPassword']) {
       const errs = Array.from((this.props.errors.get(field) || []).entries())
         .map(([i, err]) => <li key={`${field}-${i}`}>{err}</li>);
 
       if (errs.length) {
-        formHasErrors = true;
         fieldErrors[field] = <ul className="joined-fields__row__errors">{errs}</ul>;
       } else {
         fieldErrors[field] = null;
       }
     }
 
-    const errorText = formHasErrors ? <p className="errors">Please correct the errors below:</p> : null;
-
     return (
       <div className="register-form">
         <h2>Register</h2>
         <form onSubmit={e => this.onSubmit(e)}>
-          {errorText}
           <fieldset className="joined-fields">
             <div className="joined-fields__row">
               <input type="text"

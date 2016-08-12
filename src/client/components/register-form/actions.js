@@ -49,9 +49,26 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
     for (const field of Object.keys(rsp.error.fields)) {
       errors.set(field, rsp.error.fields[field]);
     }
+
     dispatch(registerError(errors));
-  } else {
-    dispatch(registerSuccess());
+    dispatch(addMessage({
+      text: 'Please correct the errors below:',
+      type: 'error',
+      uniqueID: 'form-error',
+      userDismissable: false,
     }));
+  } else {
+    dispatch(addMessage({
+      text: 'You have successfully registered',
+      timeout: 5 * 1000,
+    }));
+    dispatch(registerSuccess());
+    dispatch(setRegisterFormValues({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    }));
+    history.push('/login');
   }
 };
