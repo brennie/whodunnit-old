@@ -1,2 +1,14 @@
 $bg-color: #EEE;
 $primary-color: #654A8D;
+
+$error-bg-color: #FFBABA;
+$error-fg-color: #D8000C;
+
+$success-bg-color: #DFF2BF;
+$success-fg-color: #4F8A10;
+
+$info-bg-color: #BDE5F8;
+$info-fg-color: #00529B;
+
+$warning-bg-color: #FEEFB3;
+$warning-fg-color: #9F6000;

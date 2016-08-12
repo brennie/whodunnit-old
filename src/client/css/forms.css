@@ -2,7 +2,6 @@
 
 
 $input-border-radius: 7px;
-$input-error-color: #F00;
 $z-index-focus-input: 2;
 $z-index-error-bg: 3;
 $z-index-error-fg: 4;
@@ -44,10 +43,10 @@ fieldset.joined-fields {
 
   .joined-fields__row__errors {
     background: #333;
-    border: 1px solid $input-error-color;
+    border: 1px solid $error-fg-color;
     color: #FFF;
     display: none;
-    filter: drop-shadow(0 0 0.25rem $input-error-color);
+    filter: drop-shadow(0 0 0.25rem $error-fg-color);
     left: 100%;
     margin: 0;
     min-height: 2rem;
@@ -71,7 +70,7 @@ fieldset.joined-fields {
 
     &::before {
       border-width: 12px;
-      border-right-color: $input-error-color;
+      border-right-color: $error-fg-color;
       top: 50%;
       z-index: 10;
       margin-top: -12px;
@@ -119,7 +118,7 @@ input {
   }
 
   &.error {
-    color: $input-error-color;
+    color: $error-fg-color;
   }
 }
 
@@ -130,16 +129,16 @@ button {
   cursor: pointer;
 
   &.button--primary {
-    background-color: $primary-color;
+    background: $primary-color;
     color: #FFF;
 
     &:hover {
-      background-color: color($primary-color lightness(-10%));
+      background: color($primary-color lightness(-10%));
     }
   }
 
   &.button--disabled {
-    background-color: #DDD;
+    background: #DDD;
     color: #CCC;
   }
 }
