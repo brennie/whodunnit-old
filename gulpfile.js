@@ -192,6 +192,7 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     if (useBrowserSync && firstRun) {
       browserSync.init({
         proxy: `localhost:${appConfig.port}`,
+        open: false,
         notify: {
           styles: {
             top: 'auto',
