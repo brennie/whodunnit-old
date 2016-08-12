@@ -128,6 +128,10 @@ button {
   border-radius: $input-border-radius;
   cursor: pointer;
 
+  :focus {
+    outline: none;
+  }
+
   &.button--primary {
     background: $primary-color;
     color: #FFF;
@@ -140,6 +144,11 @@ button {
   &.button--disabled {
     background: #DDD;
     color: #CCC;
+  }
+
+  &.button--plain {
+    background: unset;
+    border: none;
   }
 }
 
