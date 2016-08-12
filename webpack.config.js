@@ -18,6 +18,7 @@ const config = {
     'babel-polyfill',
     'whatwg-fetch',
     'normalize.css',
+    path.join(__dirname, 'node_modules', 'font-awesome', 'css', 'font-awesome.css'),
     path.join(__dirname, 'src', 'client', 'index.jsx'),
   ],
 
@@ -26,7 +27,7 @@ const config = {
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
-          'style-loader', '!css-loader?sourceMap&importLoaders=1!postcss-loader'
+          'style-loader', '!css-loader?sourceMap&importLoaders=1&-url!postcss-loader'
         ),
       },
       {

@@ -66,8 +66,16 @@ gulp.task('build:client:js', done => {
   });
 });
 
+gulp.task('build:client:fonts', () => {
+  const dest = path.join(__dirname, 'dist', 'client', 'static', 'fonts');
+  return gulp
+    .src(path.join('node_modules', 'font-awesome', 'fonts', '*'))
+    .pipe(changed(dest))
+    .pipe(gulp.dest(dest));
+})
+
 /* Build the client. */
-gulp.task('build:client', gulp.parallel('build:client:html', 'build:client:js'));
+gulp.task('build:client', gulp.parallel('build:client:html', 'build:client:js', 'build:client:fonts'));
 
 /* Build the lib (for the server). */
 gulp.task('build:lib', () => {
@@ -118,7 +126,7 @@ gulp.task('build',
  * building the client JavaScript twice.
  */
 
-gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'), done => {
+gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html', 'build:client:fonts'), done => {
   let firstRun = true;
   let serverProc;
 
