@@ -1,15 +1,16 @@
+import {hashHistory as history} from 'react-router';
+
+import {addMessage} from '../message-list/actions';
+
+
 export const REGISTER_ERROR = 'REGISTER_ERROR';
-export const REGISTER_OK = 'REGISTER_OK';
-export const REGISTER_SUBMITTED = 'SUBMITTED';
+export const REGISTER_SUBMITTED = 'REGISTER_SUBMITTED';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const SET_REGISTER_FORM_VALUES = 'SET_REGISTER_FORM_VALUES'
 
 export const registerError = errors => ({
   type: REGISTER_ERROR,
   errors,
-});
-
-export const registerOK = user => ({
-  type: REGISTER_OK,
-  user,
 });
 
 export const registerSubmitted = (name, email, password) => ({
@@ -17,6 +18,10 @@ export const registerSubmitted = (name, email, password) => ({
   name,
   email,
   password
+});
+
+export const registerSuccess = () => ({
+  type: REGISTER_SUCCESS,
 });
 
 export const registerSubmit = (name, email, password) => async (dispatch) => {
@@ -41,10 +46,7 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
     }
     dispatch(registerError(errors));
   } else {
-    dispatch(registerOK({
-      id: rsp.user.id,
-      email,
-      name,
+    dispatch(registerSuccess());
     }));
   }
 };

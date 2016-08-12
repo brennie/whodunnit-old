@@ -1,14 +1,9 @@
-import {REGISTER_ERROR, REGISTER_OK, REGISTER_SUBMITTED} from './actions';
+import {REGISTER_ERROR, REGISTER_SUCCESS, REGISTER_SUBMITTED} from './actions';
 
 
 const defaultState = {
   disabled: false,
   errors: new Map(),
-  user: {
-    id: null,
-    email: null,
-    name: null,
-  },
 };
 
 const registerForm = (state=defaultState, action) => {
