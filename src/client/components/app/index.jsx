@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MessageListContainer from '../message-list';
 import NavBar from '../nav-bar';
 import './style.css';
 
@@ -7,6 +8,7 @@ import './style.css';
 const App = ({children}) => (
   <div id="app-container">
     <NavBar />
+    <MessageListContainer />
     <div className="content">{children}</div>
     <footer>
       <p>Made with &#9825; by <a href="https://github.com/brennie/">brennie</a>.</p>

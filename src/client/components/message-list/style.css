@@ -1,0 +1,70 @@
+@import "../../css/defs.css";
+
+
+#message-list-container {
+  display: flex;
+  justify-content: center;
+}
+
+.message-list {
+  border: 1px solid #000;
+  border-top: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  &:empty {
+    border: none;
+  }
+}
+
+.message-list__message {
+  justify-content: space-between;
+  display: flex;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+
+  &[data-message-type="error"] {
+    background: $error-bg-color;
+    color: $error-fg-color;
+  }
+
+  &[data-message-type="success"] {
+    background: $success-bg-color;
+    color: $success-fg-color;
+  }
+
+  &[data-message-type="warning"] {
+    background: $warning-bg-color;
+    color: $warning-fg-color;
+  }
+
+  &[data-message-type="info"] {
+    background: $info-bg-color;
+    color: $info-fg-color;
+  }
+}
+
+.message-list__message__dismiss-button {
+  align-self: center;
+  font-size: 1.2rem;
+  padding: 0;
+  line-height: 1rem;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus,
+  &:hover {
+    color: #222;
+  }
+
+}
+
+@media (min-width: 1000px) {
+  .message-list {
+    max-width: 1000px;
+  }
+}
