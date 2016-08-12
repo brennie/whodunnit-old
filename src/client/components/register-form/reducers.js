@@ -11,7 +11,6 @@ const defaultState = {
   },
 };
 
-
 const registerForm = (state=defaultState, action) => {
   switch (action.type) {
     case REGISTER_ERROR:
