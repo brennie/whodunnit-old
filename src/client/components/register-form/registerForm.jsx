@@ -24,11 +24,11 @@ export default class RegisterForm extends React.Component {
     const errors = new Map();
 
     if (!name.length) {
-      errors.set('name', ['This field is required.']);
+      errors.set('name', ['Name must be at least 6 characters.']);
     }
 
     if (password.length < 8) {
-      errors.set('password', ['Passwords must be at least 8 characters.']);
+      errors.set('password', ['Password must be at least 8 characters.']);
     }
 
     if (confirmPassword !== password) {
