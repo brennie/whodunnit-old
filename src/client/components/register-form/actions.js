@@ -66,6 +66,7 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
   } else {
     dispatch(addMessage({
       text: 'You have successfully registered',
+      type: 'success',
       timeout: 5 * 1000,
     }));
     dispatch(registerSuccess());
