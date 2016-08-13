@@ -116,14 +116,3 @@ export default class RegisterForm extends React.Component {
     this.props.onFieldValueChanged(fieldName, this._fields.get(fieldName).value);
   }
 };
-
-RegisterForm.defaultProps = {
-  disabled: false,
-  errors: new Map(),
-  formValues: new Map([
-    ['name', ''],
-    ['email', ''],
-    ['password', ''],
-    ['confirmPassword', ''],
-  ]),
-};
