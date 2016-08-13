@@ -44,19 +44,25 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
     .then(rsp => rsp.json());
 
   if (rsp.hasOwnProperty('error')) {
-    const errors = new Map();
+    if (rsp.error.hasOwnProperty('fields')) {
+      const errors = new Map(Object.entries(rsp.error.fields));
 
-    for (const field of Object.keys(rsp.error.fields)) {
-      errors.set(field, rsp.error.fields[field]);
+      dispatch(registerError(errors));
+      dispatch(addMessage({
+        text: 'Please correct the errors below:',
+        type: 'error',
+        uniqueID: 'form-error',
+        userDismissable: false,
+      }));
     }
-
-    dispatch(registerError(errors));
-    dispatch(addMessage({
-      text: 'Please correct the errors below:',
-      type: 'error',
-      uniqueID: 'form-error',
-      userDismissable: false,
-    }));
+    else {
+      dispatch(registerError());
+      dispatch(addMessage({
+        text: rsp.error.message || 'An unexpected error occurred.',
+        type: 'error',
+        userDismissable: true,
+      }));
+    }
   } else {
     dispatch(addMessage({
       text: 'You have successfully registered',

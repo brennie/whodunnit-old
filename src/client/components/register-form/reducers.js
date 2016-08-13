@@ -1,4 +1,4 @@
-import {REGISTER_ERROR, REGISTER_SUCCESS, REGISTER_SUBMITTED, SET_REGISTER_FORM_VALUES} from './actions';
+import {REGISTER_ERROR, REGISTER_SUBMITTED, REGISTER_SUCCESS, SET_REGISTER_FORM_VALUES} from './actions';
 
 
 const defaultState = {
@@ -14,11 +14,15 @@ const defaultState = {
 
 const registerForm = (state=defaultState, action) => {
   switch (action.type) {
-    case REGISTER_ERROR:
-      return Object.assign({}, state, {
-        disabled: false,
-        errors: action.errors,
-      });
+    case REGISTER_ERROR: {
+      const newState = Object.assign({}, state, {disabled: false});
+
+      if (action.hasOwnProperty('errors')) {
+        newState.errors = action.errors;
+      }
+
+      return newState;
+    }
 
     case REGISTER_SUCCESS:
       return Object.assign({}, state, {
