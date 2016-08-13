@@ -1,0 +1,21 @@
+#!/bin/bash
+# Lint the project before committing.
+set -euo pipefail
+exec 1>&2
+
+# In git version up to 2.8, `git rev-parse --git-common-dir` returns `.git`
+# when in a subdirectory of the main working tree. In git  2.8, it returns
+# `subdir/.git`. Neither of these cases are correct and we can use
+# `git rev-parse --git-dir` instead.
+GIT_DIR=$(git rev-parse --no-flags --git-common-dir)
+
+if [[ "${GIT_DIR}" = /* ]]; then
+    GIT_DIR=""
+fi
+
+if [[ -z "${GIT_DIR}" ]]; then
+    GIT_DIR=$(git rev-parse --git-dir)
+fi
+
+cd $GIT_DIR/..
+gulp lint
