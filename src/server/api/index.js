@@ -1,7 +1,6 @@
 import KoaRouter from 'koa-router';
 
-import { getUser, getUsers, createUser } from './user';
-
+import {getUser, getUsers, createUser} from './user';
 
 export default new KoaRouter()
   .prefix('/api')

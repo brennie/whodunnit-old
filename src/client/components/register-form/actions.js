@@ -24,12 +24,12 @@ export const registerSuccess = () => ({
   type: REGISTER_SUCCESS,
 });
 
-export const setRegisterFormValues = (values) => ({
+export const setRegisterFormValues = values => ({
   type: SET_REGISTER_FORM_VALUES,
   values,
 });
 
-export const registerSubmit = (name, email, password) => async (dispatch) => {
+export const registerSubmit = (name, email, password) => async dispatch => {
   dispatch(registerSubmitted(name, email, password));
 
   const headers = new Headers();

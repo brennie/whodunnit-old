@@ -1,25 +1,16 @@
-module.exports = {
+const baseConfig = require('../.eslintrc.js');
+
+
+module.exports = Object.assign({}, baseConfig, {
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
+    ...baseConfig.extends,
+    'plugin:react/recommended'
   ],
-  env: {
+  env: Object.assign({}, baseConfig.env, {
     browser: true,
-    es6: true,
-  },
-  parser: 'babel-eslint',
+  }),
   plugins: [
-    'react'
-  ],
-  rules: {
-    indent: ['error', 2, {
-      SwitchCase: 1,
-    }],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single', {
-      allowTemplateLiterals: true,
-      avoidEscape: true,
-    }],
-    semi: ['error', 'always'],
-  }
-};
+    ...baseConfig.plugins,
+    'react',
+  ]
+});

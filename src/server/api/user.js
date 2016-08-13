@@ -1,7 +1,7 @@
 import User from '../models/user';
 
 
-export const getUsers = async (ctx) => {
+export const getUsers = async ctx => {
   const results = await User
     .get(ctx.db);
 
@@ -15,7 +15,7 @@ export const getUsers = async (ctx) => {
 };
 
 
-export const getUser = async (ctx) => {
+export const getUser = async ctx => {
   const results = await User
     .get(ctx.db)
     .where('id', ctx.params.id);
@@ -41,7 +41,7 @@ export const getUser = async (ctx) => {
   };
 };
 
-export const createUser = async (ctx) => {
+export const createUser = async ctx => {
   const fields = Object.assign({}, ctx.request.body);
   const errors = User.validate(fields);
 
@@ -56,7 +56,7 @@ export const createUser = async (ctx) => {
     ctx.body = {
       error: {
         message: 'One or more fields contained errors.',
-        fields: fields,
+        fields,
       },
     };
 
@@ -70,7 +70,7 @@ export const createUser = async (ctx) => {
         ctx.status = 201;
         ctx.body = {
           user: {
-            id: id,
+            id,
             email: fields.email,
             name: fields.name,
           },

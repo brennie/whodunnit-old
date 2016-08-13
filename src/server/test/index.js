@@ -6,6 +6,7 @@ import tapes from 'tapes';
 import addAssertions from 'extend-tape';
 
 import App from '../app';
+import apiSessionTestSuite from './api/session';
 import apiUserTestSuite from './api/user';
 
 
@@ -20,6 +21,7 @@ const test = tapes(addAssertions(tape, {
 
 const suites = {
   'api/user': apiUserTestSuite,
+  'api/session': apiSessionTestSuite,
 };
 
 for (const [name, suite] of Object.entries(suites)) {
@@ -51,6 +53,9 @@ for (const [name, suite] of Object.entries(suites)) {
       t.end();
     });
 
+    /* Wrap t.test() in a function that passes t and a context object containing
+     * the database and app.
+     */
     suite((spec, f) => t.test(spec, t => f(t, {db, app})));
     t.end();
   });

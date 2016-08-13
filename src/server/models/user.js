@@ -42,7 +42,7 @@ const create = (db, fields={}) => {
     });
 };
 
-const get = (db) => (
+const get = db => (
   db.select().from('users')
 );
 
