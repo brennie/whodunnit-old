@@ -8,4 +8,6 @@ export default class Home extends React.Component {
   componentWillMount() {
     this.props.replaceHistory('/login');
   }
+
+  render() {}
 }
