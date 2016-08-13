@@ -72,7 +72,7 @@ gulp.task('build:client:fonts', () => {
     .src(path.join('node_modules', 'font-awesome', 'fonts', '*'))
     .pipe(changed(dest))
     .pipe(gulp.dest(dest));
-})
+});
 
 /* Build the client. */
 gulp.task('build:client', gulp.parallel('build:client:html', 'build:client:js', 'build:client:fonts'));

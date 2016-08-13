@@ -43,4 +43,4 @@ export const validateUser = user => {
   }
 
   return errors;
-}
+};

@@ -103,9 +103,9 @@ input {
   &[type="checkbox"]:focus {
     box-shadow: 0 0 8px color($primary-color a(25%));
     filter: drop-shadow(-1px -1px 0px color($primary-color a(50%)))
-            drop-shadow(-1px  1px 0px color($primary-color a(50%)))
-            drop-shadow( 1px -1px 0px color($primary-color a(50%)))
-            drop-shadow( 1px  1px 0px color($primary-color a(50%)));
+      drop-shadow(-1px  1px 0px color($primary-color a(50%)))
+      drop-shadow( 1px -1px 0px color($primary-color a(50%)))
+      drop-shadow( 1px  1px 0px color($primary-color a(50%)));
   }
 
   &:focus {

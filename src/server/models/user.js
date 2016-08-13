@@ -35,7 +35,7 @@ const create = (db, fields={}) => {
     .then(([id]) => id)
     .catch(err => {
       if (isUniqueConstraintError(err)) {
-        return null
+        return null;
       } else {
         throw err;
       }
