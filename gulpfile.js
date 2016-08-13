@@ -201,7 +201,19 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
         },
       });
     } else if (useBrowserSync) {
-      browserSync.reload();
+      /* We only need to do a full reload if we've built any non-css files.
+       * Otherwise, we can just tell BrowserSync to inject the compiled CSS.
+       */
+      const needFullReload = stats
+        .compilation
+        .modules
+        .some(module => module.build &&module.resource && !module.resource.match(/\.css(\.map)?$/));
+
+      if (needFullReload) {
+        browserSync.reload();
+      } else {
+        browserSync.reload('*.css');
+      }
     }
 
     firstRun = false;
