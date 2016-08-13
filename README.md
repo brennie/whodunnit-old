@@ -43,6 +43,9 @@ follows:
 }
 ```
 
+Currently, the only support database for production usage is PostgreSQL. SQLite
+is only recommended for testing.
+
 
 ## Building & Running
 
