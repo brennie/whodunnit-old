@@ -1,7 +1,8 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 
-import api from './api/';
+import api from './api';
+import log from './log';
 
 
 const App = (...middleware) => {
@@ -16,9 +17,15 @@ const App = (...middleware) => {
       try {
         await next();
       } catch (err) {
+        log.error('An unexpected error occurred:');
+        log.error(err);
+
         ctx.status = 500;
-        ctx.body = err.message || 'An unexpected error occurred';
-        ctx.app.emit('error', err, ctx);
+        ctx.body = {
+          error: {
+            message: 'An unexpected error occurred',
+          },
+        };
       }
     })
     .use(bodyParser({
