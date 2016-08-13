@@ -9,21 +9,26 @@ export const DISMISS_MESSAGE = 'DISMISS_MESSAGE';
 /**
  * Add a message.
  *
- * @param {Object} options The action options.
- * @param {string} options.text The message text.
- * @param {string} options.type The message type. This will be added to the
+ * @param {string} [id] An optional unique identifier for the message. If this
+          is not provided (or is provided and is not a string), the message will
+          be assigned a unique integer for its ID.
+ * @param {string} text The message text.
+ * @param {string} type The message type. This will be added to the
  *        message as the `data-message-type` attribute on the element in the
  *        DOM.
- * @param {int} [options.timeout] The timeout before the message is
- *        automatically dismissed. If not provided, the message will not be
- *        automatically dismissed.
- * @param {boolean} [options.userDismissable=true] Whether or not the user can
- *        dismiss the message.
+ * @param {int} [timeout] The timeout before the message is automatically
+ *        dismissed. If not provided, the message will not be automatically
+ *        dismissed.
+ * @param {boolean} [userDismissable=true] Whether or not the user can dismiss
+ *        the message.
  *
  * @returns {function(dispatch: function)} The action (as a thunk).
  */
-export const addMessage = ({text, type, uniqueID, timeout, userDismissable}) => async dispatch => {
-  const id = nextMessageID++;
+export const addMessage = ({id, text, type, timeout, userDismissable}) => async dispatch => {
+  if (id === undefined || typeof id !== 'string') {
+    id = nextMessageID++;
+  }
+
   userDismissable = userDismissable !== false;
 
   dispatch({
@@ -32,7 +37,6 @@ export const addMessage = ({text, type, uniqueID, timeout, userDismissable}) => 
     message: {
       text,
       type,
-      uniqueID,
       userDismissable,
     },
   });
@@ -53,16 +57,4 @@ export const addMessage = ({text, type, uniqueID, timeout, userDismissable}) => 
 export const dismissMessage = id => ({
   type: DISMISS_MESSAGE,
   id,
-});
-
-/**
- * Dismiss a message by its unique ID.
- *
- * @param {string} uniqueID The message's unique ID.
- *
- * @returns {Object} The dismiss action.
- */
-export const dismissMessageByUniqueID = uniqueID => ({
-  type: DISMISS_MESSAGE,
-  uniqueID,
 });

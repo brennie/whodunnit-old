@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 
-import {addMessage, dismissMessageByUniqueID} from '../message-list/actions';
+import {addMessage} from '../message-list/actions';
 import {registerError, registerSubmit, setRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 
@@ -18,15 +18,15 @@ const mapDispatchToProps = dispatch => ({
     [fieldName]: fieldValue,
   })),
   onRegister: (name, email, password, confirmPassword) => {
-    dispatch(dismissMessageByUniqueID('form-error'));
+    dispatch(dismissMessage('form-error'));
     dispatch(registerSubmit(name, email, password));
   },
   onValidateError: (errors) => {
     dispatch(registerError(errors));
     dispatch(addMessage({
+      id: 'register-form-error',
       text: 'Please correct the errors below:',
       type: 'error',
-      uniqueID: 'form-error',
       userDismissable: false,
     }));
   },

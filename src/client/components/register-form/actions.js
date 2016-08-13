@@ -49,9 +49,9 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
 
       dispatch(registerError(errors));
       dispatch(addMessage({
+        id: 'register-form-error',
         text: 'Please correct the errors below:',
         type: 'error',
-        uniqueID: 'form-error',
         userDismissable: false,
       }));
     }

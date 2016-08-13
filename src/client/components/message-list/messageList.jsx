@@ -3,16 +3,13 @@ import React from 'react';
 import './style.css';
 
 
-const MessageList = ({messages, dismissMessage, dismissMessageByUniqueID}) => {
+const MessageList = ({messages, dismissMessage}) => {
   const children = [];
 
   for (const [id, message] of messages.entries()) {
-    const onClickDismiss = message.uniqueID !== undefined
-      ? (e) => dismissMessageByUniqueID(message.uniqueID)
-      : (e) => dismissMessage(id);
-
     const dismissIcon = (
-      <button className="button--plain message-list__message__dismiss-button" onClick={onClickDismiss}>
+      <button className="button--plain message-list__message__dismiss-button"
+              onClick={e => dismissMessage(id)}>
         <span className="fa fa-times" />
       </button>
     );
