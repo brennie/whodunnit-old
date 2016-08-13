@@ -66,17 +66,16 @@ export const createUser = async (ctx) => {
   await User
     .create(ctx.db, fields)
     .then(id => {
-      ctx.status = 201;
-      ctx.body = {
-        user: {
-          id: id,
-          email: fields.email,
-          name: fields.name,
-        },
-      };
-    })
-    .catch(err => {
-      if (err.code === 'SQLITE_CONSTRAINT') {
+      if (id !== null) {
+        ctx.status = 201;
+        ctx.body = {
+          user: {
+            id: id,
+            email: fields.email,
+            name: fields.name,
+          },
+        };
+      } else {
         ctx.status = 400;
         ctx.body = {
           error: {
@@ -86,8 +85,6 @@ export const createUser = async (ctx) => {
             },
           },
         };
-      } else {
-        ctx.throw();
       }
     });
 };
