@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {IndexRoute, Route, Router, hashHistory} from 'react-router';
+import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import {applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import App from './components/app';
+import LoginForm from './components/login-form';
 import messageList from './components/message-list/reducers';
+import RegisterForm from './components/register-form';
 import registerForm from './components/register-form/reducers';
-import Router from './components/router';
 import createStore from './createStore';
 import './css/reset.css';
 import './style.css';
@@ -14,15 +18,23 @@ import './style.css';
 
 const reducer = combineReducers({
   messageList,
-  registerForm
+  registerForm,
+  routing: routerReducer,
 });
 
-const state = createStore(reducer, {}, applyMiddleware(thunkMiddleware));
+const store = createStore(reducer, {}, applyMiddleware(thunkMiddleware));
+const history = syncHistoryWithStore(hashHistory, store);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Provider store={state}>
-      <Router />
+    <Provider store={store}>
+      <Router history={hashHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={LoginForm} />
+          <Route path="login" component={LoginForm} />
+          <Route path="register" component={RegisterForm} />
+        </Route>
+      </Router>
     </Provider>,
     document.getElementById('container'));
 });
