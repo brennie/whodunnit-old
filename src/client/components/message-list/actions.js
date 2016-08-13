@@ -21,10 +21,12 @@ export const DISMISS_MESSAGE = 'DISMISS_MESSAGE';
  *        dismissed.
  * @param {boolean} [userDismissable=true] Whether or not the user can dismiss
  *        the message.
+ * @param {string} [appliesTo] An optional location that this message only
+ *        applies to. The message will not be shown for any other locations.
  *
  * @returns {function(dispatch: function)} The action (as a thunk).
  */
-export const addMessage = ({id, text, type, timeout, userDismissable}) => async dispatch => {
+export const addMessage = ({id, text, type, timeout, userDismissable, appliesTo}) => async dispatch => {
   if (id === undefined || typeof id !== 'string') {
     id = nextMessageID++;
   }
@@ -35,6 +37,7 @@ export const addMessage = ({id, text, type, timeout, userDismissable}) => async 
     type: ADD_MESSAGE,
     id,
     message: {
+      appliesTo,
       text,
       type,
       userDismissable,

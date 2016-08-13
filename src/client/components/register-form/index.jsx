@@ -24,6 +24,7 @@ const mapDispatchToProps = dispatch => ({
   onValidateError: (errors) => {
     dispatch(registerError(errors));
     dispatch(addMessage({
+      appliesTo: '/register',
       id: 'register-form-error',
       text: 'Please correct the errors below:',
       type: 'error',
