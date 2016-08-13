@@ -1,55 +1,11 @@
-import 'babel-polyfill';
-
-import knex from 'knex';
 import request from 'supertest-as-promised';
-import tape from 'tape-async';
-import tapes from 'tapes';
-import addAssertions from 'extend-tape';
 
-import App from '../../app';
 import User from '../../models/user';
 
 
-const test = tapes(addAssertions(tape, {
-  isSetEqual(xs, ys) {
-    this.is(xs.size, ys.size);
-    for (const x of xs) {
-      this.ok(ys.has(x));
-    }
-  }
-}));
-
-
-test('/api/user', t => {
-  let app;
-  let db;
-
-  t.beforeEach(async t => {
-    db = knex({
-      client: 'sqlite3',
-      connection: ':memory:',
-      useNullAsDefault: true,
-    });
-
-    app = App((ctx, next) => {
-      ctx.db = db;
-      return next();
-    });
-
-    await db
-      .migrate
-      .latest({table: 'migrations'});
-
-    t.end();
-  });
-
-  t.afterEach(t => {
-    db.destroy();
-    t.end();
-  });
-
-  t.test('GET /api/user with no results', async t => {
-    const rsp = await request(app.callback())
+const apiUserTestSuite = test => {
+  test('GET /api/user with no results', async (t, ctx) => {
+    const rsp = await request(ctx.app.callback())
       .get('/api/user');
 
     t.is(rsp.status, 200);
@@ -61,14 +17,14 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('GET /api/user with one result', async t => {
-    const id = await User.create(db, {
+  test('GET / with one result', async (t, ctx) => {
+    const id = await User.create(ctx.db, {
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
     });
 
-    const rsp = await request(app.callback())
+    const rsp = await request(ctx.app.callback())
       .get('/api/user');
 
     t.is(rsp.status, 200);
@@ -83,14 +39,14 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('GET /api/user/:id', async t => {
-    const id = await User.create(db, {
+  test('GET /:id', async (t, ctx) => {
+    const id = await User.create(ctx.db, {
       name: 'Example user',
       email: 'email@example.com',
       password: 'password'
     });
 
-    const rsp = await request(app.callback())
+    const rsp = await request(ctx.app.callback())
       .get(`/api/user/${id}`);
 
     t.is(rsp.status, 200);
@@ -103,8 +59,8 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('GET /api/user/:id with invalid ID', async t => {
-    const rsp = await request(app.callback())
+  test('GET /:id with invalid ID', async (t, ctx) => {
+    const rsp = await request(ctx.app.callback())
       .get('/api/user/1');
 
     t.is(rsp.status, 404);
@@ -117,8 +73,8 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('POST /api/user with valid data', async t => {
-    const rsp = await request(app.callback())
+  test('POST / with valid data', async (t, ctx) => {
+    const rsp = await request(ctx.app.callback())
       .post('/api/user')
       .send({
         password: 'password',
@@ -137,8 +93,8 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('POST /api/user with invalid password', async t => {
-    const rsp = await request(app.callback())
+  test('POST / with invalid password', async (t, ctx) => {
+    const rsp = await request(ctx.app.callback())
       .post('/api/user')
       .send({
         password: 'foo',
@@ -152,8 +108,8 @@ test('/api/user', t => {
     t.end();
   });
 
-  t.test('POST /api/user with missing fields', async t => {
-    const rsp = await request(app.callback())
+  test('POST / with missing fields', async (t, ctx) => {
+    const rsp = await request(ctx.app.callback())
       .post('/api/user')
       .send({});
 
@@ -168,6 +124,6 @@ test('/api/user', t => {
     t.is(2, rsp.body.error.fields.password.length);
     t.end();
   });
+};
 
-  t.end();
-});
+export default apiUserTestSuite;

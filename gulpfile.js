@@ -326,12 +326,12 @@ gulp.task('test:server', gulp.series('build:server', () => {
   const tape = require('gulp-tape');
   const tapeConfig = {};
 
-  if (!process.env.hasOwnProperty('CIRCLE_BUILD_NUM')) {
+  if (!process.env.hasOwnProperty('CI')) {
     tapeConfig.reporter = require('faucet')();
   }
 
   return gulp
-    .src('dist/server/**/test/*.js')
+    .src('dist/server/test/index.js')
     .pipe(tape(tapeConfig));
 }));
 
