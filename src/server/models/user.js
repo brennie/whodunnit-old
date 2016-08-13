@@ -9,7 +9,7 @@ const create = (db, fields={}) => {
     .createHash('sha256')
     .update(salt, 'binary')
     .update(fields.password)
-    .digest();
+    .digest('hex');
 
   return db
     .insert({
