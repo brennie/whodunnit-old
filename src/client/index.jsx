@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {IndexRoute, Route, Router, hashHistory} from 'react-router';
-import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
+import {routerMiddleware, routerReducer, syncHistoryWithStore} from 'react-router-redux';
 import {applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -22,13 +22,20 @@ const reducer = combineReducers({
   routing: routerReducer,
 });
 
-const store = createStore(reducer, {}, applyMiddleware(thunkMiddleware));
+const store = createStore(
+  reducer,
+  {},
+  applyMiddleware(
+    thunkMiddleware,
+    routerMiddleware(hashHistory)
+  )
+);
 const history = syncHistoryWithStore(hashHistory, store);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
-      <Router history={hashHistory}>
+      <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={LoginForm} />
           <Route path="login" component={LoginForm} />

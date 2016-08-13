@@ -1,4 +1,4 @@
-import {hashHistory as history} from 'react-router';
+import {push as pushHistory} from 'react-router-redux';
 
 import {addMessage} from '../message-list/actions';
 
@@ -76,6 +76,6 @@ export const registerSubmit = (name, email, password) => async (dispatch) => {
       password: '',
       confirmPassword: '',
     }));
-    history.push('/login');
+    dispatch(pushHistory('/login'));
   }
 };
