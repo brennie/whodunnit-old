@@ -221,14 +221,18 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
 
   gulp
     .watch(`${SERVER_SRC}/**/*.js`)
-    .on('change', gulp.series('build:server', () => stopServer(startServer)));
+    .on('change', gulp.series('build:server', done => stopServer(() => {
+      startServer();
+      done();
+    })));
 
   gulp
     .watch(`${CLIENT_SRC}/**/*.js`)
-    .on('change', gulp.series('build:client:html', () => {
+    .on('change', gulp.series('build:client:html', done => {
       if (useBrowserSync) {
         browserSync.reload();
       }
+      done();
     }));
 }));
 
