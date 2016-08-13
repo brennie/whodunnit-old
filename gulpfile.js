@@ -197,6 +197,7 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
           styles: {
             top: 'auto',
             bottom: 0,
+            'borderBottomLeftRadius': 'none',
           },
         },
       });
