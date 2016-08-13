@@ -7,6 +7,7 @@ import {applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './components/app';
+import Home from './components/home';
 import LoginForm from './components/login-form';
 import messageList from './components/message-list/reducers';
 import RegisterForm from './components/register-form';
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={App}>
-          <IndexRoute component={LoginForm} />
+          <IndexRoute component={Home} />
           <Route path="login" component={LoginForm} />
           <Route path="register" component={RegisterForm} />
         </Route>
