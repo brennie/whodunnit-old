@@ -13,11 +13,8 @@ export const registerError = errors => ({
   errors,
 });
 
-export const registerSubmitted = (name, email, password) => ({
+export const registerSubmitted = () => ({
   type: REGISTER_SUBMITTED,
-  name,
-  email,
-  password
 });
 
 export const registerSuccess = () => ({
@@ -30,7 +27,7 @@ export const setRegisterFormValues = values => ({
 });
 
 export const registerSubmit = (name, email, password) => async dispatch => {
-  dispatch(registerSubmitted(name, email, password));
+  dispatch(registerSubmitted());
 
   const headers = new Headers();
   headers.append('Content-type', 'application/json');
@@ -66,7 +63,7 @@ export const registerSubmit = (name, email, password) => async dispatch => {
     }
   } else {
     dispatch(addMessage({
-      text: 'You have successfully registered',
+      text: 'You have successfully registered.',
       type: 'success',
       timeout: 5 * 1000,
     }));

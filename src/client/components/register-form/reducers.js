@@ -17,7 +17,7 @@ const registerForm = (state=defaultState, action) => {
     case REGISTER_ERROR: {
       const newState = Object.assign({}, state, {disabled: false});
 
-      if (action.hasOwnProperty('errors')) {
+      if (action.errors !== undefined) {
         newState.errors = action.errors;
       }
 
