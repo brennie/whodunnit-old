@@ -23,9 +23,19 @@ const argParser = yargs
   .boolean('disable-browsersync');
 
 const args = argParser.argv;
-const useBrowserSync = !args.disableBrowsersync;
-const browserSync = useBrowserSync ? require('browser-sync').create() : null;
 
+let useBrowserSync = !args.disableBrowsersync;
+let browserSync = null;
+
+if (useBrowserSync) {
+  try {
+    const bs = require('browser-sync');
+    browserSync = bs.create();
+  } catch (e) {
+    gutil.log('Could not import browser-sync');
+    useBrowserSync = false;
+  }
+}
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -190,9 +200,9 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     }));
 
     if (useBrowserSync && firstRun) {
+      const connectHistoryApiFallback = require('connect-history-api-fallback');
       browserSync.init({
-        proxy: `localhost:${appConfig.port}`,
-        open: false,
+        middleware: [connectHistoryApiFallback()],
         notify: {
           styles: {
             top: 'auto',
@@ -200,6 +210,8 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
             'borderBottomLeftRadius': 'none',
           },
         },
+        open: false,
+        proxy: `localhost:${appConfig.port}`,
       });
     } else if (useBrowserSync) {
       /* We only need to do a full reload if we've built any non-css files.

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {IndexRoute, Route, Router, hashHistory} from 'react-router';
+import {browserHistory, IndexRoute, Route, Router} from 'react-router';
 import {routerMiddleware, routerReducer, syncHistoryWithStore} from 'react-router-redux';
 import {applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -28,10 +28,10 @@ const store = createStore(
   {},
   applyMiddleware(
     thunkMiddleware,
-    routerMiddleware(hashHistory)
+    routerMiddleware(browserHistory)
   )
 );
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(browserHistory, store);
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(

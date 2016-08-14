@@ -83,6 +83,7 @@
   },
   "optionalDependencies": {
     "browser-sync": "^2.14.0",
+    "connect-history-api-fallback": "^1.3.0",
     "faucet": "0.0.1"
   }
 }
