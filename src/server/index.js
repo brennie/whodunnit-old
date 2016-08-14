@@ -14,7 +14,7 @@ import config from '../../config';
 
 
 const db = knex(config.db);
-const app = App(
+const app = App(config.secrets, [
   async ({request}, next) => {
     log.info(`${request.method} "${request.url}" from ${request.ip}`);
     await next();
@@ -23,7 +23,7 @@ const app = App(
     ctx.db = db;
     return next();
   }
-);
+]);
 
 if (process.env.NODE_ENV === 'development') {
   const clientRoot = path.join(__dirname, '..', 'client');

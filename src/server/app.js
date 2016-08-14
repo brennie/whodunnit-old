@@ -7,7 +7,16 @@ import api from './api';
 import log from './log';
 
 
-const App = (...middleware) => {
+/**
+ * Create a new whodunnit app instance.
+ *
+ * @param {string[]} secret The signing keys for the server.
+ * @param {function[]} middleware The middleware to inject into the app. It
+ *        will be injected after the error handling middleware.
+ *
+ * @returns {Koa} The app instance.
+ */
+const App = (secrets, middleware) => {
   const app = new Koa()
     .use(async (ctx, next) => {
       try {
@@ -25,18 +34,17 @@ const App = (...middleware) => {
       }
     });
 
-  for (let m of middleware) {
+  for (const m of middleware) {
     app.use(m);
   }
+
+  app.keys = [...secrets];
 
   return app
     .use(bodyParser({
       enableTypes: ['json'],
     }))
-    .use(convert(session({
-      key: 'session',
-    },
-    app)))
+    .use(convert(session({key: 'session'}, app)))
     .use(api.routes())
     .use(api.allowedMethods());
 };

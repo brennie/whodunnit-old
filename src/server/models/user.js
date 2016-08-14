@@ -3,6 +3,24 @@ import crypto from 'crypto';
 import {validateUser} from 'lib/models/user';
 import {isUniqueConstraintError} from '../db';
 
+
+/* Hash the password using the given salt.
+ *
+ * SHA 256 is used to generate the hash.
+ *
+ * @params {buffer} salt A 8-byte binary salt.
+ * @params {string} password The password to hash.
+ *
+ * @returns {string} A hex digest of the hashed password and salt.
+ */
+export const hashPassword = (salt, password) => (
+  crypto
+    .createHash('sha256')
+    .update(salt, 'binary')
+    .update(password)
+    .digest('hex')
+);
+
 /**
  * Create a new user in the database.
  *
@@ -18,11 +36,7 @@ import {isUniqueConstraintError} from '../db';
  */
 const create = (db, fields={}) => {
   const salt = crypto.randomBytes(8);
-  const passHash = crypto
-    .createHash('sha256')
-    .update(salt, 'binary')
-    .update(fields.password)
-    .digest('hex');
+  const passHash = hashPassword(salt, fields.password);
 
   return db
     .insert({
@@ -43,7 +57,9 @@ const create = (db, fields={}) => {
 };
 
 const get = db => (
-  db.select().from('users')
+  db
+    .select()
+    .from('users')
 );
 
 export default {

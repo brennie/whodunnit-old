@@ -3,9 +3,9 @@ import request from 'supertest-as-promised';
 import User from '../../models/user';
 
 
-const apiUserTestSuite = test => {
-  test('GET /api/user with no results', async (t, ctx) => {
-    const rsp = await request(ctx.app.callback())
+const apiUserTestSuite = t => {
+  t.test('GET / with no results', async (t, {app}) => {
+    const rsp = await request(app.callback())
       .get('/api/user');
 
     t.is(rsp.status, 200);
@@ -17,14 +17,14 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('GET / with one result', async (t, ctx) => {
-    const id = await User.create(ctx.db, {
+  t.test('GET / with one result', async (t, {app, db}) => {
+    const id = await User.create(db, {
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
     });
 
-    const rsp = await request(ctx.app.callback())
+    const rsp = await request(app.callback())
       .get('/api/user');
 
     t.is(rsp.status, 200);
@@ -39,14 +39,14 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('GET /:id', async (t, ctx) => {
-    const id = await User.create(ctx.db, {
+  t.test('GET /:id', async (t, {app, db}) => {
+    const id = await User.create(db, {
       name: 'Example user',
       email: 'email@example.com',
       password: 'password'
     });
 
-    const rsp = await request(ctx.app.callback())
+    const rsp = await request(app.callback())
       .get(`/api/user/${id}`);
 
     t.is(rsp.status, 200);
@@ -59,8 +59,8 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('GET /:id with invalid ID', async (t, ctx) => {
-    const rsp = await request(ctx.app.callback())
+  t.test('GET /:id with invalid ID', async (t, {app}) => {
+    const rsp = await request(app.callback())
       .get('/api/user/1');
 
     t.is(rsp.status, 404);
@@ -73,8 +73,8 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('POST / with valid data', async (t, ctx) => {
-    const rsp = await request(ctx.app.callback())
+  t.test('POST / with valid data', async (t, {app}) => {
+    const rsp = await request(app.callback())
       .post('/api/user')
       .send({
         password: 'password',
@@ -93,8 +93,8 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('POST / with invalid password', async (t, ctx) => {
-    const rsp = await request(ctx.app.callback())
+  t.test('POST / with invalid password', async (t, {app}) => {
+    const rsp = await request(app.callback())
       .post('/api/user')
       .send({
         password: 'foo',
@@ -108,8 +108,8 @@ const apiUserTestSuite = test => {
     t.end();
   });
 
-  test('POST / with missing fields', async (t, ctx) => {
-    const rsp = await request(ctx.app.callback())
+  t.test('POST / with missing fields', async (t, {app}) => {
+    const rsp = await request(app.callback())
       .post('/api/user')
       .send({});
 
@@ -124,6 +124,8 @@ const apiUserTestSuite = test => {
     t.is(2, rsp.body.error.fields.password.length);
     t.end();
   });
+
+  t.end();
 };
 
 export default apiUserTestSuite;

@@ -30,7 +30,6 @@ follows:
 
 ```javascript
 {
-  port: '9999',              // The port to run the server on.
   db: {
     client: "pg",            // The SQL client.
     connection: {
@@ -40,6 +39,8 @@ follows:
       port: 5432,            // Database port.
     },
   },
+  port: '9999',              // The port to run the server on.
+  secrets: ['secret'],       // Secret keys for signing cookies.
 }
 ```
 
