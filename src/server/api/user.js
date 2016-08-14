@@ -1,3 +1,4 @@
+import {objectFrom} from 'lib/functional';
 import User from '../models/user';
 
 
@@ -42,21 +43,15 @@ export const getUser = async ctx => {
 };
 
 export const createUser = async ctx => {
-  const fields = Object.assign({}, ctx.request.body);
-  const errors = User.validate(fields);
+  const fields = ctx.request.body;
+  const fieldErrors = User.validate(fields);
 
-  if (errors.size) {
+  if (fieldErrors.size) {
     ctx.status = 400;
-    const fields = {};
-
-    for (const [field, messages] of errors.entries()) {
-      fields[field] = messages;
-    }
-
     ctx.body = {
       error: {
         message: 'One or more fields contained errors.',
-        fields,
+        fields: objectFrom(fieldErrors.entries()),
       },
     };
 
