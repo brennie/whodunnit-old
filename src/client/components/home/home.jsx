@@ -9,5 +9,7 @@ export default class Home extends React.Component {
     this.props.replaceHistory('/login');
   }
 
-  render() {}
+  render() {
+    return null;
+  }
 }
