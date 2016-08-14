@@ -52,7 +52,6 @@
     "eslint-plugin-react": "^5.2.2",
     "extend-tape": "^1.2.0",
     "extract-text-webpack-plugin": "^1.0.1",
-    "faucet": "0.0.1",
     "font-awesome": "^4.6.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^6.1.2",
@@ -82,6 +81,7 @@
     "yargs": "^4.8.1"
   },
   "optionalDependencies": {
-    "browser-sync": "^2.14.0"
+    "browser-sync": "^2.14.0",
+    "faucet": "0.0.1"
   }
 }

@@ -327,7 +327,9 @@ gulp.task('test:server', gulp.series('build:server', () => {
   const tapeConfig = {};
 
   if (!process.env.hasOwnProperty('CI')) {
-    tapeConfig.reporter = require('faucet')();
+    try {
+      tapeConfig.reporter = require('faucet')();
+    } catch (e) {}
   }
 
   return gulp
