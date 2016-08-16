@@ -5,8 +5,6 @@ import {validateUser} from 'lib/models/user';
 import './style.css';
 
 
-const emailRegex = /^.+@.+\..+$/;
-
 export default class RegisterForm extends React.Component {
   static propTypes = {
     setFormErrors: React.PropTypes.func.isRequired,

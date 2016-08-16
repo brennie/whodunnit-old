@@ -19,7 +19,7 @@ export const validateUser = user => {
   }
 
   if (name === undefined) {
-    setDefault(errors, 'name', []).push('This field is required');
+    errors.set('name', ['This field is required.']);
   }
 
   if ((name || '').length < 6) {
@@ -27,7 +27,7 @@ export const validateUser = user => {
   }
 
   if (email === undefined) {
-    setDefault(errors, 'email', []).push('This field is required');
+    errors.set('email', ['This field is required.']);
   }
 
   if (!emailRegex.test(email || '')) {
@@ -35,11 +35,11 @@ export const validateUser = user => {
   }
 
   if (password === undefined) {
-    setDefault(errors, 'password', []).push('This field is required.');
+    errors.set('password', ['This field is required.']);
   }
 
   if ((password || '').length < 8) {
-    setDefault(errors, 'password', []).push('Password must be at least 8 characters long');
+    setDefault(errors, 'password', []).push('Password must be at least 8 characters long.');
   }
 
   return errors;
