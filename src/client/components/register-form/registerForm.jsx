@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Form, Field, ErrorList} from 'client/components/base/form';
+import {ErrorList, Field, Form, Label} from 'client/components/base/form';
 import {validateUser} from 'lib/models/user';
 import './style.css';
 
@@ -49,8 +49,8 @@ export default class RegisterForm extends React.Component {
 
   render() {
     const {disabled, values, errors, setFieldValue} = this.props;
-
     const submitClassName = disabled ? 'button--disabled' : 'button--primary';
+
     return (
       <div className="register-form">
         <h2>Register</h2>
@@ -61,30 +61,46 @@ export default class RegisterForm extends React.Component {
               setFieldValue={setFieldValue}>
           <fieldset className="joined-fields">
             <div className="joined-fields__row">
+              <Label htmlFor="register-form-name-field"
+                     text="Name"
+                     fieldName="name">
                 <Field name="name"
                        type="text"
-                       placeholder="Name" />
-                <ErrorList fieldName="name" className="joined-fields__row__errors" />
-              </div>
-              <div className="joined-fields__row">
+                       id="register-form-name-field" />
+              </Label>
+              <ErrorList fieldName="name" className="joined-fields__row__errors" />
+            </div>
+            <div className="joined-fields__row">
+              <Label htmlFor="register-form-email-field"
+                     text="E-mail Address"
+                     fieldName="email">
                 <Field name="email"
                        type="text"
-                       placeholder="E-mail Address"
-                       inputMode="email" />
-                <ErrorList fieldName="email" className="joined-fields__row__errors" />
-              </div>
-              <div className="joined-fields__row">
+                       inputMode="email"
+                       id="register-form-email-field" />
+              </Label>
+              <ErrorList fieldName="email" className="joined-fields__row__errors" />
+            </div>
+            <div className="joined-fields__row">
+              <Label htmlFor="register-form-password-field"
+                     text="Password"
+                     fieldName="password">
                 <Field name="password"
                        type="password"
-                       placeholder="Password" />
-                <ErrorList fieldName="password" className="joined-fields__row__errors" />
-              </div>
-              <div className="joined-fields__row">
+                       id="register-form-password-field" />
+              </Label>
+              <ErrorList fieldName="password" className="joined-fields__row__errors" />
+            </div>
+            <div className="joined-fields__row">
+              <Label htmlFor="register-form-confirmPassword-field"
+                     text="Confirm Password"
+                     fieldName="confirmPassword">
                 <Field name="confirmPassword"
                        type="password"
-                       placeholder="Confirm Password" />
-                <ErrorList fieldName="confirmPassword" className="joined-fields__row__errors" />
-              </div>
+                       id="register-form-confirmPassword-field "/>
+              </Label>
+              <ErrorList fieldName="confirmPassword" className="joined-fields__row__errors" />
+            </div>
           </fieldset>
           <input type="submit" value="Register" className={submitClassName} />
         </Form>

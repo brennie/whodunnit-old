@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ErrorList, Field, Form} from 'client/components/base/form';
+import {ErrorList, Field, Form, Label} from 'client/components/base/form';
 import {validateEmail} from 'lib/models/user';
 import './style.css';
 
@@ -45,6 +45,7 @@ export default class LoginForm extends React.Component {
   render() {
     const {disabled, values, errors, setFieldValue} = this.props;
     const submitClassName = disabled ? 'button--disabled' : 'button--primary'
+
     return (
       <div className="login-form">
         <h2>Log In</h2>
@@ -55,16 +56,24 @@ export default class LoginForm extends React.Component {
               setFieldValue={setFieldValue}>
           <fieldset className="joined-fields">
             <div className="joined-fields__row">
-              <Field name="email"
-                     type="text"
-                     inputMode="email"
-                     placeholder="E-mail Address" />
+              <Label htmlFor="login-form-email-field"
+                     text="E-mail Address"
+                     fieldName="email">
+                <Field name="email"
+                       type="text"
+                       inputMode="email"
+                       id="login-form-email-field" />
+              </Label>
               <ErrorList fieldName="email" className="joined-fields__row__errors" />
             </div>
             <div className="joined-fields__row">
-              <Field name="password"
-                     type="password"
-                     placeholder="Password" />
+              <Label htmlFor="login-form-password-field"
+                     text="Password"
+                     fieldName="password">
+                <Field name="password"
+                       type="password"
+                       id="login-form-password-field" />
+              </Label>
               <ErrorList fieldName="password" className="joined-fields__row__errors" />
             </div>
           </fieldset>

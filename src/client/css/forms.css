@@ -5,6 +5,7 @@ $input-border-radius: 7px;
 $z-index-focus-input: 2;
 $z-index-error-bg: 3;
 $z-index-error-fg: 4;
+$z-index-floating-label: 3;
 
 fieldset.joined-fields {
   border: none;
@@ -89,6 +90,35 @@ fieldset.joined-fields {
     }
   }
 }
+
+.floating-label {
+  position: relative;
+
+  input, textarea {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  label {
+    color: color($primary-color a(80%));
+    pointer-events: none;
+    position: absolute;
+    left: 0.6rem;
+    top: 1.1rem;
+    z-index: $z-index-floating-label;
+
+    transition: top 0.25s, left 0.25s, font-size 0.25s;
+  }
+
+  &.floating-label--floating label {
+    font-size: 0.75rem;
+    top: 0.25rem;
+    left: 0.25rem;
+
+    transition: top 0.25s, left 0.25s, font-size 0.25s;
+  }
+}
+
 
 form p.errors {
   text-align: center;
