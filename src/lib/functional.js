@@ -8,12 +8,11 @@
 export const objectFrom = it => {
   const o = {};
 
-  for (const [k, v] of it) {
+  for (const [k, v] of it)
     o[k] = v;
-  }
 
   return o;
-}
+};
 
 /**
  * Create a clone of the object without the given properties.
@@ -26,9 +25,8 @@ export const objectFrom = it => {
 export const withoutProperties = (object, ...propNames) => {
   const o = Object.assign(object);
 
-  for (const propName of propNames) {
+  for (const propName of propNames)
     delete o[propName];
-  }
 
   return o;
-}
+};

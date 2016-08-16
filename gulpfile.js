@@ -255,7 +255,7 @@ gulp.task('lint:js:client', () => {
   const eslintConfig = require(`${CLIENT_SRC}/.eslintrc`);
 
   return gulp
-    .src('src/client/**/*.js')
+    .src([`${CLIENT_SRC}/**/*.js`, `${LIB_SRC}/**/*.js`])
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -267,7 +267,7 @@ gulp.task('lint:js:server', () => {
   const eslintConfig = require(`${SERVER_SRC}/.eslintrc`);
 
   return gulp
-    .src(`${SERVER_SRC}/**/*.js`)
+    .src([`${SERVER_SRC}/**/*.js`, `${LIB_SRC}/**/*.js`])
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());

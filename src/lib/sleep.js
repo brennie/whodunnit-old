@@ -1,3 +1,4 @@
+/* global setTimeout */
 /**
  * Create a promise that will be resolved after the specified duration.
  *

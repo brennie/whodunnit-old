@@ -5,4 +5,4 @@ export const setDefault = (map, key, defaultValue) => {
   }
 
   return map.get(key);
-}
+};

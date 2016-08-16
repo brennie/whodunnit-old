@@ -13,34 +13,27 @@ export const validateUser = user => {
   unknownFields.delete('password');
 
   if (unknownFields.size) {
-    for (const field of unknownFields) {
-      errors.set(key, [`Unknown field: ${field}`]);
-    }
+    for (const field of unknownFields)
+      errors.set(field, [`Unknown field: ${field}`]);
   }
 
-  if (name === undefined) {
+  if (name === undefined)
     errors.set('name', ['This field is required.']);
-  }
 
-  if ((name || '').length < 6) {
+  if ((name || '').length < 6)
     setDefault(errors, 'name', []).push('Name must be at least 6 characters.');
-  }
 
-  if (email === undefined) {
+  if (email === undefined)
     errors.set('email', ['This field is required.']);
-  }
 
-  if (!emailRegex.test(email || '')) {
+  if (!emailRegex.test(email || ''))
     setDefault(errors, 'email', []).push('Please provide a valid e-mail address');
-  }
 
-  if (password === undefined) {
+  if (password === undefined)
     errors.set('password', ['This field is required.']);
-  }
 
-  if ((password || '').length < 8) {
+  if ((password || '').length < 8)
     setDefault(errors, 'password', []).push('Password must be at least 8 characters long.');
-  }
 
   return errors;
 };
