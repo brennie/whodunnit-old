@@ -33,13 +33,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(enableRegisterForm(false));
 
     const headers = new Headers();
+    headers.append('Accept', 'application/json');
     headers.append('Content-type', 'application/json');
 
     const rsp = await fetch('/api/user',
       {
+        body: JSON.stringify({name, email, password}),
+        credentials: 'same-origin',
         headers,
         method: 'post',
-        body: JSON.stringify({name, email, password}),
       })
       .then(rsp => rsp.json());
 
