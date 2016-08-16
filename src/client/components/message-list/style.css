@@ -1,5 +1,6 @@
 @import "../../css/defs.css";
 
+$message-list-border: 1px solid #000;
 
 #message-list-container {
   display: flex;
@@ -7,8 +8,7 @@
 }
 
 .message-list {
-  border: 1px solid #000;
-  border-top: none;
+  border-bottom: $message-list-border;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -65,6 +65,8 @@
 
 @media (min-width: 1000px) {
   .message-list {
+    border-left: $message-list-border;
+    border-right: $message-list-border;
     max-width: 1000px;
   }
 }
