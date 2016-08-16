@@ -10,7 +10,7 @@
   }
 
   input {
-    &[type="email"],
+    &[type="text"],
     &[type="password"] {
       width: 20rem;
     }

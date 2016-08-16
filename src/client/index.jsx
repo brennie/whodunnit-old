@@ -9,7 +9,8 @@ import thunkMiddleware from 'redux-thunk';
 import auth from 'client/auth/reducers';
 import App from 'client/components/app';
 import Home from 'client/components/home';
-import LoginForm from 'client/components/login-form';
+import LoginFormContainer from 'client/components/login-form';
+import loginForm from 'client/components/login-form/reducers';
 import messageList from 'client/components/message-list/reducers';
 import RegisterFormContainer from 'client/components/register-form';
 import registerForm from 'client/components/register-form/reducers';
@@ -20,6 +21,7 @@ import './style.css';
 
 const reducer = combineReducers({
   auth,
+  loginForm,
   messageList,
   registerForm,
   routing: routerReducer,
@@ -41,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="login" component={LoginForm} />
+        <Route path="login" component={LoginFormContainer} />
         <Route path="register" component={RegisterFormContainer} />
       </Route>
     </Router>
