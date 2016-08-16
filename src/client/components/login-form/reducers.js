@@ -9,7 +9,6 @@ const defaultState = {
   values: new Map([
     ['email', ''],
     ['password', ''],
-    ['rememberMe', false],
   ]),
 };
 

@@ -65,9 +65,6 @@ export const createSession = async ctx => {
   if (fields.password === undefined)
     fieldErrors.set('password', ['This field is required.']);
 
-  if (fields.rememberMe !== undefined && fields.rememberMe !== false && fields.rememberMe !== true)
-    fieldErrors.set('rememberMe', [`Invalid value: ${fields.rememberMe}; expected true or false.`]);
-
   if (fieldErrors.size) {
     ctx.status = 400;
     ctx.body = {
@@ -98,10 +95,7 @@ export const createSession = async ctx => {
     return;
   }
 
-  ctx.session = {
-    userId: user.id,
-    rememberMe: fields.rememberMe === true,
-  };
+  ctx.session.userId = user.id;
 
   ctx.status = 201;
   ctx.body = {

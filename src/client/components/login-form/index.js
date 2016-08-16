@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => ({
   setFieldValue: (fieldName, value) => dispatch(updateLoginFormValues({
     [fieldName]: value,
   })),
-  submit: async (email, password, rememberMe) => {
+  submit: async (email, password) => {
     dispatch(dismissMessage('login-form-error'));
     dispatch(enableLoginForm(false));
 
@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => ({
 
     const rsp = await fetch('/api/session',
       {
-        body: JSON.stringify({email, password, rememberMe}),
+        body: JSON.stringify({email, password}),
         credentials: 'same-origin',
         headers,
         method: 'post',
@@ -79,7 +79,6 @@ const mapDispatchToProps = dispatch => ({
       dispatch(updateLoginFormValues({
         email: '',
         password: '',
-        rememberMe: false,
       }));
       dispatch(loggedIn(rsp.user));
     }

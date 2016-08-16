@@ -25,13 +25,13 @@ export default class LoginForm extends React.Component {
 
     const email = values.get('email');
     const password = values.get('password');
-    const rememberMe = values.get('rememberMe');
 
-    submit(email, password, rememberMe);
+    submit(email, password);
   }
 
   render() {
     const {disabled, values, errors, setFieldValue} = this.props;
+    const submitClassName = disabled ? 'button--disabled' : 'button--primary'
     return (
       <div className="login-form">
         <h2>Log In</h2>
@@ -55,12 +55,7 @@ export default class LoginForm extends React.Component {
               <ErrorList fieldName="password" className="joined-fields__row__errors" />
             </div>
           </fieldset>
-          <label>
-            <Field name="rememberMe"
-                   type="checkbox" />
-            <span>Remember Me</span>
-          </label>
-          <input type="submit" value="Log In" className="button--primary" />
+          <input type="submit" value="Log In" className={submitClassName} />
         </Form>
       </div>
     );
