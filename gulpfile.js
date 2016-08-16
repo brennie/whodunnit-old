@@ -235,7 +235,7 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     })));
 
   gulp
-    .watch(`${CLIENT_SRC}/**/*.js`)
+    .watch(`${CLIENT_SRC}/**/*.html`)
     .on('change', gulp.series('build:client:html', done => {
       if (useBrowserSync)
         browserSync.reload();
