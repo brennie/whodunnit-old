@@ -18,4 +18,4 @@ if [[ -z "${GIT_DIR}" ]]; then
 fi
 
 cd $GIT_DIR/..
-gulp lint
+gulp lint --continue
