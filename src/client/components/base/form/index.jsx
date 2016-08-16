@@ -48,8 +48,10 @@ export class Field extends React.Component {
   };
 
   onChange() {
-    const value = this._el.value;
-    this.context.setFieldValue(this.props.name, value);
+    if (this.props.type === 'checkbox')
+      this.context.setFieldValue(this.props.name, this._el.checked);
+    else
+      this.context.setFieldValue(this.props.name, this._el.value);
   }
 
   render() {
@@ -66,23 +68,42 @@ export class Field extends React.Component {
     }
 
     const className = [...classNames].join(' ');
-    return type === 'textarea'
-      ? <textarea name={name}
-                  ref={c => this._el = c}
-                  onChange={() => this.onChange()}
-                  className={className}
-                  {...restProps}>
-          {this.context.values.get(name)}
-        </textarea>
-      : <input type={type}
-               name={name}
-               ref={c => this._el = c}
-               onChange={() => this.onChange()}
-               value={this.context.values.get(name) || ''}
-               className={className}
-               {...restProps} />;
+
+    switch (type) {
+      case 'textarea':
+        return (
+          <textarea name={name}
+                    ref={c => this._el = c}
+                    onChange={() => this.onChange()}
+                    className={className}
+                    {...restProps}>
+            {this.context.values.get(name)}
+          </textarea>
+        );
+
+      case 'checkbox':
+        return (
+          <input type={type}
+                 name={name}
+                 ref={c => this._el = c}
+                 checked={this.context.values.get(name) || false}
+                 className={className}
+                 {...restProps} />
+        );
+
+      default:
+        return (
+          <input type={type}
+                 name={name}
+                 ref={c => this._el = c}
+                 onChange={() => this.onChange()}
+                 value={this.context.values.get(name) || ''}
+                 className={className}
+                 {...restProps} />
+       );
+    }
   }
-};
+}
 
 export class ErrorList extends React.Component {
   static contextTypes = {
