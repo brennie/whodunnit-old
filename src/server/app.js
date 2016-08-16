@@ -45,7 +45,23 @@ const App = (secrets, middleware) => {
     }))
     .use(convert(session({key: 'session'}, app)))
     .use(api.routes())
-    .use(api.allowedMethods());
+    .use(api.allowedMethods())
+    .use((ctx, next) => {
+      if (ctx.session.rememberMe === true) {
+        /* We set a timestamp to ensure that the cookie is persisted with a new
+         * expiry (set to one year in the future) to the client.
+         */
+        ctx.session.maxAge = 31536000000;
+        ctx.session.timestamp = Date.now();
+      } else
+        /* If we edit a session value and don't set maxAge, koa-session will
+         * persist the cookie with a maxAge of one day, which we don't want for
+         * browser sessions.
+         */
+        ctx.session.maxAge = 0;
+
+      return next();
+    });
 };
 
 export default App;
