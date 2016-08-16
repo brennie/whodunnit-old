@@ -65,8 +65,8 @@ export const createSession = async ctx => {
   if (fields.password === undefined)
     fieldErrors.set('password', ['This field is required.']);
 
-  if (fields.rememberMe !== undefined && fields.rememberMe !== '0' && fields.rememberMe !== '1')
-    fieldErrors.set('rememberMe', [`Invalid value: "${fields.rememberMe}"; expected 0 or 1.`]);
+  if (fields.rememberMe !== undefined && fields.rememberMe !== false && fields.rememberMe !== true)
+    fieldErrors.set('rememberMe', [`Invalid value: ${fields.rememberMe}; expected true or false.`]);
 
   if (fieldErrors.size) {
     ctx.status = 400;
@@ -78,16 +78,11 @@ export const createSession = async ctx => {
     return;
   }
 
-  let user;
-  let error = false;
+  const [user] = await User
+    .get(ctx.db)
+    .where('email', fields.email);
 
-  try {
-    [user] = await User
-      .get(ctx.db)
-      .where('email', fields.email);
-  } catch (e) {
-    error = true;
-  }
+  let error = user === undefined;
 
   if (!error)
     error = hashPassword(user.salt, fields.password) !== user.passHash;
@@ -105,7 +100,7 @@ export const createSession = async ctx => {
 
   ctx.session = {
     userId: user.id,
-    rememberMe: fields.rememberMe === '1',
+    rememberMe: fields.rememberMe === true,
   };
 
   ctx.status = 201;
