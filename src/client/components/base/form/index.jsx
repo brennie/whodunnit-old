@@ -5,9 +5,11 @@ import {withoutProperties} from 'lib/functional';
 
 export class Form extends React.Component {
   static propTypes = {
+    errors: React.PropTypes.instanceOf(Map).isRequired,
     name: React.PropTypes.string.isRequired,
     onSubmit: React.PropTypes.func.isRequired,
     setFieldValue: React.PropTypes.func.isRequired,
+    values: React.PropTypes.instanceOf(Map).isRequired,
   };
 
   static childContextTypes = {
