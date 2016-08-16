@@ -1,6 +1,6 @@
 import reduceReducers from 'reduce-reducers';
 
-import baseForm from '../base/form/reducers';
+import baseForm from 'client/components/base/form/reducers';
 import {ENABLE_REGISTER_FORM} from './actions';
 
 

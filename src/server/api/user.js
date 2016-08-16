@@ -1,5 +1,5 @@
 import {objectFrom} from 'lib/functional';
-import User from '../models/user';
+import User from 'server/models/user';
 
 
 export const getUsers = async ctx => {

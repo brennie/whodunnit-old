@@ -1,4 +1,4 @@
-import {setFormErrors, updateFormValues} from '../base/form/actions';
+import {setFormErrors, updateFormValues} from 'client/components/base/form/actions';
 
 export const ENABLE_REGISTER_FORM = 'ENABLE_REGSITER_FORM';
 

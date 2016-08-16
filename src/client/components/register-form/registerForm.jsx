@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Form, Field, ErrorList} from '../base/form';
+import {Form, Field, ErrorList} from 'client/components/base/form';
 import {validateUser} from 'lib/models/user';
 import './style.css';
 

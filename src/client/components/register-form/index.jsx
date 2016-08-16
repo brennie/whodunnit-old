@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {push as pushHistory} from 'react-router-redux';
 
-import {addMessage, dismissMessage} from '../message-list/actions';
+import {addMessage, dismissMessage} from 'client/components/message-list/actions';
 import {enableRegisterForm, setRegisterFormErrors, updateRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 

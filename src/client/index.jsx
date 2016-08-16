@@ -6,13 +6,13 @@ import {routerMiddleware, routerReducer, syncHistoryWithStore} from 'react-route
 import {applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import auth from './auth/reducers';
-import App from './components/app';
-import Home from './components/home';
-import LoginForm from './components/login-form';
-import messageList from './components/message-list/reducers';
-import RegisterFormContainer from './components/register-form';
-import registerForm from './components/register-form/reducers';
+import auth from 'client/auth/reducers';
+import App from 'client/components/app';
+import Home from 'client/components/home';
+import LoginForm from 'client/components/login-form';
+import messageList from 'client/components/message-list/reducers';
+import RegisterFormContainer from 'client/components/register-form';
+import registerForm from 'client/components/register-form/reducers';
 import createStore from './createStore';
 import './css/reset.css';
 import './style.css';

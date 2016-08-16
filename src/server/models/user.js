@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
 import {validateUser} from 'lib/models/user';
-import {isUniqueConstraintError} from '../db';
+import {isUniqueConstraintError} from 'server/db';
 
 
 /* Hash the password using the given salt.

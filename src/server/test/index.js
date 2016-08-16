@@ -5,7 +5,7 @@ import tape from 'tape';
 import tapes from 'tapes';
 import addAssertions from 'extend-tape';
 
-import App from '../app';
+import App from 'server/app';
 import apiSessionTestSuite from './api/session';
 import apiUserTestSuite from './api/user';
 

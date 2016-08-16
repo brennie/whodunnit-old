@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MessageListContainer from '../message-list';
-import NavBar from '../nav-bar';
+import MessageListContainer from 'client/components/message-list';
+import NavBar from 'client/components/nav-bar';
 import './style.css';
 
 

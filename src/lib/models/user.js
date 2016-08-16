@@ -1,4 +1,4 @@
-import {setDefault} from '../validate';
+import {setDefault} from 'lib/validate';
 
 
 const emailRegex = /^.+@.+\..+$/;

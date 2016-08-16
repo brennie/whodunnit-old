@@ -1,6 +1,6 @@
 import {objectFrom} from 'lib/functional';
-import log from '../log';
-import User, {hashPassword} from '../models/user';
+import log from 'server/log';
+import User, {hashPassword} from 'server/models/user';
 
 
 const getUserFromSession = async ctx => {
