@@ -14,3 +14,21 @@ export const objectFrom = it => {
 
   return o;
 }
+
+/**
+ * Create a clone of the object without the given properties.
+ *
+ * @param {Object} object The object to clone
+ * @param {string[]} ...propNames The names of the excluded properties.
+ *
+ * @returns {Object} A shallow clone of `object` without the given properties.
+ */
+export const withoutProperties = (object, ...propNames) => {
+  const o = Object.assign(object);
+
+  for (const propName of propNames) {
+    delete o[propName];
+  }
+
+  return o;
+}

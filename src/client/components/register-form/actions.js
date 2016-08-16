@@ -1,79 +1,11 @@
-import {push as pushHistory} from 'react-router-redux';
+import {setFormErrors, updateFormValues} from '../base/form/actions';
 
-import {addMessage} from '../message-list/actions';
+export const ENABLE_REGISTER_FORM = 'ENABLE_REGSITER_FORM';
 
-
-export const REGISTER_ERROR = 'REGISTER_ERROR';
-export const REGISTER_SUBMITTED = 'REGISTER_SUBMITTED';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const SET_REGISTER_FORM_VALUES = 'SET_REGISTER_FORM_VALUES';
-
-export const registerError = errors => ({
-  type: REGISTER_ERROR,
-  errors,
+export const enableRegisterForm = enabled => ({
+  type: ENABLE_REGISTER_FORM,
+  enabled,
 });
 
-export const registerSubmitted = () => ({
-  type: REGISTER_SUBMITTED,
-});
-
-export const registerSuccess = () => ({
-  type: REGISTER_SUCCESS,
-});
-
-export const setRegisterFormValues = values => ({
-  type: SET_REGISTER_FORM_VALUES,
-  values,
-});
-
-export const registerSubmit = (name, email, password) => async dispatch => {
-  dispatch(registerSubmitted());
-
-  const headers = new Headers();
-  headers.append('Content-type', 'application/json');
-
-  const rsp = await fetch(
-    '/api/user', {
-      headers,
-      method: 'post',
-      body: JSON.stringify({name, email, password}),
-    })
-    .then(rsp => rsp.json());
-
-  if (rsp.hasOwnProperty('error')) {
-    if (rsp.error.hasOwnProperty('fields')) {
-      const errors = new Map(Object.entries(rsp.error.fields));
-
-      dispatch(registerError(errors));
-      dispatch(addMessage({
-        appliesTo: '/register',
-        id: 'register-form-error',
-        text: 'Please correct the errors below:',
-        type: 'error',
-        userDismissable: false,
-      }));
-    }
-    else {
-      dispatch(registerError());
-      dispatch(addMessage({
-        text: rsp.error.message || 'An unexpected error occurred.',
-        type: 'error',
-        userDismissable: true,
-      }));
-    }
-  } else {
-    dispatch(addMessage({
-      text: 'You have successfully registered.',
-      type: 'success',
-      timeout: 5 * 1000,
-    }));
-    dispatch(registerSuccess());
-    dispatch(setRegisterFormValues({
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    }));
-    dispatch(pushHistory('/login'));
-  }
-};
+export const setRegisterFormErrors = setFormErrors('register');
+export const updateRegisterFormValues = updateFormValues('register');

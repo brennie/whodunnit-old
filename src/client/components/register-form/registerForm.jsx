@@ -1,24 +1,23 @@
 import React from 'react';
 
+import {Form, Field, ErrorList} from '../base/form';
 import {validateUser} from 'lib/models/user';
 import './style.css';
 
 
 const emailRegex = /^.+@.+\..+$/;
 
-
 export default class RegisterForm extends React.Component {
-  constructor() {
-    super();
-
-    this._fields = new Map();
-  }
+  static propTypes = {
+    setFormErrors: React.PropTypes.func.isRequired,
+    setFieldValue: React.PropTypes.func.isRequired,
+  };
 
   validate(name, email, password, confirmPassword) {
-    const errors = new validateUser({name, email, password});
+    const errors = validateUser({name, email, password});
 
     if (password !== confirmPassword) {
-      errors.set('confirmPassword', ['The passwords do not match.']);
+      errors.set('confirmPassword', ['The passwords do not match.'])
     }
 
     return errors;
@@ -27,92 +26,67 @@ export default class RegisterForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
+    const {disabled, setFormErrors, submit, values} = this.props;
+
     if (this.props.disabled) {
       return;
     }
 
-    const name = this._fields.get('name').value;
-    const email = this._fields.get('email').value;
-    const password = this._fields.get('password').value;
-    const confirmPassword = this._fields.get('confirmPassword').value;
-
+    const name = values.get('name');
+    const email = values.get('email');
+    const password = values.get('password');
+    const confirmPassword = values.get('confirmPassword');
     const errors = this.validate(name, email, password, confirmPassword);
 
     if (errors.size) {
-      this.props.onValidateError(errors);
+      setFormErrors(errors);
     } else {
-      this.props.onRegister(name, email, password);
+      submit(name, email, password);
     }
   }
 
   render() {
-    const submitClassName = this.props.disabled ? 'button--disabled' : 'button--primary';
+    const {disabled, values, errors, setFieldValue} = this.props;
 
-    const fieldErrors = {};
-
-    for (const field of ['name', 'email', 'password', 'confirmPassword']) {
-      const errs = Array.from((this.props.errors.get(field) || []).entries())
-        .map(([i, err]) => <li key={`${field}-${i}`}>{err}</li>);
-
-      if (errs.length) {
-        fieldErrors[field] = <ul className="joined-fields__row__errors">{errs}</ul>;
-      } else {
-        fieldErrors[field] = null;
-      }
-    }
-
+    const submitClassName = disabled ? 'button--disabled' : 'button--primary';
     return (
       <div className="register-form">
         <h2>Register</h2>
-        <form onSubmit={e => this.onSubmit(e)}>
+        <Form name="register"
+              onSubmit={e => this.onSubmit(e)}
+              values={values}
+              errors={errors}
+              setFieldValue={setFieldValue}>
           <fieldset className="joined-fields">
             <div className="joined-fields__row">
-              <input type="text"
-                     placeholder="Name"
-                     value={this.props.formValues.get('name')}
-                     ref={c => this._fields.set('name', c)}
-                     onChange={() => this.handleFieldValueChanged('name')}
-                     className={fieldErrors.name ? 'error': ''} />
-              {fieldErrors.name}
-            </div>
-            <div className="joined-fields__row">
-              <input type="text"
-                     inputMode="email"
-                     placeholder="E-mail Address"
-                     value={this.props.formValues.get('email')}
-                     ref={c => this._fields.set('email', c)}
-                     onChange={() => this.handleFieldValueChanged('email')}
-                     className={fieldErrors.email ? 'error' : ''} />
-              {fieldErrors.email}
-            </div>
-            <div className="joined-fields__row">
-              <input type="password"
-                     placeholder="Password"
-                     value={this.props.formValues.get('password')}
-                     ref={c => this._fields.set('password', c)}
-                     onChange={() => this.handleFieldValueChanged('password')}
-                     className={fieldErrors.password ? 'error' : ''} />
-              {fieldErrors.password}
-            </div>
-            <div className="joined-fields__row">
-              <input type="password"
-                     placeholder="Confirm Password"
-                     value={this.props.formValues.get('confirmPassword')}
-                     ref={c => this._fields.set('confirmPassword', c)}
-                     onChange={() => this.handleFieldValueChanged('confirmPassword')}
-                     className={fieldErrors.confirmPassword ? 'error' : ''}/>
-              {fieldErrors.confirmPassword}
-            </div>
+                <Field name="name"
+                       type="text"
+                       placeholder="Name" />
+                <ErrorList fieldName="name" className="joined-fields__row__errors" />
+              </div>
+              <div className="joined-fields__row">
+                <Field name="email"
+                       type="text"
+                       placeholder="E-mail Address"
+                       inputMode="email" />
+                <ErrorList fieldName="email" className="joined-fields__row__errors" />
+              </div>
+              <div className="joined-fields__row">
+                <Field name="password"
+                       type="password"
+                       placeholder="Password" />
+                <ErrorList fieldName="password" className="joined-fields__row__errors" />
+              </div>
+              <div className="joined-fields__row">
+                <Field name="confirmPassword"
+                       type="password"
+                       placeholder="Confirm Password" />
+                <ErrorList fieldName="confirmPassword" className="joined-fields__row__errors" />
+              </div>
           </fieldset>
-          <input type="submit"
-                 value="Register"
-                 className={submitClassName}/>
-        </form>
+          <input type="submit" value="Register" className={submitClassName} />
+        </Form>
       </div>
     );
-  }
-
-  handleFieldValueChanged(fieldName) {
-    this.props.onFieldValueChanged(fieldName, this._fields.get(fieldName).value);
   }
 };

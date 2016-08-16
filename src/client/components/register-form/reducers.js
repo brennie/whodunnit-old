@@ -1,10 +1,13 @@
-import {REGISTER_ERROR, REGISTER_SUBMITTED, REGISTER_SUCCESS, SET_REGISTER_FORM_VALUES} from './actions';
+import reduceReducers from 'reduce-reducers';
+
+import baseForm from '../base/form/reducers';
+import {ENABLE_REGISTER_FORM} from './actions';
 
 
 const defaultState = {
   disabled: false,
   errors: new Map(),
-  formValues: new Map([
+  values: new Map([
     ['name', ''],
     ['email', ''],
     ['password', ''],
@@ -12,44 +15,17 @@ const defaultState = {
   ]),
 };
 
-const registerForm = (state=defaultState, action) => {
-  switch (action.type) {
-    case REGISTER_ERROR: {
-      const newState = Object.assign({}, state, {disabled: false});
+const registerForm = reduceReducers(
+  (state=defaultState, action) => {
+    switch (action.type) {
+      case ENABLE_REGISTER_FORM:
+        return {...state, disabled: !action.enabled};
 
-      if (action.errors !== undefined) {
-        newState.errors = action.errors;
-      }
-
-      return newState;
+      default:
+        return state;
     }
-
-    case REGISTER_SUCCESS:
-      return Object.assign({}, state, {
-        disabled: false,
-      });
-
-    case REGISTER_SUBMITTED:
-      return Object.assign({}, state, {
-        disabled: true,
-        errors: new Map(),
-      });
-
-    case SET_REGISTER_FORM_VALUES: {
-      const newValues = new Map(state.formValues);
-
-      for (const [field, value] of Object.entries(action.values)) {
-        newValues.set(field, value);
-      }
-
-      return Object.assign({}, state, {
-        formValues: newValues
-      });
-    }
-
-    default:
-      return state;
-  }
-};
+  },
+  baseForm('register')
+);
 
 export default registerForm;

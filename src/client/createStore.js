@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
     reducer,
     initialState,
     compose(
-      enhancer,
+      enhancer ? enhancer : e => e,
       window.devToolsExtension ? window.devToolsExtension() : e => e
     )
   );

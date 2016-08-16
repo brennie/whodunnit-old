@@ -1,7 +1,8 @@
 import {connect} from 'react-redux';
+import {push as pushHistory} from 'react-router-redux';
 
-import {addMessage} from '../message-list/actions';
-import {registerError, registerSubmit, setRegisterFormValues} from './actions';
+import {addMessage, dismissMessage} from '../message-list/actions';
+import {enableRegisterForm, setRegisterFormErrors, updateRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 
 
@@ -9,20 +10,13 @@ const mapStateToProps = state => {
   return {
     disabled: state.registerForm.disabled,
     errors: state.registerForm.errors,
-    formValues: state.registerForm.formValues,
-  };
-};
+    values: state.registerForm.values,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-  onFieldValueChanged: (fieldName, fieldValue) => dispatch(setRegisterFormValues({
-    [fieldName]: fieldValue,
-  })),
-  onRegister: (name, email, password, confirmPassword) => {
-    dispatch(dismissMessage('form-error'));
-    dispatch(registerSubmit(name, email, password));
-  },
-  onValidateError: (errors) => {
-    dispatch(registerError(errors));
+  setFormErrors: errors => {
+    dispatch(setRegisterFormErrors(errors));
     dispatch(addMessage({
       appliesTo: '/register',
       id: 'register-form-error',
@@ -31,11 +25,63 @@ const mapDispatchToProps = dispatch => ({
       userDismissable: false,
     }));
   },
+  setFieldValue: (fieldName, value) => dispatch(updateRegisterFormValues({
+    [fieldName]: value,
+  })),
+  submit: async (name, email, password) => {
+    dispatch(dismissMessage('register-form-error'));
+    dispatch(enableRegisterForm(false));
+
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+
+    const rsp = await fetch('/api/user',
+      {
+        headers,
+        method: 'post',
+        body: JSON.stringify({name, email, password}),
+      })
+      .then(rsp => rsp.json());
+
+    if (rsp.hasOwnProperty('error')) {
+      dispatch(enableRegisterForm(true));
+
+      if (rsp.error.hasOwnProperty('fields')) {
+          const errors = new Map(Object.entries(rsp.error.fields));
+
+          dispatch(setRegisterFormErrors(errors));
+          dispatch(addMessage({
+            appliesTo: '/register',
+            id: 'register-form-error',
+            text: 'Please correct the errors below:',
+            type: 'error',
+            userDismissable: false,
+          }));
+      } else {
+        dispatch(setRegisterFormErrors(new Map()));
+        dispatch(addMessage({
+          text: rsp.error.message || 'An unexpected error occurred.',
+          type: 'error',
+          userDismissable: true,
+        }));
+      }
+    } else {
+      dispatch(pushHistory('/login'));
+      dispatch(addMessage({
+        text: 'You have successfully registered.',
+        type: 'success',
+        timeout: 5 * 1000,
+      }));
+      dispatch(enableRegisterForm(true));
+      dispatch(updateRegisterFormValues({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      }));
+    }
+  }
 });
 
-const RegisterFormContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterForm);
-
+const RegisterFormContainer = connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
 export default RegisterFormContainer;
