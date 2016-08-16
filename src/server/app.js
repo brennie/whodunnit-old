@@ -28,7 +28,7 @@ const App = (secrets, middleware) => {
         ctx.status = 500;
         ctx.body = {
           error: {
-            message: 'An unexpected error occurred',
+            message: 'An unexpected error occurred.',
           },
         };
       }
