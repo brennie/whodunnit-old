@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {ErrorList, Field, Form} from 'client/components/base/form';
+import {validateEmail} from 'lib/models/user';
 import './style.css';
 
 
@@ -17,7 +18,7 @@ export default class LoginForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const {disabled, submit, values} = this.props;
+    const {disabled, setFormErrors, submit, values} = this.props;
 
     if (this.props.disabled) {
       return;
@@ -25,8 +26,20 @@ export default class LoginForm extends React.Component {
 
     const email = values.get('email');
     const password = values.get('password');
+    const errors = new Map();
 
-    submit(email, password);
+    const emailErrors = validateEmail(email);
+    if (emailErrors.length)
+      errors.set('email', emailErrors);
+
+    if (password === undefined || password.length === 0)
+      errors.set('password', ['This field is required.']);
+
+    if (errors.size) {
+      setFormErrors(errors)
+    } else {
+      submit(email, password);
+    }
   }
 
   render() {
