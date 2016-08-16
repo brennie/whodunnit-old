@@ -220,7 +220,7 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
       const needFullReload = stats
         .compilation
         .modules
-        .some(module => module.build &&module.resource && !module.resource.match(/\.css(\.map)?$/));
+        .some(module => module.built && module.resource && !module.resource.match(/\.css(\.map)?$/));
 
       if (needFullReload) {
         browserSync.reload();
