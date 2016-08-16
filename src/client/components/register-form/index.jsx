@@ -62,9 +62,11 @@ const mapDispatchToProps = dispatch => ({
       } else {
         dispatch(setRegisterFormErrors(new Map()));
         dispatch(addMessage({
+          appliesTo: '/register',
           text: rsp.error.message || 'An unexpected error occurred.',
+          id: 'register-form-error',
           type: 'error',
-          userDismissable: true,
+          userDismissable: false,
         }));
       }
     } else {
