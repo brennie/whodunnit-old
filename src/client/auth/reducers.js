@@ -11,13 +11,13 @@ const auth = (state=defaultState, action) => {
     case LOGGED_IN:
       return Object.assign({}, state, {
         authenticated: true,
-        user: action.user
+        user: action.user,
       });
 
     case LOGGED_OUT:
       return Object.assign({}, state, {
         authenticated: false,
-        user: null
+        user: null,
       });
 
     default:

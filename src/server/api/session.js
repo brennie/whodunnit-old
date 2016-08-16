@@ -59,13 +59,11 @@ export const createSession = async ctx => {
   const fields = ctx.request.body;
   const fieldErrors = new Map();
 
-  if (fields.email === undefined) {
+  if (fields.email === undefined)
     fieldErrors.set('email', ['This field is required.']);
-  }
 
-  if (fields.password === undefined) {
+  if (fields.password === undefined)
     fieldErrors.set('password', ['This field is required.']);
-  }
 
   if (fieldErrors.size) {
     ctx.status = 400;
@@ -88,17 +86,15 @@ export const createSession = async ctx => {
     error = true;
   }
 
-  if (!error) {
+  if (!error)
     error = hashPassword(user.salt, fields.password) !== user.passHash;
-  }
-
 
   if (error) {
     ctx.status = 400;
     ctx.body = {
       error: {
         message: 'The provided email and password combination was invalid.',
-      }
+      },
     };
 
     return;

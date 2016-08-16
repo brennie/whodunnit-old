@@ -8,9 +8,9 @@ let createStore;
  * When built with webpack, only one branch will be compiled. This way
  * devtools won't be enabled on production builds.
  */
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production')
   createStore = createReduxStore;
-} else {
+else {
   /**
    * Create the store for development use.
    *

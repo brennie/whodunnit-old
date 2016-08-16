@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 
-import {dismissMessage,} from './actions';
+import {dismissMessage} from './actions';
 import MessageList from './messageList';
 
 

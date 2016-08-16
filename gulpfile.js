@@ -63,9 +63,8 @@ gulp.task('build:client:js', done => {
   const webpackConfig = require('./webpack.config');
 
   webpack(webpackConfig, (err, stats) => {
-    if (err) {
+    if (err)
       throw new gutil.PluginError('build:client:js', err);
-    }
 
     gutil.log('[build:client:js]', stats.toString({
       chunks: false,
@@ -154,9 +153,8 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
     serverProc = child_process
       .fork('dist/server')
       .on('exit', exitCode => {
-        if (exitCode) {
+        if (exitCode)
           throw new gutil.PluginError('serve', 'The server process quit unexpectantly.');
-        }
       });
   };
 
@@ -165,9 +163,8 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
 
     serverProc
       .on('exit', () => {
-        if (onExit && typeof onExit === 'function') {
+        if (onExit && typeof onExit === 'function')
           onExit();
-        }
       })
       .kill();
 
@@ -178,10 +175,9 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
   startServer();
 
   /* Ensure we shut down the server process when we ^C. */
-  process.on('SIGINT', () =>{
-    if (serverProc) {
+  process.on('SIGINT', () => {
+    if (serverProc)
       stopServer();
-    }
 
     done();
   });
@@ -222,11 +218,10 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
         .modules
         .some(module => module.built && module.resource && !module.resource.match(/\.css(\.map)?$/));
 
-      if (needFullReload) {
+      if (needFullReload)
         browserSync.reload();
-      } else {
+      else
         browserSync.reload('*.css');
-      }
     }
 
     firstRun = false;
@@ -242,9 +237,9 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
   gulp
     .watch(`${CLIENT_SRC}/**/*.js`)
     .on('change', gulp.series('build:client:html', done => {
-      if (useBrowserSync) {
+      if (useBrowserSync)
         browserSync.reload();
-      }
+
       done();
     }));
 }));

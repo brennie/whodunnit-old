@@ -22,7 +22,7 @@ const app = App(config.secrets, [
   (ctx, next) => {
     ctx.db = db;
     return next();
-  }
+  },
 ]);
 
 if (process.env.NODE_ENV === 'development') {

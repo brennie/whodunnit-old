@@ -43,7 +43,7 @@ const apiUserTestSuite = t => {
     const id = await User.create(db, {
       name: 'Example user',
       email: 'email@example.com',
-      password: 'password'
+      password: 'password',
     });
 
     const rsp = await request(app.callback())
@@ -67,7 +67,7 @@ const apiUserTestSuite = t => {
     t.deepEqual(rsp.body, {
       error: {
         message: 'No user with ID 1.',
-      }
+      },
     });
 
     t.end();

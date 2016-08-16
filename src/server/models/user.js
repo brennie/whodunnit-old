@@ -13,13 +13,12 @@ import {isUniqueConstraintError} from '../db';
  *
  * @returns {string} A hex digest of the hashed password and salt.
  */
-export const hashPassword = (salt, password) => (
+export const hashPassword = (salt, password) =>
   crypto
     .createHash('sha256')
     .update(salt, 'binary')
     .update(password)
-    .digest('hex')
-);
+    .digest('hex');
 
 /**
  * Create a new user in the database.
@@ -43,24 +42,22 @@ const create = (db, fields={}) => {
       email: fields.email,
       name: fields.name,
       salt,
-      passHash
+      passHash,
     })
     .into('users')
     .then(([id]) => id)
     .catch(err => {
-      if (isUniqueConstraintError(err)) {
+      if (isUniqueConstraintError(err))
         return null;
-      } else {
-        throw err;
-      }
+
+      throw err;
     });
 };
 
-const get = db => (
+const get = db =>
   db
     .select()
-    .from('users')
-);
+    .from('users');
 
 export default {
   create,

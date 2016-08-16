@@ -16,9 +16,8 @@ const messageList = (state=defaultState, action) => {
       const id = action.id;
       const message = state.messages.get(action.id);
 
-      if (message === undefined) {
+      if (message === undefined)
         return state;
-      }
 
       const messages = new Map(state.messages);
       messages.delete(id);

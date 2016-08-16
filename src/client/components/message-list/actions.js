@@ -27,9 +27,8 @@ export const DISMISS_MESSAGE = 'DISMISS_MESSAGE';
  * @returns {function(dispatch: function)} The action (as a thunk).
  */
 export const addMessage = ({id, text, type, timeout, userDismissable, appliesTo}) => async dispatch => {
-  if (id === undefined || typeof id !== 'string') {
+  if (id === undefined || typeof id !== 'string')
     id = nextMessageID++;
-  }
 
   userDismissable = userDismissable !== false;
 

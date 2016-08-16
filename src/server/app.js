@@ -34,9 +34,8 @@ const App = (secrets, middleware) => {
       }
     });
 
-  for (const m of middleware) {
+  for (const m of middleware)
     app.use(m);
-  }
 
   app.keys = [...secrets];
 

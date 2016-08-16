@@ -81,7 +81,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      }
+      },
     }),
     new ExtractTextPlugin(path.join('css', 'style.min.css')),
   ],

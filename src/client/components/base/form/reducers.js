@@ -11,7 +11,7 @@ const baseForm = formName => (state, action) => {
         values: new Map([
           ...state.values.entries(),
           ...Object.entries(action.values),
-        ])
+        ]),
       });
 
     default:

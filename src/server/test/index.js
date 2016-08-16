@@ -13,10 +13,9 @@ import apiUserTestSuite from './api/user';
 const test = tapes(addAssertions(tape, {
   isSetEqual(xs, ys) {
     this.is(xs.size, ys.size);
-    for (const x of xs) {
+    for (const x of xs)
       this.ok(ys.has(x));
-    }
-  }
+  },
 }));
 
 /**
@@ -85,6 +84,5 @@ const suites = {
   'api/session': apiSessionTestSuite,
 };
 
-for (const [name, suite] of Object.entries(suites)) {
+for (const [name, suite] of Object.entries(suites))
   test(name, t => suite(testWrapper(t)));
-}
