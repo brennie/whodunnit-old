@@ -6,13 +6,11 @@ import {enableRegisterForm, setRegisterFormErrors, updateRegisterFormValues} fro
 import RegisterForm from './registerForm';
 
 
-const mapStateToProps = state => {
-  return {
-    disabled: state.registerForm.disabled,
-    errors: state.registerForm.errors,
-    values: state.registerForm.values,
-  }
-}
+const mapStateToProps = state => ({
+  disabled: state.registerForm.disabled,
+  errors: state.registerForm.errors,
+  values: state.registerForm.values,
+});
 
 const mapDispatchToProps = dispatch => ({
   setFormErrors: errors => {
