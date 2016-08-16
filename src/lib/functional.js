@@ -23,7 +23,7 @@ export const objectFrom = it => {
  * @returns {Object} A shallow clone of `object` without the given properties.
  */
 export const withoutProperties = (object, ...propNames) => {
-  const o = Object.assign(object);
+  const o = {...object};
 
   for (const propName of propNames)
     delete o[propName];

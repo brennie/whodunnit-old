@@ -9,16 +9,18 @@ const defaultState = {
 const auth = (state=defaultState, action) => {
   switch (action.type) {
     case LOGGED_IN:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         authenticated: true,
         user: action.user,
-      });
+      };
 
     case LOGGED_OUT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         authenticated: false,
         user: null,
-      });
+      };
 
     default:
       return state;

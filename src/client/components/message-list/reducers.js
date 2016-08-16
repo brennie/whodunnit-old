@@ -8,9 +8,10 @@ const defaultState = {
 const messageList = (state=defaultState, action) => {
   switch (action.type) {
     case ADD_MESSAGE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         messages: new Map(state.messages).set(action.id, action.message),
-      });
+      };
 
     case DISMISS_MESSAGE: {
       const id = action.id;
@@ -21,8 +22,7 @@ const messageList = (state=defaultState, action) => {
 
       const messages = new Map(state.messages);
       messages.delete(id);
-
-      return Object.assign({}, state, {messages});
+      return {...state, messages};
     }
 
     default:
