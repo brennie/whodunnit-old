@@ -23,7 +23,7 @@ export class Form extends React.Component {
     const childProps = withoutProperties(restProps, 'errors', 'setFieldValue')
 
     return (
-      <form name={name} {...restProps}>
+      <form name={name} {...childProps}>
         {children}
       </form>
     )
