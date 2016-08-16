@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -36,7 +37,7 @@ const config = {
         loader: 'babel',
         query: Object.assign({}, babelConfig, {
           cacheDirectory: true,
-          presets: babelConfig.presets.concat('react'),
+          presets: [...babelConfig.presets, 'react'],
         }),
       },
       {
@@ -91,8 +92,10 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  config.plugins.push(new webpack.optimize.DedupePlugin());
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+  config.plugins.push(
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  );
 }
 
 module.exports = config;
