@@ -1,4 +1,4 @@
-import {setFormErrors, updateFormValues} from 'client/components/base/form/actions';
+import {setFormErrors, updateFormValues} from 'client/components/ui/form/actions';
 
 export const ENABLE_LOGIN_FORM = 'ENABLE_LOGIN_FORM';
 

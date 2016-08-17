@@ -1,8 +1,8 @@
 import {connect} from 'react-redux';
-import {push as pushHistory, replace as replaceHistory} from 'react-router-redux';
+import {push as pushHistory} from 'react-router-redux';
 
 import {loggedIn} from 'client/auth/actions';
-import {addMessage, dismissMessage} from 'client/components/message-list/actions';
+import {addMessage, dismissMessage} from 'client/components/ui/message-list/actions';
 import {enableLoginForm, setLoginFormErrors, updateLoginFormValues} from './actions';
 import LoginForm from './loginForm';
 
@@ -15,7 +15,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  replaceHistory: location => dispatch(replaceHistory(location)),
   setFormErrors: errors => {
     dispatch(setLoginFormErrors(errors));
     dispatch(addMessage({

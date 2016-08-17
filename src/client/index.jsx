@@ -8,12 +8,12 @@ import thunkMiddleware from 'redux-thunk';
 
 import auth from 'client/auth/reducers';
 import App from 'client/components/app';
-import Home from 'client/components/home';
-import LoginFormContainer from 'client/components/login-form';
-import loginForm from 'client/components/login-form/reducers';
-import messageList from 'client/components/message-list/reducers';
-import RegisterFormContainer from 'client/components/register-form';
-import registerForm from 'client/components/register-form/reducers';
+import Home from 'client/components/pages/home';
+import LoginPage from 'client/components/pages/login';
+import loginForm from 'client/components/pages/login/reducers';
+import RegisterPage from 'client/components/pages/register';
+import registerForm from 'client/components/pages/register/reducers';
+import messageList from 'client/components/ui/message-list/reducers';
 import createStore from './createStore';
 import './css/reset.css';
 import './style.css';
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="login" component={LoginFormContainer} />
-        <Route path="register" component={RegisterFormContainer} />
+        <Route path="login" component={LoginPage} />
+        <Route path="register" component={RegisterPage} />
       </Route>
     </Router>
   </Provider>,

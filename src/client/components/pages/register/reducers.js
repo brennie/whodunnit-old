@@ -1,28 +1,31 @@
 import reduceReducers from 'reduce-reducers';
 
-import baseForm from 'client/components/base/form/reducers';
-import {ENABLE_LOGIN_FORM} from './actions';
+import baseForm from 'client/components/ui/form/reducers';
+import {ENABLE_REGISTER_FORM} from './actions';
+
 
 const defaultState = {
   disabled: false,
   errors: new Map(),
   values: new Map([
+    ['name', ''],
     ['email', ''],
     ['password', ''],
+    ['confirmPassword', ''],
   ]),
 };
 
-const loginForm = reduceReducers(
+const registerForm = reduceReducers(
   (state=defaultState, action) => {
     switch (action.type) {
-      case ENABLE_LOGIN_FORM:
+      case ENABLE_REGISTER_FORM:
         return {...state, disabled: !action.enabled};
 
       default:
         return state;
     }
   },
-  baseForm('login')
+  baseForm('register')
 );
 
-export default loginForm;
+export default registerForm;

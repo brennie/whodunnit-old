@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
-import {push as pushHistory, replace as replaceHistory} from 'react-router-redux';
+import {push as pushHistory} from 'react-router-redux';
 
-import {addMessage, dismissMessage} from 'client/components/message-list/actions';
+import {addMessage, dismissMessage} from 'client/components/ui/message-list/actions';
 import {enableRegisterForm, setRegisterFormErrors, updateRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 
@@ -14,7 +14,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  replaceHistory: location => dispatch(replaceHistory(location)),
   setFormErrors: errors => {
     dispatch(setRegisterFormErrors(errors));
     dispatch(addMessage({
