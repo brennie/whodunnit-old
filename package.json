@@ -67,7 +67,6 @@
     "gulp-tape": "0.0.9",
     "gulp-util": "^3.0.7",
     "log-util": "^1.1.2",
-    "mocha": "^3.0.2",
     "normalize.css": "^4.2.0",
     "postcss": "^5.1.1",
     "postcss-import": "^8.1.2",
