@@ -67,8 +67,8 @@ export default class RegisterForm extends React.Component {
                 <Field name="name"
                        type="text"
                        id="register-form-name-field" />
+                <ErrorList fieldName="name" className="joined-fields__row__errors" />
               </Label>
-              <ErrorList fieldName="name" className="joined-fields__row__errors" />
             </div>
             <div className="joined-fields__row">
               <Label htmlFor="register-form-email-field"
@@ -88,8 +88,8 @@ export default class RegisterForm extends React.Component {
                 <Field name="password"
                        type="password"
                        id="register-form-password-field" />
+                <ErrorList fieldName="password" className="joined-fields__row__errors" />
               </Label>
-              <ErrorList fieldName="password" className="joined-fields__row__errors" />
             </div>
             <div className="joined-fields__row">
               <Label htmlFor="register-form-confirmPassword-field"
@@ -98,8 +98,8 @@ export default class RegisterForm extends React.Component {
                 <Field name="confirmPassword"
                        type="password"
                        id="register-form-confirmPassword-field "/>
+                <ErrorList fieldName="confirmPassword" className="joined-fields__row__errors" />
               </Label>
-              <ErrorList fieldName="confirmPassword" className="joined-fields__row__errors" />
             </div>
           </fieldset>
           <input type="submit" value="Register" className={submitClassName} />

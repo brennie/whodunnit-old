@@ -64,8 +64,8 @@ export default class LoginForm extends React.Component {
                        type="text"
                        inputMode="email"
                        id="login-form-email-field" />
+                <ErrorList fieldName="email" className="joined-fields__row__errors" />
               </Label>
-              <ErrorList fieldName="email" className="joined-fields__row__errors" />
             </div>
             <div className="joined-fields__row">
               <Label htmlFor="login-form-password-field"
@@ -74,8 +74,8 @@ export default class LoginForm extends React.Component {
                 <Field name="password"
                        type="password"
                        id="login-form-password-field" />
+                <ErrorList fieldName="password" className="joined-fields__row__errors" />
               </Label>
-              <ErrorList fieldName="password" className="joined-fields__row__errors" />
             </div>
           </fieldset>
           <input type="submit" value="Log In" className={submitClassName} />

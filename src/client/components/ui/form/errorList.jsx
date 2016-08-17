@@ -11,7 +11,7 @@ export default class ErrorList extends React.Component {
   };
 
   render() {
-    const {fieldName, ...rest} = this.props;
+    const {fieldName, ...restProps} = this.props;
     const entries = [];
     const errors = this.context.errors.get(fieldName);
 
@@ -19,11 +19,13 @@ export default class ErrorList extends React.Component {
       return null;
     }
 
+    console.log(errors);
+
     for (const [i, errorText] of errors.entries()) {
       entries.push(<li key={i}>{errorText}</li>);
     }
     return (
-      <ul {...rest}>
+      <ul {...restProps}>
         {entries}
       </ul>
     );
