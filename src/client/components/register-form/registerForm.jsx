@@ -9,11 +9,18 @@ export default class RegisterForm extends React.Component {
   static propTypes = {
     disabled: React.PropTypes.bool.isRequired,
     errors: React.PropTypes.instanceOf(Map).isRequired,
+    replaceHistory: React.PropTypes.func.isRequired,
     setFormErrors: React.PropTypes.func.isRequired,
     setFieldValue: React.PropTypes.func.isRequired,
     submit: React.PropTypes.func.isRequired,
     values: React.PropTypes.instanceOf(Map).isRequired
   };
+
+  componentWillMount() {
+    if (!!this.props.user) {
+      this.props.replaceHistory('/');
+    }
+  }
 
   validate(name, email, password, confirmPassword) {
     const errors = validateUser({name, email, password});

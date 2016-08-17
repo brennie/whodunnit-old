@@ -1,8 +1,10 @@
-import {LOGGED_IN, LOGGED_OUT} from './actions';
+import {LOGGED_IN, LOGGED_OUT, SET_CHECK_AUTH_STATUS} from './actions';
+import {CHECK_AUTH_STATUS_RECEIVED, CHECK_AUTH_STATUS_NONE} from './constants';
 
 
 const defaultState = {
-  authenticated: false,
+  checkAuthStatus: CHECK_AUTH_STATUS_NONE,
+  foo: 1,
   user: null,
 };
 
@@ -11,16 +13,26 @@ const auth = (state=defaultState, action) => {
     case LOGGED_IN:
       return {
         ...state,
-        authenticated: true,
         user: action.user,
       };
 
     case LOGGED_OUT:
       return {
         ...state,
-        authenticated: false,
         user: null,
       };
+
+    case SET_CHECK_AUTH_STATUS: {
+      const newState = {
+        ...state,
+        checkAuthStatus: action.status,
+      };
+
+      if (action.status === CHECK_AUTH_STATUS_RECEIVED && !!action.user)
+        newState.user = action.user;
+
+      return newState;
+    }
 
     default:
       return state;
