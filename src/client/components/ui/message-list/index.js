@@ -32,3 +32,10 @@ const MessageListContainer = connect(
 )(MessageList);
 
 export default MessageListContainer;
+
+export const MessageTypes = {
+  error: 'error',
+  info: 'info',
+  success: 'success',
+  warning: 'warning',
+};

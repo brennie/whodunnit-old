@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {push as pushHistory} from 'react-router-redux';
 
 import {addMessage, dismissMessage} from 'client/components/ui/message-list/actions';
+import {MessageTypes} from 'client/components/ui/message-list';
 import {enableRegisterForm, setRegisterFormErrors, updateRegisterFormValues} from './actions';
 import RegisterForm from './registerForm';
 
@@ -20,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
       appliesTo: '/register',
       id: 'register-form-error',
       text: 'Please correct the errors below:',
-      type: 'error',
+      type: MessageTypes.error,
       userDismissable: false,
     }));
   },
@@ -55,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
             appliesTo: '/register',
             id: 'register-form-error',
             text: 'Please correct the errors below:',
-            type: 'error',
+            type: MessageTypes.error,
             userDismissable: false,
           }));
       } else {
@@ -64,7 +65,7 @@ const mapDispatchToProps = dispatch => ({
           appliesTo: '/register',
           text: rsp.error.message || 'An unexpected error occurred.',
           id: 'register-form-error',
-          type: 'error',
+          type: MessageTypes.error,
           userDismissable: false,
         }));
       }
@@ -72,7 +73,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch(pushHistory('/login'));
       dispatch(addMessage({
         text: 'You have successfully registered.',
-        type: 'success',
+        type: MessageTypes.success,
         timeout: 5 * 1000,
       }));
       dispatch(enableRegisterForm(true));

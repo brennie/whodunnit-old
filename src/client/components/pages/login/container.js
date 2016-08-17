@@ -3,6 +3,7 @@ import {push as pushHistory} from 'react-router-redux';
 
 import {loggedIn} from 'client/auth/actions';
 import {addMessage, dismissMessage} from 'client/components/ui/message-list/actions';
+import {MessageTypes} from 'client/components/ui/message-list';
 import {enableLoginForm, setLoginFormErrors, updateLoginFormValues} from './actions';
 import LoginForm from './loginForm';
 
@@ -21,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
       appliesTo: '/login',
       id: 'login-form-error',
       text: 'Please correct the errors below:',
-      type: 'error',
+      type: MessageTypes.error,
       userDismissable: false,
     }));
   },
@@ -56,7 +57,7 @@ const mapDispatchToProps = dispatch => ({
           appliesTo: '/login',
           id: 'login-form-error',
           text: 'Please correct the errors below:',
-          type: 'error',
+          type: MessageTypes.error,
           userDismissable: false,
         }));
       } else {
@@ -65,7 +66,7 @@ const mapDispatchToProps = dispatch => ({
           appliesTo: '/login',
           text: rsp.error.message || 'An unexpected error occurred.',
           id: 'login-form-error',
-          type: 'error',
+          type: MessageTypes.error,
           userDismissable: false,
         }));
       }
@@ -73,7 +74,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch(pushHistory('/'));
       dispatch(addMessage({
         text: 'You have successfully logged in.',
-        type: 'success',
+        type: MessageTypes.success,
         timeout: 5 * 1000,
       }));
       dispatch(enableLoginForm(true));
