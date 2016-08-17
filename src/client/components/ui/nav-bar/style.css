@@ -1,5 +1,6 @@
 @import '../../../css/defs.css';
 
+
 header {
   color: #FFF;
   background-color: $primary-color;
@@ -8,38 +9,38 @@ header {
   justify-content: space-between;
   padding: 0.75rem 0.75rem 0.5rem;
 
+  a {
+    color: #FFF;
+    text-decoration: none;
+  }
+
   nav {
     display: block;
+  }
 
-    ul {
-      display: inline-block;
-      list-style: none;
-      margin: 0;
+  ul {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+  }
+
+  li {
+    display: inline-block;
+    padding-right: 1rem;
+
+    &::after {
+      border-right: 1px solid #FFF;
+      content: "";
+      padding-left: 1rem;
+      width: 1px;
     }
 
-    li {
-      display: inline-block;
-      padding-right: 1rem;
+    &:last-child {
+      padding-right: 0;
+    }
 
-      &::after {
-        content: "";
-        width: 1px;
-        border-right: 1px solid #FFF;
-        padding-left: 1rem;
-      }
-
-      &:last-child {
-        padding-right: 0;
-
-        &::after {
-          content: none;
-        }
-      }
-
-      a {
-        color: #FFF;
-        text-decoration: none;
-      }
+    &:last-child::after {
+      content: none;
     }
   }
 }
