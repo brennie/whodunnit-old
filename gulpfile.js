@@ -44,7 +44,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
  */
 
 /* Clean the build directory. */
-gulp.task('clean', done => {
+gulp.task('clean', () => {
   return del(['dist/**/*']);
 });
 
@@ -252,11 +252,16 @@ gulp.task('serve', gulp.series(gulp.parallel('build:server', 'build:client:html'
 /* Lint client JS. */
 gulp.task('lint:js:client', () => {
   const eslint = require('gulp-eslint');
-  const eslintConfig = require(`${CLIENT_SRC}/.eslintrc`);
 
   return gulp
-    .src([`${CLIENT_SRC}/**/*.js`, `${LIB_SRC}/**/*.js`])
-    .pipe(eslint(eslintConfig))
+    .src([
+      `${CLIENT_SRC}/**/*.js`,
+      `${CLIENT_SRC}/**/*.jsx`,
+      `${LIB_SRC}/**/*.js`,
+    ])
+    .pipe(eslint({
+      configFile: `${CLIENT_SRC}/.eslintrc.js`,
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
@@ -264,11 +269,15 @@ gulp.task('lint:js:client', () => {
 /* Lint server JS. */
 gulp.task('lint:js:server', () => {
   const eslint = require('gulp-eslint');
-  const eslintConfig = require(`${SERVER_SRC}/.eslintrc`);
 
   return gulp
-    .src([`${SERVER_SRC}/**/*.js`, `${LIB_SRC}/**/*.js`])
-    .pipe(eslint(eslintConfig))
+    .src([
+      `${SERVER_SRC}/**/*.js`,
+      `${LIB_SRC}/**/*.js`,
+    ])
+    .pipe(eslint({
+      configFile: `${CLIENT_SRC}/.eslintrc.js`,
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
@@ -276,11 +285,15 @@ gulp.task('lint:js:server', () => {
 /* Lint configuration files. */
 gulp.task('lint:js:config', () => {
   const eslint = require('gulp-eslint');
-  const eslintConfig = require(`${SERVER_SRC}/.eslintrc.js`);
 
   return gulp
-    .src(['*.js', '.*.js'])
-    .pipe(eslint(eslintConfig))
+    .src([
+      '*.js',
+      '.*.js',
+    ])
+    .pipe(eslint({
+      configFile: `${SERVER_SRC}/.eslintrc.js`,
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
