@@ -1,4 +1,3 @@
-/* global process */
 import {createStore as createReduxStore, compose} from 'redux';
 
 let createStore;
