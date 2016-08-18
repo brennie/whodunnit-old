@@ -28,6 +28,9 @@ module.exports = {
     'max-len': ['error', 120],
     'no-array-constructor': ['error'],
     'no-else-return': ['error'],
+    'no-empty': ['error', {
+        allowEmptyCatch: true,
+    }],
     'no-eq-null': ['error'],
     'no-eval': ['error'],
     'no-extend-native': ['error'],

@@ -12,5 +12,8 @@ module.exports = Object.assign({}, baseConfig, {
   plugins: [
     ...baseConfig.plugins,
     'react',
-  ]
+  ],
+  globals: {
+    process: false,
+  },
 });
