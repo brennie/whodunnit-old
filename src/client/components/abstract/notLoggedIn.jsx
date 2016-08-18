@@ -25,11 +25,11 @@ const notLoggedIn = Wrapped => {
 
     static propTypes = {
       replaceHistory: React.PropTypes.func.isRequired,
-      user: React.PropTypes.object
+      user: React.PropTypes.object,
     };
 
     componentWillMount() {
-      if (!!this.props.user)
+      if (this.props.user)
         this.props.replaceHistory('/');
     }
 

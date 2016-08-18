@@ -35,9 +35,6 @@ module.exports = {
     'no-eval': ['error'],
     'no-extend-native': ['error'],
     'no-extra-bind': ['error'],
-    'no-extra-parens': ['error', 'all', {
-      'nestedBinaryExpressions': false,
-    }],
     'no-lonely-if': ['error'],
     'no-multiple-empty-lines': ['error'],
     'no-trailing-spaces': ['error'],

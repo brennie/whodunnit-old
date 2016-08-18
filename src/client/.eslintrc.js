@@ -16,4 +16,7 @@ module.exports = Object.assign({}, baseConfig, {
   globals: {
     process: false,
   },
+  rules: Object.assign({}, baseConfig.rules, {
+    'react/wrap-multilines': 'error',
+  }), 
 });

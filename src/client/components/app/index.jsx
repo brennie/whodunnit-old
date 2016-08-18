@@ -17,4 +17,8 @@ const App = ({children}) => (
   </div>
 );
 
+App.propTypes = {
+  children: React.PropTypes.node.isRequired,
+};
+
 export default App;

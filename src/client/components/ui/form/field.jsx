@@ -2,15 +2,16 @@ import React from 'react';
 
 
 export default class Field extends React.Component {
+  static propTypes = {
+    className: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
+    type: React.PropTypes.string.isRequired,
+  };
+
   static contextTypes = {
     errors: React.PropTypes.instanceOf(Map),
     values: React.PropTypes.instanceOf(Map),
     setFieldValue: React.PropTypes.func,
-  };
-
-  static propTypes = {
-    name: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
   };
 
   onChange() {
@@ -25,13 +26,11 @@ export default class Field extends React.Component {
     const errors = this.context.errors.get(name);
     const classNames = new Set();
 
-    if (originalClassName !== undefined && originalClassName.length !== 0) {
+    if (originalClassName !== undefined && originalClassName.length !== 0)
       classNames.add(originalClassName);
-    }
 
-    if (errors !== undefined && errors.length !== 0) {
+    if (errors !== undefined && errors.length !== 0)
       classNames.add('error');
-    }
 
     const className = [...classNames].join(' ');
 

@@ -9,7 +9,7 @@ const MessageList = ({messages, dismissMessage}) => {
   for (const [id, message] of messages.entries()) {
     const dismissIcon = (
       <button className="button--plain message-list__message__dismiss-button"
-              onClick={e => dismissMessage(id)}>
+              onClick={() => dismissMessage(id)}>
         <span className="fa fa-times" />
       </button>
     );
@@ -27,6 +27,11 @@ const MessageList = ({messages, dismissMessage}) => {
       <ul className="message-list">{children}</ul>
     </div>
   );
-}
+};
+
+MessageList.propTypes = {
+  messages: React.PropTypes.instanceOf(Map).isRequired,
+  dismissMessage: React.PropTypes.func.isRequired,
+};
 
 export default MessageList;

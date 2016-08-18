@@ -12,15 +12,14 @@ export default class RegisterForm extends React.Component {
     setFormErrors: React.PropTypes.func.isRequired,
     setFieldValue: React.PropTypes.func.isRequired,
     submit: React.PropTypes.func.isRequired,
-    values: React.PropTypes.instanceOf(Map).isRequired
+    values: React.PropTypes.instanceOf(Map).isRequired,
   };
 
   validate(name, email, password, confirmPassword) {
     const errors = validateUser({name, email, password});
 
-    if (password !== confirmPassword) {
-      errors.set('confirmPassword', ['The passwords do not match.'])
-    }
+    if (password !== confirmPassword)
+      errors.set('confirmPassword', ['The passwords do not match.']);
 
     return errors;
   }
@@ -30,9 +29,8 @@ export default class RegisterForm extends React.Component {
 
     const {disabled, setFormErrors, submit, values} = this.props;
 
-    if (this.props.disabled) {
+    if (disabled)
       return;
-    }
 
     const name = values.get('name');
     const email = values.get('email');
@@ -40,11 +38,10 @@ export default class RegisterForm extends React.Component {
     const confirmPassword = values.get('confirmPassword');
     const errors = this.validate(name, email, password, confirmPassword);
 
-    if (errors.size) {
+    if (errors.size)
       setFormErrors(errors);
-    } else {
+    else
       submit(name, email, password);
-    }
   }
 
   render() {
@@ -107,4 +104,4 @@ export default class RegisterForm extends React.Component {
       </div>
     );
   }
-};
+}

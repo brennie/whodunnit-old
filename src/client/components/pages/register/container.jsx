@@ -49,16 +49,16 @@ const mapDispatchToProps = dispatch => ({
       dispatch(enableRegisterForm(true));
 
       if (rsp.error.hasOwnProperty('fields')) {
-          const errors = new Map(Object.entries(rsp.error.fields));
+        const errors = new Map(Object.entries(rsp.error.fields));
 
-          dispatch(setRegisterFormErrors(errors));
-          dispatch(addMessage({
-            appliesTo: '/register',
-            id: 'register-form-error',
-            text: 'Please correct the errors below:',
-            type: MessageTypes.error,
-            userDismissable: false,
-          }));
+        dispatch(setRegisterFormErrors(errors));
+        dispatch(addMessage({
+          appliesTo: '/register',
+          id: 'register-form-error',
+          text: 'Please correct the errors below:',
+          type: MessageTypes.error,
+          userDismissable: false,
+        }));
       } else {
         dispatch(setRegisterFormErrors(new Map()));
         dispatch(addMessage({
@@ -84,7 +84,7 @@ const mapDispatchToProps = dispatch => ({
         confirmPassword: '',
       }));
     }
-  }
+  },
 });
 
 const RegisterFormContainer = connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

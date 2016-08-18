@@ -1,33 +1,29 @@
 import React from 'react';
 
 
-export default class ErrorList extends React.Component {
-  static contextTypes = {
-    errors: React.PropTypes.instanceOf(Map),
-  };
+const ErrorList = ({fieldName, ...restProps}, {errors}) => {
+  const entries = [];
+  const fieldErrors = errors.get(fieldName);
 
-  static propTypes = {
-    fieldName: React.PropTypes.string,
-  };
+  if (fieldErrors === undefined || fieldErrors.length === 0)
+    return null;
 
-  render() {
-    const {fieldName, ...restProps} = this.props;
-    const entries = [];
-    const errors = this.context.errors.get(fieldName);
+  for (const [i, errorText] of fieldErrors.entries())
+    entries.push(<li key={i}>{errorText}</li>);
 
-    if (errors === undefined || errors.length === 0) {
-      return null;
-    }
-
-    console.log(errors);
-
-    for (const [i, errorText] of errors.entries()) {
-      entries.push(<li key={i}>{errorText}</li>);
-    }
-    return (
-      <ul {...restProps}>
-        {entries}
-      </ul>
-    );
-  }
+  return (
+    <ul {...restProps}>
+      {entries}
+    </ul>
+  );
 };
+
+ErrorList.propTypes = {
+  fieldName: React.PropTypes.string,
+};
+
+ErrorList.contextTypes = {
+  errors: React.PropTypes.instanceOf(Map),
+};
+
+export default ErrorList;

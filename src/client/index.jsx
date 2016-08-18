@@ -38,15 +38,16 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-document.addEventListener('DOMContentLoaded', () => ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Home} />
-        <Route path="login" component={LoginPage} />
-        <Route path="register" component={RegisterPage} />
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('container')
-));
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history}>
+        <Route path="/" component={App}>
+          <IndexRoute component={Home} />
+          <Route path="login" component={LoginPage} />
+          <Route path="register" component={RegisterPage} />
+        </Route>
+      </Router>
+    </Provider>,
+    document.getElementById('container'));
+});

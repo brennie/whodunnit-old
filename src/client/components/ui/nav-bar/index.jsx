@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 import './style.css';
 
 
-const NavBar = () => (
+const NavBar = () =>
   <header>
     <span className="brand">whodunnit&#8253;</span>
     <nav>
@@ -14,6 +14,6 @@ const NavBar = () => (
       </ul>
     </nav>
   </header>
-);
+;
 
 export default NavBar;

@@ -21,9 +21,8 @@ export default class LoginForm extends React.Component {
 
     const {disabled, setFormErrors, submit, values} = this.props;
 
-    if (this.props.disabled) {
+    if (disabled)
       return;
-    }
 
     const email = values.get('email');
     const password = values.get('password');
@@ -36,16 +35,15 @@ export default class LoginForm extends React.Component {
     if (password === undefined || password.length === 0)
       errors.set('password', ['This field is required.']);
 
-    if (errors.size) {
-      setFormErrors(errors)
-    } else {
+    if (errors.size)
+      setFormErrors(errors);
+    else
       submit(email, password);
-    }
   }
 
   render() {
     const {disabled, values, errors, setFieldValue} = this.props;
-    const submitClassName = disabled ? 'button--disabled' : 'button--primary'
+    const submitClassName = disabled ? 'button--disabled' : 'button--primary';
 
     return (
       <div className="login-form">
@@ -83,4 +81,4 @@ export default class LoginForm extends React.Component {
       </div>
     );
   }
-};
+}
