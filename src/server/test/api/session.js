@@ -129,6 +129,30 @@ const apiSessionTestSuite = t => {
     t.end();
   });
 
+  t.test('GET / after deleting session', async (t, {app}) => {
+    const session = request.agent(app.callback());
+
+    await session
+      .post('/api/session')
+      .send({
+        email: 'email@example.com',
+        password: 'password',
+      });
+
+    await session.delete('/api/session');
+
+    const rsp = await session.get('/api/session');
+
+    t.is(rsp.status, 404);
+    t.deepEqual(rsp.body, {
+      error: {
+        message: 'You are not logged in.',
+      },
+    });
+
+    t.end();
+  });
+
   t.end();
 };
 
