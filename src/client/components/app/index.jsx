@@ -1,13 +1,13 @@
 import React from 'react';
 
 import MessageListContainer from 'client/components/ui/message-list';
-import NavBar from 'client/components/ui/nav-bar';
+import NavBarContainer from 'client/components/ui/nav-bar';
 import './style.css';
 
 
 const App = ({children}) => (
   <div id="app-container">
-    <NavBar />
+    <NavBarContainer />
     <MessageListContainer />
     <div className="content">{children}</div>
     <footer>
