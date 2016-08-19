@@ -4,7 +4,6 @@ import {CHECK_AUTH_STATUS_RECEIVED, CHECK_AUTH_STATUS_NONE} from './constants';
 
 const defaultState = {
   checkAuthStatus: CHECK_AUTH_STATUS_NONE,
-  foo: 1,
   user: null,
 };
 
