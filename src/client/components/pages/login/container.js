@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
         email: '',
         password: '',
       }));
-      dispatch(loggedIn(rsp.user));
+      dispatch(loggedIn(rsp.session.user));
     }
   },
 });
