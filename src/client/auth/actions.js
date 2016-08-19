@@ -3,7 +3,7 @@ import {CHECK_AUTH_STATUS_RECEIVED} from './constants';
 
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
-export const SET_CHECK_AUTH_STATUS = 'SET_AUTH_STATUS';
+export const SET_CHECK_AUTH_STATUS = 'SET_CHECK_AUTH_STATUS';
 
 export const loggedIn = user => ({
   type: LOGGED_IN,
