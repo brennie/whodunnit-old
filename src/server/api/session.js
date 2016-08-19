@@ -121,6 +121,7 @@ export const deleteSession = async ctx => {
     return;
   }
 
+  ctx.session = null;
   ctx.body = null;
   ctx.status = 204;
 };
