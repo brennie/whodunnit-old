@@ -1,13 +1,13 @@
 import 'babel-polyfill';
 
-import knex from 'knex';
 import tape from 'tape';
 import tapes from 'tapes';
 import addAssertions from 'extend-tape';
 
-import App from 'server/app';
-import apiSessionTestSuite from './api/session';
-import apiUserTestSuite from './api/user';
+import createApp from 'server/app';
+import db from 'server/db';
+import apiSessionTestSuite from 'server/test/api/session';
+import apiUserTestSuite from 'server/test/api/user';
 
 
 const test = tapes(addAssertions(tape, {
@@ -29,7 +29,7 @@ const test = tapes(addAssertions(tape, {
  * @returns {Object} A object that wraps methods from `tape.Test` to inject
  *          context into the callbacks.
  */
-const testWrapper = (t, db) => {
+const testWrapper = t => {
   let app;
 
   t.beforeEach(async t => {
@@ -37,13 +37,7 @@ const testWrapper = (t, db) => {
       .migrate
       .latest({table: 'migrations'});
 
-    app = App('secret-key', [
-      (ctx, next) => {
-        ctx.db = db;
-        return next();
-      },
-    ]);
-
+    app = createApp();
     t.end();
   });
 
@@ -54,16 +48,16 @@ const testWrapper = (t, db) => {
 
   return {
     test(spec, f) {
-      t.test(spec, t => f(t, {db, app}));
+      t.test(spec, t => f(t, {app}));
     },
     beforeEach(f) {
       t.beforeEach(t => {
-        f(t, {db, app});
+        f(t, {app});
       });
     },
     afterEach(f) {
       t.afterEach(t => {
-        f(t, {db, app});
+        f(t, {app});
       });
     },
     end() {
@@ -77,16 +71,7 @@ const suites = {
   'api/session': apiSessionTestSuite,
 };
 
-const db = knex({
-  client: 'pg',
-  connection: {
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DATABASE,
-  },
-});
-
 tape.onFinish(() => db.destroy());
 
 for (const [name, suite] of Object.entries(suites))
-  test(name, t => suite(testWrapper(t, db)));
+  test(name, t => suite(testWrapper(t)));

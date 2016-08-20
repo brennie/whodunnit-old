@@ -17,8 +17,8 @@ const apiUserTestSuite = t => {
     t.end();
   });
 
-  t.test('GET / with one result', async (t, {app, db}) => {
-    const id = await User.create(db, {
+  t.test('GET / with one result', async (t, {app}) => {
+    const id = await User.create({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
@@ -39,8 +39,8 @@ const apiUserTestSuite = t => {
     t.end();
   });
 
-  t.test('GET /:id', async (t, {app, db}) => {
-    const id = await User.create(db, {
+  t.test('GET /:id', async (t, {app}) => {
+    const id = await User.create({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',

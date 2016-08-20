@@ -7,7 +7,7 @@ const getUserFromSession = async ctx => {
   if (ctx.session.hasOwnProperty('userId')) {
     try {
       const results = await User
-        .get(ctx.db)
+        .get()
         .where('id', ctx.session.userId);
 
       return results[0];
@@ -76,7 +76,7 @@ export const createSession = async ctx => {
   }
 
   const [user] = await User
-    .get(ctx.db)
+    .get()
     .where('email', fields.email);
 
   let error = user === undefined;

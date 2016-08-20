@@ -8,20 +8,16 @@ import knex from 'knex';
 import convert from 'koa-convert';
 import serve from 'koa-static';
 
-import App from './app';
+import createApp from './app';
 import log from './log';
 import config from '../../config';
 
 
 const db = knex(config.db);
-const app = App(config.secrets, [
+const app = createApp([
   async ({request}, next) => {
     log.info(`${request.method} "${request.url}" from ${request.ip}`);
     await next();
-  },
-  (ctx, next) => {
-    ctx.db = db;
-    return next();
   },
 ]);
 
@@ -38,6 +34,7 @@ app.listen(config.port, () => {
   fs.writeFile(PID_FILE, `${process.pid}`);
 
   process.on('SIGINT', () => {
+    db.destroy();
     del.sync([PID_FILE]);
     process.exit(0);
   });

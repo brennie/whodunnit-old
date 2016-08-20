@@ -6,8 +6,8 @@ import User from 'server/models/user';
 const apiSessionTestSuite = t => {
   let userId;
 
-  t.beforeEach(async (t, {db}) => {
-    userId = await User.create(db, {
+  t.beforeEach(async t => {
+    userId = await User.create({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',

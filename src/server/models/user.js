@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
 import {validateUser} from 'lib/models/user';
-import {isUniqueConstraintError} from 'server/db';
+import db, {isUniqueConstraintError} from 'server/db';
 
 
 /* Hash the password using the given salt.
@@ -33,7 +33,7 @@ export const hashPassword = (salt, password) =>
  *          finishes. It will resolve to the `id` field of the created user, or
  *          `null` if a user with the given e-mail address already exists.
  */
-const create = (db, fields={}) => {
+const create = (fields={}) => {
   const salt = crypto.randomBytes(8);
   const passHash = hashPassword(salt, fields.password);
 
@@ -55,7 +55,7 @@ const create = (db, fields={}) => {
     });
 };
 
-const get = db =>
+const get = () =>
   db
     .select()
     .from('users');

@@ -3,9 +3,9 @@ import bodyParser from 'koa-bodyparser';
 import convert from 'koa-convert';
 import session from 'koa-session';
 
+import config from '../../config';
 import api from './api';
 import log from './log';
-
 
 /**
  * Create a new whodunnit app instance.
@@ -16,7 +16,7 @@ import log from './log';
  *
  * @returns {Koa} The app instance.
  */
-const App = (secrets, middleware) => {
+const createApp = (middleware=[]) => {
   const app = new Koa()
     .use(async (ctx, next) => {
       try {
@@ -37,7 +37,7 @@ const App = (secrets, middleware) => {
   for (const m of middleware)
     app.use(m);
 
-  app.keys = [...secrets];
+  app.keys = [...config.secrets];
 
   return app
     .use(bodyParser({
@@ -57,4 +57,4 @@ const App = (secrets, middleware) => {
     });
 };
 
-export default App;
+export default createApp;

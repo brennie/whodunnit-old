@@ -3,8 +3,7 @@ import User from 'server/models/user';
 
 
 export const getUsers = async ctx => {
-  const results = await User
-    .get(ctx.db);
+  const results = await User.get();
 
   ctx.body = {
     count: results.length,
@@ -18,7 +17,7 @@ export const getUsers = async ctx => {
 
 export const getUser = async ctx => {
   const results = await User
-    .get(ctx.db)
+    .get()
     .where('id', ctx.params.id);
 
   if (!results.length) {
@@ -59,7 +58,7 @@ export const createUser = async ctx => {
   }
 
   await User
-    .create(ctx.db, fields)
+    .create(fields)
     .then(id => {
       if (id !== null) {
         ctx.status = 201;
