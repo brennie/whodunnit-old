@@ -1,14 +1,10 @@
-import KoaRouter from 'koa-router';
+import Router from 'koa-router';
 
-import {createUser, getUser, getUsers} from './user';
-import {createSession, deleteSession, getSession} from './session';
+import userAPI from './user';
+import sessionAPI from './session';
 
 
-export default new KoaRouter()
+export default new Router()
   .prefix('/api')
-  .post('/user', createUser)
-  .get('/user', getUsers)
-  .get('/user/:id', getUser)
-  .post('/session', createSession)
-  .get('/session', getSession)
-  .delete('/session', deleteSession);
+  .use('/user', userAPI.routes(), userAPI.allowedMethods())
+  .use('/session', sessionAPI.routes(), sessionAPI.allowedMethods());

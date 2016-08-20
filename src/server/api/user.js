@@ -1,8 +1,12 @@
+import Router from 'koa-router';
+
 import {objectFrom} from 'lib/functional';
 import User from 'server/models/user';
 
 
-export const getUsers = async ctx => {
+const userAPI = new Router();
+
+userAPI.get('/', async ctx => {
   const results = await User.get();
 
   ctx.body = {
@@ -12,10 +16,9 @@ export const getUsers = async ctx => {
       name: u.name,
     })),
   };
-};
+});
 
-
-export const getUser = async ctx => {
+userAPI.get('/:id', async ctx => {
   const results = await User
     .get()
     .where('id', ctx.params.id);
@@ -39,9 +42,9 @@ export const getUser = async ctx => {
       name: result.name,
     },
   };
-};
+});
 
-export const createUser = async ctx => {
+userAPI.post('/', async ctx => {
   const fields = ctx.request.body;
   const fieldErrors = User.validate(fields);
 
@@ -81,4 +84,6 @@ export const createUser = async ctx => {
         };
       }
     });
-};
+});
+
+export default userAPI;

@@ -1,3 +1,5 @@
+import Router from 'koa-router';
+
 import {objectFrom} from 'lib/functional';
 import log from 'server/log';
 import User, {hashPassword} from 'server/models/user';
@@ -19,7 +21,9 @@ const getUserFromSession = async ctx => {
   return null;
 };
 
-export const getSession = async ctx => {
+const sessionAPI = new Router();
+
+sessionAPI.get('/', async ctx => {
   const user = await getUserFromSession(ctx);
   if (user !== null) {
     ctx.status = 200;
@@ -42,9 +46,9 @@ export const getSession = async ctx => {
       message: 'You are not logged in.',
     },
   };
-};
+});
 
-export const createSession = async ctx => {
+sessionAPI.post('/', async ctx => {
   if(await getUserFromSession(ctx) !== null) {
     ctx.status = 400;
     ctx.body = {
@@ -107,9 +111,9 @@ export const createSession = async ctx => {
       },
     },
   };
-};
+});
 
-export const deleteSession = async ctx => {
+sessionAPI.delete('/', async ctx => {
   if(await getUserFromSession(ctx) === null) {
     ctx.status = 400;
     ctx.body = {
@@ -124,4 +128,6 @@ export const deleteSession = async ctx => {
   ctx.session = null;
   ctx.body = null;
   ctx.status = 204;
-};
+});
+
+export default sessionAPI;
