@@ -1,8 +1,10 @@
 module.exports = {
   db: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: 'whodunnit.db',
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
     },
   },
   port: '9999',

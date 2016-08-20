@@ -31,11 +31,11 @@ follows:
 ```javascript
 {
   db: {
-    client: "pg",            // The SQL client.
+    client: 'pg',            // The SQL client.
     connection: {
-      user: "user",          // Database user.
-      password: "password",  // Database password.
-      database: "whodunnit", // Database name.
+      user: 'user',          // Database user.
+      password: 'password',  // Database password.
+      database: 'whodunnit', // Database name.
       port: 5432,            // Database port.
     },
   },
@@ -44,8 +44,8 @@ follows:
 }
 ```
 
-Currently, the only support database for production usage is PostgreSQL. SQLite
-is only recommended for testing.
+Currently, the only support database is PostgreSQL. It is required for both
+production and testing.
 
 
 ## Building & Running

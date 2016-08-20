@@ -44,6 +44,7 @@ const create = (db, fields={}) => {
       salt,
       passHash,
     })
+    .returning('id')
     .into('users')
     .then(([id]) => id)
     .catch(err => {

@@ -29,17 +29,10 @@ const test = tapes(addAssertions(tape, {
  * @returns {Object} A object that wraps methods from `tape.Test` to inject
  *          context into the callbacks.
  */
-const testWrapper = t => {
+const testWrapper = (t, db) => {
   let app;
-  let db;
 
   t.beforeEach(async t => {
-    db = knex({
-      client: 'sqlite3',
-      connection: ':memory:',
-      useNullAsDefault: true,
-    });
-
     await db
       .migrate
       .latest({table: 'migrations'});
@@ -54,8 +47,8 @@ const testWrapper = t => {
     t.end();
   });
 
-  t.afterEach(t => {
-    db.destroy();
+  t.afterEach(async t => {
+    await db.migrate.rollback({table: 'migrations'});
     t.end();
   });
 
@@ -84,5 +77,16 @@ const suites = {
   'api/session': apiSessionTestSuite,
 };
 
+const db = knex({
+  client: 'pg',
+  connection: {
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DATABASE,
+  },
+});
+
+tape.onFinish(() => db.destroy());
+
 for (const [name, suite] of Object.entries(suites))
-  test(name, t => suite(testWrapper(t)));
+  test(name, t => suite(testWrapper(t, db)));
