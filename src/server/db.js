@@ -7,9 +7,6 @@
  *          violation error.
  */
 export const isUniqueConstraintError = err => {
-  if (process.env.NODE_ENV === 'production')
-    /* This is the PostgreSQL error code for `unique_violation`. */
-    return err.code === '23505';
-
-  return err.code === 'SQLITE_CONSTRAINT';
+  /* This is the PostgreSQL error code for `unique_violation`. */
+  return err.code === '23505';
 };
