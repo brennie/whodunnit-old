@@ -18,11 +18,11 @@ const apiUserTestSuite = t => {
   });
 
   t.test('GET / with one result', async (t, {app}) => {
-    const id = await User.create({
+    const user = await User.createWithPassword({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
-    });
+    }).save();
 
     const rsp = await request(app.callback())
       .get('/api/user');
@@ -31,7 +31,7 @@ const apiUserTestSuite = t => {
     t.deepEqual(rsp.body, {
       count: 1,
       users: [{
-        id,
+        id: user.attributes.id,
         name: 'Example user',
       }],
     });
@@ -40,22 +40,23 @@ const apiUserTestSuite = t => {
   });
 
   t.test('GET /:id', async (t, {app}) => {
-    const id = await User.create({
+    const user = await User.createWithPassword({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
-    });
+    }).save();
 
     const rsp = await request(app.callback())
-      .get(`/api/user/${id}`);
+      .get(`/api/user/${user.attributes.id}`);
 
     t.is(rsp.status, 200);
     t.deepEqual(rsp.body, {
       user: {
-        id,
+        id: user.attributes.id,
         name: 'Example user',
       },
     });
+
     t.end();
   });
 

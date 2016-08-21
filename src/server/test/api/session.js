@@ -4,14 +4,14 @@ import User from 'server/models/user';
 
 
 const apiSessionTestSuite = t => {
-  let userId;
+  let user;
 
   t.beforeEach(async t => {
-    userId = await User.create({
+    user = await User.createWithPassword({
       name: 'Example user',
       email: 'email@example.com',
       password: 'password',
-    });
+    }).save();
     t.end();
   });
 
@@ -39,7 +39,7 @@ const apiSessionTestSuite = t => {
     t.deepEqual(rsp.body, {
       session: {
         user: {
-          id: userId,
+          id: user.attributes.id,
           email: 'email@example.com',
           name: 'Example user',
         },
@@ -61,7 +61,7 @@ const apiSessionTestSuite = t => {
     t.deepEqual(rsp.body, {
       session: {
         user: {
-          id: userId,
+          id: user.attributes.id,
           email: 'email@example.com',
           name: 'Example user',
         },

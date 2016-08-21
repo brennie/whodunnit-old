@@ -7,15 +7,14 @@ import User, {hashPassword} from 'server/models/user';
 
 const getUserFromSession = async ctx => {
   if (ctx.session.hasOwnProperty('userId')) {
-    try {
-      const results = await User
-        .get()
-        .where('id', ctx.session.userId);
+    const result = await User
+      .where('id', ctx.session.userId)
+      .fetch();
 
-      return results[0];
-    } catch (e) {
+    if (!result)
       log.error(`Session references user ID (${ctx.session.userId}) that doesn't exist.`);
-    }
+
+    return result;
   }
 
   return null;
@@ -25,14 +24,15 @@ const sessionAPI = new Router();
 
 sessionAPI.get('/', async ctx => {
   const user = await getUserFromSession(ctx);
+
   if (user !== null) {
     ctx.status = 200;
     ctx.body = {
       session: {
         user: {
-          email: user.email,
-          name: user.name,
-          id: user.id,
+          email: user.attributes.email,
+          name: user.attributes.name,
+          id: user.attributes.id,
         },
       },
     };
@@ -79,14 +79,14 @@ sessionAPI.post('/', async ctx => {
     return;
   }
 
-  const [user] = await User
-    .get()
-    .where('email', fields.email);
+  const user = await User
+    .where('email', fields.email)
+    .fetch();
 
   let error = user === undefined;
 
   if (!error)
-    error = hashPassword(user.salt, fields.password) !== user.passHash;
+    error = hashPassword(user.attributes.salt, fields.password) !== user.attributes.passHash;
 
   if (error) {
     ctx.status = 400;
@@ -105,9 +105,9 @@ sessionAPI.post('/', async ctx => {
   ctx.body = {
     session: {
       user: {
-        email: user.email,
-        id: user.id,
-        name: user.name,
+        email: user.attributes.email,
+        id: user.attributes.id,
+        name: user.attributes.name,
       },
     },
   };

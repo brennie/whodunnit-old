@@ -1,20 +1,16 @@
+import bookshelf from 'bookshelf';
 import knex from 'knex';
+import pg from 'pg';
 
 import config from '../../config';
 
 
-/**
- * Determine if the error is a SQL `UNIQUE` constraint violation error.
- *
- * @param {Error} The database error.
- *
- * @returns {boolean} Whether or not the error is a `UNIQUE` constraint
- *          violation error.
+/* By default the result of COUNT() is a string (because bigint cannot be parsed
+ * into a JavaScript number). This changes it to parse it into an int.
  */
-export const isUniqueConstraintError = err => {
-  /* This is the PostgreSQL error code for `unique_violation`. */
-  return err.code === '23505';
-};
+pg.defaults.parseInt8 = true;
 
 const db = knex(config.db);
 export default db;
+
+export const orm = bookshelf(db);

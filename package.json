@@ -17,6 +17,7 @@
     "start": "node ./dist/server/index.js"
   },
   "dependencies": {
+    "bookshelf": "^0.10.0",
     "del": "^2.2.1",
     "eslint-plugin-babel": "^3.3.0",
     "knex": "^0.11.9",
